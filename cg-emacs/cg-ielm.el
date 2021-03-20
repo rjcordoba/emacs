@@ -4,4 +4,5 @@
 ;------------------------------------------------------------------
 
 (cg-configs-modo
- :quitar ("C-j" "C-M-l"))
+ :quitar ("C-j" "C-M-l")
+ :poner (("C-M-j" . move-beginning-of-line)))

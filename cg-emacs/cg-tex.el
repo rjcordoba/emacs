@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t -*-
 ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
 ;    Utilidades para el modo TeX
@@ -11,9 +12,9 @@
 (setq tex-run-command "xetex")
 (setq tex-print-file-extension ".pdf")
 (setq tex-dvi-view-command "xdg-open")
-(setq tex-main-file (concat cg-proyecto "/" cg-tex-principal))
-(defvar texcg-directorio (file-name-directory tex-main-file) "Directorio del archivo principal")
-(defvar texcg-archivo (file-name-nondirectory tex-main-file) "Nombre del archivo principal")
+(setq tex-main-file nil);(concat cg-proyecto "/" cg-tex-principal))
+;; (defvar texcg-directorio (file-name-directory tex-main-file) "Directorio del archivo principal")
+;; (defvar texcg-archivo (file-name-nondirectory tex-main-file) "Nombre del archivo principal")
 
 (defun texcg-insertar-macro ()
   "Pregunta por nombre y número e inserta secuencia de control con parámetros según el número seleccionado."
@@ -37,46 +38,41 @@
   (insert "$$  $$")
   (backward-char 3))
 
-(defvar texcg-vent-doc nil "Ventana que muestra el pdf.")
-(defun texcg-mover-documento (f)
-  "Pasa una página hacia arriba en el documento."
-  (interactive)
-  (otra-ventana f texcg-vent-doc))
+(let ((ventanta-pdf)) ;; Ventana que muestra el pdf.
+  (defun texcg-mover-documento (f)
+	"Pasa una página hacia arriba en el documento."
+	(interactive)
+	(if (window-live-p ventana-pdf) (otra-ventana f ventanta-pdf) (error "No está establecido el escritorio TeX.")))
 
-(defun texcg-conf-escritorio ()
-  "Pone las ventanas para establecer un escritorio de trabajo para TeX."
-  (interactive)
-  (delete-other-windows)
-  (setq texcg-vent-doc (select-window (split-window nil -126 t)))
-  (switch-to-buffer "*tex-shell*")
-  (set-window-dedicated-p (split-window nil -18 'below) 'dedicada)
-  (find-file (concat tex-main-file tex-print-file-extension))
-  (set-window-dedicated-p (selected-window) 'dedicada)
-  (auto-revert-mode)
-  (if (> (buffer-size) 0) (doc-view-fit-height-to-window))
-  (other-window -1)
-  (select-window (split-window-below))
-  (find-file (concat tex-main-file ".tex"))
-  (find-file (concat texcg-directorio "formato.tex"))
-  (auto-fill-mode -1)
-  (other-window -1))
+  (defun texcg-conf-escritorio ()
+	"Pone las ventanas para establecer un escritorio de trabajo para TeX."
+	(interactive)
+	(let ((d (or tex-main-file (setq tex-main-file (concat cg-origen "/" cg-tex-principal)))))
+	  (delete-other-windows)
+	  (setq ventanta-pdf (select-window (split-window nil -126 t)))
+	  (switch-to-buffer "*tex-shell*")
+	  (set-window-dedicated-p (split-window nil -18 'below) 'dedicada)
+	  (find-file (concat tex-main-file tex-print-file-extension))
+	  (set-window-dedicated-p (selected-window) 'dedicada)
+	  (auto-revert-mode)
+	  (if (> (buffer-size) 0) (doc-view-fit-height-to-window))
+	  (other-window -1)
+	  (select-window (split-window-below))
+	  (find-file d)
+	  (find-file (concat cg-origen "/formato.tex"))
+	  (auto-fill-mode -1)
+	  (other-window -1))))
 
-;; (defun texcg-compilar (&optional n)
-;;   "Compila el archivo con XeTeX."
-;;   (interactive "p")
-;;   (if (use-region-p) (tex-buffer)
-;; 	(let* ((b buffer-file-name) (f (or (if (= n 1) tex-main-file nil) (file-name-nondirectory b))))
-;; 	  (tex-compile (concat tex-directorio-princ (file-name-directory b)) (concat "xetex " f)))))
-
-(defun texcg-compilar ()
+(defun cg-tex-compilar ()
   "Compila el archivo con XeTeX."
   (interactive)
   (if (use-region-p) (tex-buffer)
-	  (tex-compile texcg-directorio (concat "xetex " texcg-archivo))))
+	  (tex-compile cg-origen (concat "xetex " cg-tex-principal)))))
 
 (defun texcg-partsis (c cc f)
-  "Salta al siguiente paréntesis te apertura o cierre según con que teclas se llame."
-  (let ((pila (list)) (mc (if (eq f 're-search-backward) 'char-after 'preceding-char)))
+  "Salta al siguiente paréntesis de apertura o cierre según con qué teclas se llame."
+  (let ((pila (list))
+		(mc (if (eq f 're-search-backward) 'char-after 'preceding-char)))
 	(push cc pila)
 	(setq f (symbol-function f))
 	(while pila
@@ -92,7 +88,7 @@
   ("C-=" . texcg-math-display)
   ("C-c j" . tex-terminate-paragraph)
   ("C-c v" . tex-validate-region)
-  ("<f5>" . texcg-compilar)
+  ("<f5>" . cg-tex-compilar)
   ("S-<f5>" . tex-file)
   ("C-<f5>" . texcg-conf-escritorio)
   ("C-c f" . tex-feed-input)

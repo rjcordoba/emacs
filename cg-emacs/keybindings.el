@@ -9,11 +9,10 @@
 
 (dolist (e `(
 
-("C-→" . lorem-ipsum-cg);C-AltGr-i
+("C-→" . lorem-ipsum-cg) ;C-AltGr-i
 
 ;Comentarios.
-("C-c c" . comment-line)	("C-c x" . comment-dwim)
-("C-c C" . comment-kill)
+("C-c c" . comment-line)	("C-c x" . comment-dwim)    ("C-c C" . comment-kill)
 
 ;Modos
 ("<C-insert>" . picture-mode)		("<M-S-insert>" . auto-revert-mode)
@@ -45,6 +44,7 @@
 ;Comandos.
 ("M-<" . eval-expression)	 ("M->" . repeat-complex-command)
 ("C->" . shell-command)		 ("C-<" . shell-command-on-region)
+("C-M-<" . async-shell-command)
 
 ;Edición recursiva.
 ("C-r" . recursive-edit)	("C-S-r" . exit-recursive-edit)
@@ -52,7 +52,8 @@
 
 ;Ispell.
 ("æ" . dabbrev-expand)	  ("C-S-a" . ispell-complete-word)
-("C-æ" . ispell-word)	  ("C-Æ" . ispell-buffer)
+("Æ" . expand-abbrev)	  ("C-æ" . ispell-word)
+("C-Æ" . ispell-buffer)
 
 ;Insertar/eliminar caracteres.
 ("C-M-SPC" . insertar-espacios)			  ("C-M-S-SPC" . insertar-espacios-ad)
@@ -62,7 +63,6 @@
 ("<S-return>" . insertar-línea-encima)	  ("<C-S-return>" . insertar-línea-encima-debajo)
 ("<C-x <C-tab>" . tabify)				  ("<C-x <C-S-iso-leftab>" . untabify)
 ("<C-M-tab>" . indent-region)			  ("<C-M-return>" . electric-indent-just-newline)
-;("C-x C-o" . delete-blank-lines)
 
 ;Búsquedas y búsquedas con sustitución.
 ("<C-dead-acute>" . isearch-forward)		 ("<C-S-dead-diaeresis>" . isearch-backward)

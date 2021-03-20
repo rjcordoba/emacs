@@ -3,11 +3,11 @@
 ;------------------------------------------------------------------
 ;;Aspecto
 (load-theme 'cg t)
-(fringe-mode '(9 . 9))
-(add-to-list 'initial-frame-alist (quote (fullscreen . maximized)))
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(fringe-mode '(9 . 9))
+(add-to-list 'initial-frame-alist (quote (fullscreen . maximized)))
 
 (set-language-environment "UTF-8")
 (desktop-save-mode 1)
@@ -31,7 +31,7 @@
   ;Para que funcione el keybinding global de Ctrl-j
    (dolist
 	   (mapa '(minibuffer-local-map
-			   ;; minibuffer-local-ns-map
+			   ;; minibuffer-local-ns-mapsite-run-file
 			   minibuffer-local-completion-map
 			   minibuffer-local-must-match-map
 			   minibuffer-local-filename-completion-map
@@ -47,6 +47,11 @@
 ;Para que funcione el asterisco del portátil como <menu>.
 (define-key local-function-key-map (kbd "<kp-multiply>") (kbd "<menu>"))
 
+(defvar-local cg-origen nil "Directorio raíz del proyecto o subproyecto.")
+(add-hook 'find-file-hook
+ (lambda ()
+   (setq cg-origen (or (locate-dominating-file buffer-file-name ".git") (locate-dominating-file buffer-file-name ".origen")))))
+
 ; Utilidades propias para añadir a los distintos modos. Por cada nombre «n» debe haber
 ; en archivo "cg-«n»" que llame al final a la función «cg-configs-modo», definida en
 ; «func-modos».
@@ -55,6 +60,6 @@
 
 (cg-retocar-modos
  "dired"	  "doc-view"	"counsel"	   "ibuffer"
- "ielm"		  "lsp"		    "org"		   "php"
- "picture"	  "prog"		"sgml"  	   "tex"
- "treemacs")
+ "ielm"		  "js"			"lsp"		   "org"
+ "php"		  "picture"		"prog"		   "sgml"
+ "tex"		  "treemacs"	"twig")

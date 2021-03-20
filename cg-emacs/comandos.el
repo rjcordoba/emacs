@@ -4,15 +4,17 @@
 ;    Funciones para los keybindings
 ;------------------------------------------------------------------
 
+(defmacro λ (&rest forms) (append '(lambda () (interactive)) forms))
+
 (defsubst primer-arch (buffers)
   (or (buffer-file-name (car buffers)) (primer-arch (cdr buffers))))
 
 (let ((vent-dired nil))
   (defun abrir-Dired (&optional n)
 	"Abre una ventana a la izquierda con el buffer correspondiente según el comando; con argumento abre abajo."
-	(interactive "p")
+	(interactive "P")
 	(unless (window-live-p vent-dired)
-	  (setq vent-dired (let ((lado (if (= n 1) 'left))) (split-window (frame-root-window) (if lado (* (/ (frame-width) 9) 7)) lado))))
+	  (setq vent-dired (let ((lado (unless n 'left))) (split-window (frame-root-window) (when lado (* (/ (frame-width) 9) 7)) lado))))
 	(select-window vent-dired)
 	(pcase (elt (this-command-keys) 1)
 	  (?d (dired (or (file-name-directory (primer-arch (buffer-list))) "/almacenamiento/proyectos")))
@@ -25,13 +27,12 @@
 	(interactive)
 	(if (window-live-p vent-dired) (delete-window vent-dired) (error "La ventana dired no está abierta"))))
 
-(push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
-
 (let ((vent-shell nil))
   (defun abrir-shell (x)
 	"Abre una ventana a la derecha con el buffer correspondiente según el comando."
 	(interactive "c")
-	(let ((abierta (window-live-p vent-shell)))
+	(let ((abierta (window-live-p vent-shell))
+		  (default-directory (or cg-origen default-directory)))
 	  (unless abierta
 		(setq vent-shell (display-buffer-in-side-window (current-buffer) '((side . right) (window-width . 0.37)))))
 	  (set-window-dedicated-p (select-window vent-shell) nil)
@@ -43,6 +44,7 @@
 		(?A (switch-to-buffer " *scratch*"))
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
+		(?m (switch-to-buffer (messages-buffer)))
 		(_ (unless abierta (delete-window vent-shell))
 		   (setq abierta 'err)
 		   (error "%c no abre ningún buffer en la ventana." (elt (this-command-keys) 2))))
@@ -54,13 +56,13 @@
 	(if (window-live-p vent-shell) (delete-window vent-shell) (error "La ventana shell no está abierta"))))
 
 (let ((v nil))
-  (defun poner-follow (&optional n)
+  (defun poner-follow (n)
 	"Abre otras ventanas y pone follow mode o lo quita y cierra las ventanas que se habían abierto anteriormente con este comando.
 Sin argumento abre una nueva ventana; con él abre el número que se indique."
 	(interactive "p")
 	(follow-mode 'toggle)
 	(if follow-mode
-		(dotimes (i n) (push (split-window-horizontally) v))
+		(dotimes (n n) (push (split-window-horizontally) v))
     (dolist (i v) (delete-window i)))
   (balance-windows)))
 
@@ -80,8 +82,8 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
 
 (defun int-buffers (&optional n)
   "Intercambia los buffers de la ventana actual y la siguiente; con argumento, con la anterior."
-  (interactive "p")
-  (intercambiar-buffers (selected-window) (if (> n 1) (previous-window) (next-window))))
+  (interactive "P")
+  (intercambiar-buffers (selected-window) (if n (next-window) (previous-window))))
 
 (defun sel-minibuffer ()
   "Selecciona el minibuffer si está activo (si he salido por error)."
@@ -90,40 +92,43 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
 	  (select-window (active-minibuffer-window))
 	(error "El minibuffer no está activo")))
 
-(defun insertar-línea-encima (&optional n)
+(defun insertar-línea-encima (n)
   "Inserta líneas encima de en la que está el cursor."
-  (interactive "P")
+  (interactive "p")
   (let ((pos (point)))
-	(beginning-of-line) (setq pos (- pos (point)))
-	(insert (make-string (abs (prefix-numeric-value n)) ?\n))
+	(beginning-of-line)
+	(setq pos (- pos (point)))
+	(insert (make-string (abs n) ?\n))
 	(forward-char pos)))
 
-(defun insertar-línea-debajo (&optional n)
+(defun insertar-línea-debajo (n)
   "Inserta líneas debajo de en la que está el cursor. Si está enmedio de una línea no la corta."
-  (interactive "P")
+  (interactive "p")
     (let ((pos (point)))
 	  (end-of-line)
-	  (insert (make-string (abs (prefix-numeric-value n)) ?\n))
+	  (insert (make-string (abs n) ?\n))
 	  (goto-char pos)))
 
-(defun insertar-línea-encima-debajo (&optional n)
+(defun insertar-línea-encima-debajo (n)
   "Inserta líneas encima y debajo de en la que está el cursor."
-  (interactive "P")
-  (let ((s (make-string (abs (prefix-numeric-value n)) ?\n)) (pos (point)))
+  (interactive "p")
+  (let ((s (make-string (abs n) ?\n))
+		(pos (point)))
 	(end-of-line) (insert s) (goto-char pos)
 	(beginning-of-line) (setq pos (- pos (point))) (insert s) (forward-char pos)))
 
-(defun insertar-espacios (&optional n)
+(defun insertar-espacios (n)
   "Inserta espacios sin mover el cursor."
   (interactive "p")
     (let ((pos (point)))
 	  (insert (make-string (abs n) ?\s))
 	  (goto-char pos)))
 
-(defun insertar-espacios-ad (&optional n)
+(defun insertar-espacios-ad (n)
   "Inserta espacios delante y detrás del cursor."
   (interactive "p")
-  (let ((pos (point)) (s (make-string (abs n) ?\s)))
+  (let ((pos (point))
+		(s (make-string (abs n) ?\s)))
 	(insert s)
 	(goto-char pos)
 	(insert s)))
@@ -139,10 +144,11 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
   (interactive)
   (if (use-region-p) (backward-delete-char-untabify 1 t) (kill-whole-line -1)))
 
-(defun seleccionar-líneas (&optional n)
+(defun seleccionar-líneas (n)
   "Selecciona la línea actual. Con argumento selecciona n líneas empezando desde la actual."
   (interactive "p")
-  (set-mark (line-beginning-position)) (move-end-of-line n))
+  (set-mark (line-beginning-position))
+  (move-end-of-line n))
 
 (defun seleccionar-palabra ()
   "Selecciona la palabra actual."
@@ -181,15 +187,16 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
 	(while pila
 	  (re-search-forward busq)
 	  (if (eq cc (preceding-char)) (pop pila) (push c pila))))
-  (if (= n 4) (exchange-point-and-mark)) (backward-char))
+  (when (= n 4) (exchange-point-and-mark))
+  (backward-char))
 
-(defun sel-pareja (&optional n)
+(defun sel-pareja (n c1)
   "Selecciona el texto entre dos símbolos."
-  (interactive "p")
-  (let* ((c1 (read-string " Símbolo: "))
-		 (c2 (if (> n 1) (read-string " Segundo símbolo: ") c1)))
+  (interactive "p\ns Símbolo: ")
+  (let ((c2 (if (> n 1) (read-string " Segundo símbolo: ") c1)))
   	(search-backward c1) (forward-char) (push-mark (point) t t) (search-forward c2)
-	(if (= n 4) (exchange-point-and-mark)) (backward-char)))
+	(when (> n 4) (exchange-point-and-mark))
+	(backward-char)))
 
 (defun abrir-cerrar (a c)
   "Función auxiliar para 'parejas'"
@@ -198,8 +205,8 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
 
 (defun parejas (&optional n)
   "Para poner paréntesis, llaves..."
-  (interactive "p")
-  (when (> n 1) (insert "=") (if (eq ?\s (char-after (- (point) 2))) (insert ?\s)))
+  (interactive "P")
+  (when n (insert "=") (if (eq ?\s (char-after (- (point) 2))) (insert ?\s)))
   (pcase (elt (this-command-keys) 0)
     (?\C-\' (abrir-cerrar ?\' ?\'))
     (201326655 (abrir-cerrar ?‘ ?’));?\C-\M-?
@@ -215,20 +222,18 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
     (?\M-¿ (abrir-cerrar ?{ ?}))))
 
 (defun volver-a-backup ()
-  "Volver al archivo backup despreciando los cambios. No se borran los cambios hasta que se guarda."
+  "Volver al archivo backup despreciando los cambios.
+ No se borran los cambios hasta que se guarda."
   (interactive)
   (let ((a (file-newest-backup buffer-file-name)))
 	(if a (insert-file-contents-literally a nil nil nil t) (message " No hay backup de este archivo."))))
 
-(defun otra-ventana (f v)
-  "Ejecuta la función en otra ventana sin dejarla activa."
-  (let ((w (selected-window))) (select-window v) (funcall f) (select-window w)))
-
-(defun mover-línea (&optional n)
+(defun mover-línea (n)
   "Mueve la línea donde está el cursor hacia abajo si n es positivo y hacia arriba si es negativo."
     (interactive "p")
 	(let ((p (point)))
-	  (beginning-of-line) (setq p (- p (point)))
+	  (beginning-of-line)
+	  (setq p (- p (point)))
 	  (kill-line) (backward-delete-char 1) (forward-line n)
 	  (end-of-line) (insert "\n") (yank) (move-beginning-of-line 1) (forward-char p)))
 
@@ -238,15 +243,15 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
   (dolist (i (window-list))
 	(when (string-prefix-p "*" (buffer-name (window-buffer i))) (quit-window (> n 1) i))))
 
-(defun lorem-ipsum-cg (&optional n)
+(defun lorem-ipsum-cg (n)
   "Mete tantos párrafos de Lorem Ipsum como diga el argumento; lo máximo son 25."
   (interactive "p")
   (insert
    (with-temp-buffer
 	 (insert-file-contents (directorio-cg "plantillas/lorem_ipsum.txt"))
-	 (push-mark nil t nil)
-	 (dotimes (i (min n 25)) (forward-paragraph))
-	 (buffer-substring (mark) (point)))))
+	 (goto-char 1)
+	 (forward-paragraph (min n 25))
+	 (buffer-substring 1 (point)))))
 
 ;;-----------------------------------------------------------------------------
 

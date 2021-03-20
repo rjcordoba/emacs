@@ -1,9 +1,7 @@
 ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
-;    Utilidades para Ivy
+;    Utilidades para el modo Javascript
 ;------------------------------------------------------------------
 
-(setf (cdr (assoc 'counsel-mode minor-mode-alist)) '(""))
-
 (cg-configs-modo
-  :poner (("C-x C-f" . counsel-git-grep)))
+ :quitar ("M-."))

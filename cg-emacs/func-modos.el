@@ -10,7 +10,7 @@
 		(f nil))
 	(dolist (i keys)
 	  (setq f (cdr i))
-	  (define-key mapa (kbd (car i)) (if (macrop f) (eval f) f)))))
+	  (define-key mapa (kbd (car i)) (if (listp f) (eval f) f)))))
 
 (defun cg--despejar-tabla (keys map)
   (let ((mapa (or map (current-local-map))))

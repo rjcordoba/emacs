@@ -1,6 +1,5 @@
 ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
-
 ;    Variables globales
 ;------------------------------------------------------------------
 
@@ -10,9 +9,15 @@
 		 '((cg-backups "~/cosas/proyectos/.backups") ; Directorio donde se guardan los archivos backup
 		   (cg-proyecto "~/cosas/proyectos/yamm") ;Dirección del proyecto actual
 		   (cg-servidor "sudo systemctl start mariadb; sudo systemctl start apache2") ;Para abrir servidor web
-		   (cg-tex-principal "documento/lalala"))) ;Archivo principal para las compilaciones de TeX
+		   (cg-tex-principal "documento.tex"))) ;Archivo principal para las compilaciones de TeX
   (set (car elemento) (cadr elemento))
   (push (symbol-name (car elemento)) variables-completar))
+
+;;Variables-parámetros-------------------------------------------------
+
+(defconst cg-ignorar-lsp '("vendor" "var" "code-symfony")) ;Directorios que no vigilará lsp
+
+;;---------------------------------------------------------------------
 
 (defun comillas-o-string (v)
   (if (stringp v) (concat "\"" v "\"") (number-to-string v)))
@@ -35,6 +40,6 @@
   "Pide el nombre de la variable si no se suministra (por ejemplo si se llama interactivamente);
    pide luego el nombre del nuevo valor y llama a «cambiar-valor»."
   (interactive)
-  (unless var (setq var (completing-read " Nombre de la variable: " variables-completar)))
-  (cambiar-valor var (read-minibuffer " Valor para la variable: " (comillas-o-string (eval (intern var))))))
+  (cambiar-valor (or var (completing-read " Nombre de la variable: " variables-completar))
+					 (read-minibuffer " Valor para la variable: " (comillas-o-string (eval (intern var))))))
 

@@ -14,6 +14,8 @@
 (cg-configs-modo
  :tabla lsp-command-map
  :poner (("c" . lsp-find-definition)
-		 ("x" . lsp-find-references)
+		 ("x" . lsp-find-reference)
 		 ("z" . lsp-find-declaration)
-		 ("v" . lsp-ui-doc-mode)))
+		 ("v" . lsp-ui-doc-mode)
+		 ("f" . lsp-ivy-workspace-symbol)
+		 ("." . lsp-ui-doc-focus-frame)))

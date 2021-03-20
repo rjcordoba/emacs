@@ -25,9 +25,12 @@
  '(comint-highlight-prompt ((t (:foreground "#02E290" :weight semi-bold))))
  '(eshell-prompt ((t (:foreground "#02E290" :weight semi-bold))))
 
+ '(line-number ((t (:foreground "#607c93" :background "#272727"))))
+ '(line-number-current-line ((t (:foreground "#becfd6"))))
+
  '(font-lock-constant-face ((t (:foreground "#F1A6FC"))))
  '(font-lock-comment-face ((t (:foreground "#AAA"))))
-
+ '(font-lock-doc-face ((t (:foreground "#2bb52b"))))
  '(company-preview-common ((t (:foreground "#f4cdcd"))))
  '(company-scrollbar-bg ((t (:background "#30323A"))))
  '(company-scrollbar-fg ((t (:background "#484859"))))
