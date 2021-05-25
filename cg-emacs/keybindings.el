@@ -14,54 +14,50 @@
 ;Comentarios.
 ("C-c c" . comment-line)	("C-c x" . comment-dwim)    ("C-c C" . comment-kill)
 
+;Org
+("C-c M-s" . org-store-link)	("C-c M-a" . org-agenda)    ("C-c M-c" . org-capture)
+
 ;Modos
-("<C-insert>" . picture-mode)		("<M-S-insert>" . auto-revert-mode)
-("<C-S-insert>" . artist-mode)		("<C-M-insert>" . hl-line-mode)
-("<M-insert>" . whitespace-mode)	("<C-M-S-insert>" . fundamental-mode)
+("<C-insert>" . picture-mode)	  ("<M-S-insert>" . auto-revert-mode)	 ("<M-insert>" . whitespace-mode)
+("<C-S-insert>" . artist-mode)	  ("<C-M-insert>" . hl-line-mode)		 ("<C-M-S-insert>" . fundamental-mode)
 
 ;Fill.
-("C-M-S-q" . set-fill-column)	 ("Ω" . paragraph-indent-minor-mode)
-("C-@" . center-line)			 ("C-M-q" . auto-fill-mode)
-("C-S-q" . fill-paragraph)		 ("C-Ω" . fill-region-as-paragraph)
+("C-M-S-q" . set-fill-column)	 ("C-M-q" . auto-fill-mode)	   ("Ω" . paragraph-indent-minor-mode)
+("C-@" . center-line)			 ("C-S-q" . fill-paragraph)	   ("C-Ω" . fill-region-as-paragraph)
 
 ;Macros.
-("C-+" . kmacro-set-counter)		   ("C-*" . kmacro-add-counter)
-("C-M-+" . kmacro-step-edit-macro)	   ("<C-f3>" . kmacro-cycle-ring-next)
-("C-M-*" . kmacro-delete-ring-head)	   ("<C-S-f3>" . kmacro-cycle-ring-previous)
-("C-]" . kmacro-edit-macro)			   ("<C-f4>" . apply-macro-to-region-lines)
-("M-]" . kmacro-edit-lossage)		   ("<C-S-f4>" . kmacro-bind-to-key)
-("C-M-]" . kbd-macro-query)			   ("M-+" . kmacro-insert-counter)
+("C-+" . kmacro-set-counter)		   ("M-]" . kmacro-edit-lossage)		("C-*" . kmacro-add-counter)	
+("C-M-+" . kmacro-step-edit-macro)	   ("<C-S-f4>" . kmacro-bind-to-key)	("<C-f3>" . kmacro-cycle-ring-next)
+("C-M-*" . kmacro-delete-ring-head)	   ("M-+" . kmacro-insert-counter)		("<C-S-f3>" . kmacro-cycle-ring-previous) 
+("C-]" . kmacro-edit-macro)			   ("C-M-]" . kbd-macro-query)			("<C-f4>" . apply-macro-to-region-lines)
 ("M-*" . kmacro-set-format)
 
 ;copiar/pegar
 ("C-z" . kill-ring-save)	("C-S-z" . kill-region)	   ("M-z" . yank)
 
 ;Deshacer.
-("<C-backspace>" . undo)				("<M-backspace>" . revert-buffer)
-("<C-M-backspace>" . normal-mode)		("<M-S-backspace>" . volver-a-backup)
-("<C-M-S-backspace>" . recover-file)	("<C-S-backspace>" . ,(λ (undo 4)))
+("<C-backspace>" . undo)			("<M-backspace>" . revert-buffer)		 ("<C-M-S-backspace>" . recover-file)
+("<C-M-backspace>" . normal-mode)	("<M-S-backspace>" . volver-a-backup)	 ("<C-S-backspace>" . ,(λ (undo 4)))
 
 ;Comandos.
-("M-<" . eval-expression)	 ("M->" . repeat-complex-command)
+("M-<" . eval-expression)	 ("M->" . repeat-complex-command)	 ("C-M-<" . async-shell-command)
 ("C->" . shell-command)		 ("C-<" . shell-command-on-region)
-("C-M-<" . async-shell-command)
 
 ;Edición recursiva.
 ("C-r" . recursive-edit)	("C-S-r" . exit-recursive-edit)
 ("C-®" . top-level)			("C-¶" . abort-recursive-edit)
 
 ;Ispell.
-("æ" . dabbrev-expand)	  ("C-S-a" . ispell-complete-word)
-("Æ" . expand-abbrev)	  ("C-æ" . ispell-word)
-("C-Æ" . ispell-buffer)
+("æ" . dabbrev-expand)	  ("C-Æ" . ispell-buffer)	 ("C-æ" . ispell-word)
+("Æ" . expand-abbrev)	  ("C-S-a" . ispell-complete-word)
 
-;Insertar/eliminar caracteres.
+;Insertar/eliminar blancos.
 ("C-M-SPC" . insertar-espacios)			  ("C-M-S-SPC" . insertar-espacios-ad)
 ("<C-tab>" . indent-relative)			  ("<C-iso-lefttab>" . alinear-tab-a)
 ("<M-return>" . open-line)				  ("<C-return>" . insertar-línea-debajo)
 ("<M-S-return>" . split-line)			  ("M-S-SPC" . delete-horizontal-space)
 ("<S-return>" . insertar-línea-encima)	  ("<C-S-return>" . insertar-línea-encima-debajo)
-("<C-x <C-tab>" . tabify)				  ("<C-x <C-S-iso-leftab>" . untabify)
+("C-x <C-tab>" . tabify)				  ("C-x <C-S-iso-lefttab>" . untabify)
 ("<C-M-tab>" . indent-region)			  ("<C-M-return>" . electric-indent-just-newline)
 
 ;Búsquedas y búsquedas con sustitución.
@@ -72,11 +68,10 @@
 ("<M-dead-circumflex>" . replace-regexp)	 ("<C-M-dead-diaeresis>" . isearch-backward-regexp)
 
 ;Abrir ventanas con distintos buffers y modos. Otras funciones con menú.
-("<menu> d" . abrir-Dired)	       ("<menu> G" . cerrar-dired)	    ;("<menu> 0" . ,(λ (switch-to-buffer " *scratch*")))   
-("<menu> D" . abrir-Dired)	       ("<menu> f" . poner-follow)	    ("<menu> n" . display-line-numbers-mode)   
-("<menu> b" . abrir-Dired)  	   ("<menu> w" . speedbar)		    ("<menu> t" . treemacs-select-window)   
-("<menu> <menu>" . abrir-shell)    ("<menu> T" . treemacs)          ("<menu> l" . global-tab-line-mode)
-("<menu> g" . cerrar-shell)                                      
+("<menu> d" . abrir-Dired)		   ("<menu> G" . cerrar-dired)		("<menu> n" . display-line-numbers-mode)
+("<menu> D" . abrir-Dired)		   ("<menu> f" . poner-follow)		("<menu> t" . treemacs-select-window)
+("<menu> b" . abrir-Dired)		   ("<menu> w" . speedbar)			("<menu> l" . global-tab-line-mode)
+("<menu> <menu>" . abrir-shell)	   ("<menu> T" . treemacs)			("<menu> g" . cerrar-shell)
 
 ;Frames.
 ("<menu> z" . make-frame)	   ("<menu> đ" . other-frame);Altgr f
@@ -143,9 +138,8 @@
 ("C-M-)" . increment-register)	  ("C-M-8" . kmacro-to-register)
 
 ;Bookmarks.
-("M-Ç" . bookmark-rename)		 ("C-ç" . bookmark-set-no-overwrite)
-("C-M-ç" . bookmark-save)		 ("M-ç" . bookmark-bmenu-list)
-("C-M-S-ç" . bookmark-delete)	 ("C-S-ç" . bookmark-jump)
+("M-Ç" . bookmark-rename)	 ("C-S-ç" . bookmark-jump)		  ("C-ç" . bookmark-set-no-overwrite)
+("C-M-ç" . bookmark-save)	 ("C-M-S-ç" . bookmark-delete)	  ("M-ç" . bookmark-bmenu-list)
 
 ;Mover el cursor izquierda-derecha / J-Ñ
 ("C-ñ" . forward-char)			 ("C-j" . backward-char)
@@ -157,18 +151,19 @@
 ("C-x ñ" . forward-whitespace)	 ("C-x j" . ,(λ (forward-whitespace -1)))
 
 ;Mover el cursor arriba-abajo / K-L
-("C-l" . next-line)				("C-S-l" . ,(λ (forward-line 4)))
-("C-k" . previous-line)			("C-S-k" . ,(λ (forward-line -4)))
-("M-l" . forward-sentence)		("C-M-k" . ,(λ (forward-line -8)))
-("M-k" . backward-sentence)		("C-M-l" . ,(λ (forward-line 8)))
-("M-L" . forward-paragraph)		("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
-("M-K" . backward-paragraph)	("C-ĸ" . move-to-window-line-top-bottom)
-("ĸ" . beginning-of-buffer)		("C-M-S-l" . borrar-línea)
+("C-l" . next-line)				 ("C-S-l" . ,(λ (forward-line 4)))
+("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))
+("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))
+("M-k" . backward-sentence)		 ("C-M-l" . ,(λ (forward-line 8)))
+("M-L" . forward-paragraph)		 ("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
+("M-K" . backward-paragraph)	 ("C-ĸ" . move-to-window-line-top-bottom)
+("ĸ" . beginning-of-buffer)		 ("C-M-S-l" . borrar-línea)
+("C-ł" . recenter-top-bottom)	 ("C-M-S-k" . ,(λ (recenter-top-bottom 4)))
 ("ł" . end-of-buffer)
 
+;Avy
 ("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
-("M-º" . avy-goto-char)				("M-µ" . avy-goto-word-2)
-("C-ł" . recenter-top-bottom)		("C-M-S-k" . ,(λ (recenter-top-bottom 4)))
+("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
 
 ;Hacer scroll.
 ("C-M-;" . scroll-down-command)		("M-," . ,(λ (scroll-up-command 4)))

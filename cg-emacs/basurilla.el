@@ -1,4 +1,3 @@
-
 (add-to-list 'default-frame-alist '(background-color . "#242424"))
 (add-to-list 'default-frame-alist '(cursor-color . "AntiqueWhite4"))
 (set-face-attribute 'mode-line-buffer-id nil :foreground "#F1C757")
@@ -113,3 +112,5 @@ Para cambiar keybings en la tabla local en los que tenga conflicto con los de mi
 			(get-buffer-window "*xref*")
 			(and (y-or-n-p (format "¿Quitar el buffer %s? " (buffer-name (window-buffer (next-window))))) (next-window)))))
 	(when v (quit-window nil v))))
+
+;; minibuffer-local-ns-mapsite-run-file

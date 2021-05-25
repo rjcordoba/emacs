@@ -37,17 +37,17 @@
 		(setq vent-shell (display-buffer-in-side-window (current-buffer) '((side . right) (window-width . 0.37)))))
 	  (set-window-dedicated-p (select-window vent-shell) nil)
 	  (pcase x
-		(?t (let ((b (get-buffer " *terminal*"))) (if b (switch-to-buffer b) (term "/bin/bash") (rename-buffer " *terminal*"))))
+		(?t (term "/bin/bash") (rename-buffer " *terminal*"))
 		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell " *shell*")))
-		(?s (let ((b (get-buffer " *eshell*"))) (if b (switch-to-buffer b) (eshell) (rename-buffer " *eshell*"))))
-		(?a (let ((b (get-buffer " *ielm*"))) (if b (switch-to-buffer b) (ielm) (rename-buffer " *ielm*"))))
+		(?s (eshell))
+		(?a (ielm " *ielm*"))
 		(?A (switch-to-buffer " *scratch*"))
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
 		(?m (switch-to-buffer (messages-buffer)))
 		(_ (unless abierta (delete-window vent-shell))
 		   (setq abierta 'err)
-		   (error "%c no abre ningún buffer en la ventana." (elt (this-command-keys) 2))))
+		   (error "«%c» no abre ningún buffer en la ventana." (elt (this-command-keys) 2))))
 	  (unless (eq abierta 'err) (set-window-dedicated-p vent-shell t) (setq window-size-fixed 'width))))
 
   (defun cerrar-shell ()
@@ -57,8 +57,8 @@
 
 (let ((v nil))
   (defun poner-follow (n)
-	"Abre otras ventanas y pone follow mode o lo quita y cierra las ventanas que se habían abierto anteriormente con este comando.
-Sin argumento abre una nueva ventana; con él abre el número que se indique."
+	"Abre otras ventanas y pone follow mode o lo quita.
+Cierra las ventanas que se habían abierto anteriormente con este comando. Sin argumento abre una nueva ventana; con él abre el número que se indique."
 	(interactive "p")
 	(follow-mode 'toggle)
 	(if follow-mode
