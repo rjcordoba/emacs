@@ -22,14 +22,14 @@
   (skip-chars-backward "^<")
   (if (eq (char-after) ?/) (sgml-skip-tag-backward 1) (backward-char)))
 
-(defun seleccionar-tag (&optional n)
+(defun seleccionar-tag (n)
   "Selecciona la etiqueta donde está el puntero, y su contenido, tanto si es la etiqueta de inicio como la de cierre.
    Con argumento selecciona sólo el contenido."
-  (interactive "p")
+  (interactive "P")
   (a-apertura-html)
   (push-mark nil t t)
   (sgml-skip-tag-forward 1)
-  (unless (= n 1) (search-backward "<") (exchange-point-and-mark) (search-forward ">")))
+  (when n (search-backward "<") (exchange-point-and-mark) (search-forward ">")))
 
 (defun renom-etiqueta ()
   "Cambia el nombre de las etiquetas de apertura y cierre que estén bajo el puntero o la primera a la izquierda de él."

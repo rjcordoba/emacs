@@ -23,43 +23,55 @@
 ;Para que cree los backups en un directorio.
 (add-to-list 'backup-directory-alist `("." . ,cg-backups))
 
+;Añade opciones a la ayuda (F1 + M-...).
+(dolist (e '(("f" . find-function) ("v" . find-variable)
+			 ("l" . find-library)  ("k" . find-function-on-key)))
+  (define-key 'help-command (kbd (concat "M-" (car e))) (cdr e)))
+
+(setq initial-major-mode 'fundamental-mode)
+(setq delete-by-moving-to-trash t)
+(setq calendar-week-start-day 1)
+(setq eshell-buffer-name " *eshell*")
+(setq ring-bell-function 'ignore) ;Para que no haya sonido.
+
+;;-----------------------------------------------------------------------------------------
 (add-hook 'emacs-startup-hook
  (lambda ()
    (window-configuration-to-register ?1)
-   (with-current-buffer (get-buffer "*scratch*") (rename-buffer " *scratch*"))
-   (global-company-mode) (setf (cdr (assoc 'company-mode minor-mode-alist)) '(nil))
-  ;Para que funcione el keybinding global de Ctrl-j
+   (with-current-buffer "*scratch*" (cg-esp-nom-buff))
+   (global-company-mode)
+;Para que no salgan los nombres de los modos en la mode line.
+   (cg-quitar-nombre-minor-mode "company" "which-key")
+   
+  ;Para que funcione el keybinding global de Ctrl-j.
    (dolist
 	   (mapa '(minibuffer-local-map
-			   ;; minibuffer-local-ns-mapsite-run-file
 			   minibuffer-local-completion-map
 			   minibuffer-local-must-match-map
 			   minibuffer-local-filename-completion-map
 			   minibuffer-local-filename-must-match-map
 			   ivy-minibuffer-map))
 	 (define-key (symbol-value mapa) (kbd "C-j") nil))))
-
-(setq initial-major-mode 'fundamental-mode)
-(setq delete-by-moving-to-trash t)
-(setq calendar-week-start-day 1)
-(setq ring-bell-function 'ignore) ;Para que no haya sonido.
+;;-----------------------------------------------------------------------------------------
 
 ;Para que funcione el asterisco del portátil como <menu>.
 (define-key local-function-key-map (kbd "<kp-multiply>") (kbd "<menu>"))
 
+;Para añadir a cada buffer el proyecto al que pertenece.
 (defvar-local cg-origen nil "Directorio raíz del proyecto o subproyecto.")
 (add-hook 'find-file-hook
  (lambda ()
-   (setq cg-origen (or (locate-dominating-file buffer-file-name ".git") (locate-dominating-file buffer-file-name ".origen")))))
+   (setq cg-origen (or (locate-dominating-file buffer-file-name ".git")
+					   (locate-dominating-file buffer-file-name ".origen")))))
 
 ; Utilidades propias para añadir a los distintos modos. Por cada nombre «n» debe haber
-; en archivo "cg-«n»" que llame al final a la función «cg-configs-modo», definida en
+; un archivo «cg-"n"» que llame al final a la función «cg-configs-modo», definida en
 ; «func-modos».
 
 (require 'func-modos)
 
 (cg-retocar-modos
- "dired"	  "doc-view"	"counsel"	   "ibuffer"
- "ielm"		  "js"			"lsp"		   "org"
- "php"		  "picture"		"prog"		   "sgml"
- "tex"		  "treemacs"	"twig")
+ "counsel"		"dired"		"doc-view"		"emacs-lisp"
+ "ibuffer"		"ielm"		"js"			"lsp"
+ "org"			"php"		"picture"		"prog"
+ "sgml"			"tex"		"treemacs"		"twig")

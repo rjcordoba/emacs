@@ -1,7 +1,7 @@
-(setq treemacs-width                 46
+(setq treemacs-width                 55
 	  treemacs-is-never-other-window t)
 
-(treemacs-create-icon :file "twig.png" :fallback "" :extensions ("twig"))
+(treemacs-create-icon :file "twig.png" :fallback "html.png" :extensions ("twig"))
 
 (cg-configs-modo
  :poner (("C-f" . treemacs-find-file)
