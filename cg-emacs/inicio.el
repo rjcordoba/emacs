@@ -38,7 +38,6 @@
  (lambda ()
    (window-configuration-to-register ?1)
    (global-company-mode)
-
   ;Para que no salgan los nombres de los modos en la mode line.
    (cg-quitar-nombre-minor-mode "company" "which-key")
    
