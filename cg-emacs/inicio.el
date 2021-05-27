@@ -31,16 +31,15 @@
 (setq initial-major-mode 'fundamental-mode)
 (setq delete-by-moving-to-trash t)
 (setq calendar-week-start-day 1)
-(setq eshell-buffer-name " *eshell*")
 (setq ring-bell-function 'ignore) ;Para que no haya sonido.
 
 ;;-----------------------------------------------------------------------------------------
 (add-hook 'emacs-startup-hook
  (lambda ()
    (window-configuration-to-register ?1)
-   (with-current-buffer "*scratch*" (cg-esp-nom-buff))
    (global-company-mode)
-;Para que no salgan los nombres de los modos en la mode line.
+
+  ;Para que no salgan los nombres de los modos en la mode line.
    (cg-quitar-nombre-minor-mode "company" "which-key")
    
   ;Para que funcione el keybinding global de Ctrl-j.
@@ -53,6 +52,9 @@
 			   ivy-minibuffer-map))
 	 (define-key (symbol-value mapa) (kbd "C-j") nil))))
 ;;-----------------------------------------------------------------------------------------
+
+;Para que al navegar adelante y atrás no salgan los buffers cuyo nombre empiece por asterisco.
+(set-frame-parameter nil 'buffer-predicate (lambda (b) (not (string-prefix-p "*" (buffer-name b)))))
 
 ;Para que funcione el asterisco del portátil como <menu>.
 (define-key local-function-key-map (kbd "<kp-multiply>") (kbd "<menu>"))

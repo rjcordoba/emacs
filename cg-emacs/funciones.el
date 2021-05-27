@@ -30,7 +30,8 @@
 
 (defun cg-esp-nom-buff ()
   "Cambia el nombre del buffer actual añadiendo un espacio al inicio."
-  (rename-buffer (concat " " (buffer-name))))
+  (let ((n (buffer-name)))
+	(when (not (string-prefix-p " " n)) (rename-buffer (concat " " n)))))
 
 (defmacro cg-quitar-nombre-minor-mode (&rest modos)
   `(dolist (n (quote ,modos))
