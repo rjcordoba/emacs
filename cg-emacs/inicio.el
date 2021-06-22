@@ -13,25 +13,25 @@
 (desktop-save-mode 1)
 (set-frame-font "Inconsolata 11")
 (set-fontset-font "fontset-default" '(#x0370 . #x03FF) "Liberation Mono")
-(setq-default tab-width 4)
-(setq-default truncate-lines t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
-;Para que se habiliten todos los comandos y no pregunte.
-(setq disabled-command-function nil)
-
 ;Para que cree los backups en un directorio.
-(add-to-list 'backup-directory-alist `("." . ,cg-backups))
+(add-to-list 'backup-directory-alist `("." . ,cg-var-backups))
 
 ;Añade opciones a la ayuda (F1 + M-...).
 (dolist (e '(("f" . find-function) ("v" . find-variable)
 			 ("l" . find-library)  ("k" . find-function-on-key)))
   (define-key 'help-command (kbd (concat "M-" (car e))) (cdr e)))
 
-(setq initial-major-mode 'fundamental-mode)
-(setq delete-by-moving-to-trash t)
-(setq calendar-week-start-day 1)
-(setq ring-bell-function 'ignore) ;Para que no haya sonido.
+(setq-default
+	tab-width 4
+	truncate-lines t
+	disabled-command-function nil ;Para que se habiliten todos los comandos y no pregunte.
+	initial-major-mode 'fundamental-mode
+	delete-by-moving-to-trash t
+	calendar-week-start-day 1
+	ring-bell-function 'ignore ;Para que no haya sonido.
+	treemacs-width 43)
 
 ;;-----------------------------------------------------------------------------------------
 (add-hook 'emacs-startup-hook
@@ -39,8 +39,8 @@
    (window-configuration-to-register ?1)
    (global-company-mode)
   ;Para que no salgan los nombres de los modos en la mode line.
-   (cg-quitar-nombre-minor-mode "company" "which-key")
-   
+   (cg-quitar-nombre-minor-mode "company" "counsel")
+
   ;Para que funcione el keybinding global de Ctrl-j.
    (dolist
 	   (mapa '(minibuffer-local-map
@@ -52,8 +52,11 @@
 	 (define-key (symbol-value mapa) (kbd "C-j") nil))))
 ;;-----------------------------------------------------------------------------------------
 
+;Para que no salte la ventana cuando se ejecuta un comando shell de fondo.
+(add-to-list 'display-buffer-alist '("\\*Async Shell Command\\*" . (display-buffer-no-window)))
+
 ;Para que al navegar adelante y atrás no salgan los buffers cuyo nombre empiece por asterisco.
-(set-frame-parameter nil 'buffer-predicate (lambda (b) (not (string-prefix-p "*" (buffer-name b)))))
+(set-frame-parameter nil 'buffer-predicate (lambda (b) (buffer-file-name b)))
 
 ;Para que funcione el asterisco del portátil como <menu>.
 (define-key local-function-key-map (kbd "<kp-multiply>") (kbd "<menu>"))
@@ -72,7 +75,7 @@
 (require 'func-modos)
 
 (cg-retocar-modos
- "counsel"		"dired"		"doc-view"		"emacs-lisp"
- "ibuffer"		"ielm"		"js"			"lsp"
- "org"			"php"		"picture"		"prog"
- "sgml"			"tex"		"treemacs"		"twig")
+ "company"		"counsel"	   "dired"		"doc-view"		"emacs-lisp"
+ "ibuffer"		"ielm"		   "js"			"lsp"			"org"
+ "php"			"picture"	   "prog"		"sgml"			"tex"
+ "treemacs"		"twig")

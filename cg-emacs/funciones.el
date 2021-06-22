@@ -8,8 +8,8 @@
 (defun cg-servidor ()
   "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
   (interactive)
-  (async-shell-command cg-servidor)
-  (quit-window nil (get-buffer-window "*Async Shell Command*"))
+  (let ((default-directory (or cg-origen (read-directory-name "Directorio: "))))
+	(async-shell-command cg-servidor))
   (message "Ejecutado: %s" cg-servidor))
 
 (defun cg-vaciar-backups ()

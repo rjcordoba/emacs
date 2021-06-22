@@ -9,7 +9,7 @@
 (lsp-toggle-symbol-highlight)
 
 ;cg-ignorar-lsp está en «variables»; indica los directorios a ignorar.
-(dolist (d cg-ignorar-lsp) (push d lsp-file-watch-ignored-directories))
+(dolist (d cg-var-ignorar-lsp) (push d lsp-file-watch-ignored-directories))
 
 (define-key lsp-mode-map (kbd "¢") lsp-command-map)
 

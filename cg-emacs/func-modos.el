@@ -36,12 +36,14 @@
 			(n (substring m (1+ (cl-search "-" m))))
 			(h (intern (concat n "-mode-hook")))
 			(p ,(when tb
-				  (if (eq tb t) `(symbol-value (intern (concat n "-mode-map"))) tb))))
+				  (if (eq tb t)
+					  `(symbol-value (intern (concat n "-mode-map")))
+					tb))))
 	   ,(when kq `(cg--despejar-tabla (quote ,kq) p))
 	   ,(when kp `(cg--poner-keys (quote ,kp) p))
 	   ,(when hk `(and (funcall ,hk) (add-hook h ,hk)))
 	   (fset s #'ignore)
 	   (remove-hook h s)
-	   (message (format "cargado el archivo de configuración %s" m)))))
+	   (message "Cargado el archivo de configuración %s" m))))
 
 (provide 'func-modos)

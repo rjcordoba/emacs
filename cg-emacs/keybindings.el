@@ -78,20 +78,19 @@
 ("<menu> Z" . delete-frame)	   ("<menu> ª" . suspend-frame);Altgr F
 
 ;Archivos.
-("M-f" . insert-file)	 ("ª" . find-alternate-file)
-("C-f" . find-file)		 ("C-S-f" . find-file-other-window)
-("C-s" . save-buffer)	 ("C-S-s" . save-some-buffers)
-("C-ß" . write-file)	 ("C-ª" . find-file-other-frame);Altgr F
-("C-d" . dired-jump)	 ("C-đ" . find-file-read-only-other-window)
+("M-f" . insert-file)	  ("C-d" . dired-jump)				("C-ª" . find-file-other-frame);Altgr F	  
+("C-f" . find-file)		  ("đ" . find-alternate-file)		("C-S-f" . find-file-other-window)
+("C-s" . save-buffer)	  ("C-S-s" . save-some-buffers)		("C-đ" . find-file-read-only-other-window)
+("C-ß" . write-file)	  ("ª" . set-visited-file-name)
 
 ;Buffers.
-("C-b" . counsel-switch-buffer)		("C-S-b" . switch-to-buffer-other-window)
-("’" . next-buffer)					("C-”" . kill-buffer);Altgr b
-("”" . previous-buffer)				("C-’" . kill-buffer-and-window);Altgr B
-("M-b" . buffer-menu)				("M-”" . ,(λ (switch-to-prev-buffer nil t)))
-("C-x b" . eval-buffer)				("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
-("M-B" . bury-buffer)				("C-M-b" . ,(λ (otra-ventana 'previous-buffer (next-window))))
-("C-M-”" . rename-buffer)			("C-M-S-b" . ,(λ (otra-ventana 'next-buffer (next-window))))
+("C-”" . kill-current-buffer)	 ("C-S-b" . switch-to-buffer-other-window)
+("’" . next-buffer)				 ("C-b" . counsel-switch-buffer)		
+("”" . previous-buffer)			 ("C-’" . kill-buffer-and-window);Altgr B
+("M-b" . buffer-menu)			 ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
+("C-x b" . eval-buffer)			 ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
+("M-B" . bury-buffer)			 ("C-M-b" . ,(λ (otra-ventana 'previous-buffer (next-window))))
+("C-M-”" . rename-buffer)		 ("C-M-S-b" . ,(λ (otra-ventana 'next-buffer (next-window))))
 
 ;Parejas.
 ("M-'" . parejas)	   ("M-¡" . parejas)	  ("C-M-'" . parejas)	 ("M-?" . parejas)

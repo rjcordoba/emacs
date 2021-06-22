@@ -12,9 +12,7 @@
 (setq tex-run-command "xetex")
 (setq tex-print-file-extension ".pdf")
 (setq tex-dvi-view-command "xdg-open")
-(setq tex-main-file nil);(concat cg-proyecto "/" cg-tex-principal))
-;; (defvar texcg-directorio (file-name-directory tex-main-file) "Directorio del archivo principal")
-;; (defvar texcg-archivo (file-name-nondirectory tex-main-file) "Nombre del archivo principal")
+(defconst cg-tex-principal "documento.tex" "Archivo TeX principal, por el que empezará la compilación.")
 
 (defun texcg-insertar-macro ()
   "Pregunta por nombre y número e inserta secuencia de control con parámetros según el número seleccionado."
@@ -38,10 +36,9 @@
   (insert "$$  $$")
   (backward-char 3))
 
-(let ((ventanta-pdf)) ;; Ventana que muestra el pdf.
+(let ((ventanta-pdf)) ;;Ventana que muestra el pdf.
   (defun texcg-mover-documento (f)
-	"Pasa una página hacia arriba en el documento."
-	(interactive)
+	"Auxiliar para mover el documento pdf sin estar en la ventana que lo muestra."
 	(if (window-live-p ventana-pdf) (otra-ventana f ventanta-pdf) (error "No está establecido el escritorio TeX.")))
 
   (defun texcg-conf-escritorio ()
@@ -66,8 +63,9 @@
 (defun cg-tex-compilar ()
   "Compila el archivo con XeTeX."
   (interactive)
-  (if (use-region-p) (tex-buffer)
-	  (tex-compile cg-origen (concat "xetex " cg-tex-principal)))))
+  (if (use-region-p)
+	  (tex-buffer)
+	  (tex-compile cg-origen (concat "xetex " cg-tex-principal))))
 
 (defun texcg-partsis (c cc f)
   "Salta al siguiente paréntesis de apertura o cierre según con qué teclas se llame."

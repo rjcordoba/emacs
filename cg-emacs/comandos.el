@@ -13,13 +13,15 @@
   (defun abrir-Dired (&optional n)
 	"Abre una ventana a la izquierda con el buffer correspondiente según el comando; con argumento abre abajo."
 	(interactive "P")
-	(unless (window-live-p vent-dired)
+	(if (window-live-p vent-dired)
+		(set-window-dedicated-p vent-dired nil)
 	  (setq vent-dired (let ((lado (unless n 'left))) (split-window (frame-root-window) (when lado (* (/ (frame-width) 9) 7)) lado))))
 	(select-window vent-dired)
 	(pcase (elt (this-command-keys) 1)
 	  (?d (dired (or (file-name-directory (primer-arch (buffer-list))) "/almacenamiento/proyectos")))
 	  (?D (dired (read-file-name "Directorio: ")))
 	  (?b (ibuffer)))
+	(set-window-dedicated-p vent-dired t)
 	(setq window-size-fixed 'width))
 
   (defun cerrar-dired ()
@@ -33,7 +35,7 @@
 	(interactive "c")
 	(let ((abierta (window-live-p vent-shell))
 		  (default-directory (or cg-origen default-directory)))
-	  (unless abierta
+	  (unless abierta		  
 		(setq vent-shell (display-buffer-in-side-window (current-buffer) '((side . right) (window-width . 0.37)))))
 	  (set-window-dedicated-p (select-window vent-shell) nil)
 	  (pcase x
@@ -62,11 +64,12 @@
 	"Abre otras ventanas y pone follow mode o lo quita.
 Cierra las ventanas que se habían abierto anteriormente con este comando. Sin argumento abre una nueva ventana; con él abre el número que se indique."
 	(interactive "p")
-	(follow-mode 'toggle)
-	(if follow-mode
-		(dotimes (n n) (push (split-window-horizontally) v))
-    (dolist (i v) (delete-window i)))
-  (balance-windows)))
+	(setq n (max n 2))
+	(if (follow-mode 'toggle)
+		(while (< 1 n) (push (split-window-horizontally) v) (setq n (1- n)))
+      (dolist (i v) (delete-window i))
+	  (setq v nil))
+	(balance-windows)))
 
 (defun intercambiar-buffers (vent-1 vent-2)
   "Intercambia los buffers de la ventanas vent-1 y vent-2."
@@ -160,7 +163,7 @@ Cierra las ventanas que se habían abierto anteriormente con este comando. Sin a
 (defun sel-en-pareja (&optional n)
   "Selecciona el texto alrededor del point que esté entre comillas, interrogaciones...
    Con prefijo pregunta el símbolo inicial desde el que se seleccionará."
-  (interactive "p")
+  (interactive "p")(message "%s" n)
   (let ((simbs "'`«“<‘¡\"(¿{[?\x00") (pila (list)) (busq nil) (c nil) (cc nil))
 	(if (= n 16)
 		(let ((char (read-string " Símbolo a buscar: ")))
@@ -189,7 +192,7 @@ Cierra las ventanas que se habían abierto anteriormente con este comando. Sin a
 	(while pila
 	  (re-search-forward busq)
 	  (if (eq cc (preceding-char)) (pop pila) (push c pila))))
-  (when (= n 4) (exchange-point-and-mark))
+  (when (= n 1) (exchange-point-and-mark))
   (backward-char))
 
 (defun sel-pareja (n c1)
@@ -240,10 +243,15 @@ Cierra las ventanas que se habían abierto anteriormente con este comando. Sin a
 	  (end-of-line) (insert "\n") (yank) (move-beginning-of-line 1) (forward-char p)))
 
 (defun cerrar-ventana (n)
-  "Para cerrar las ventanas o los buffers que se abren sin llamarlos directamente."
-  (interactive "p")
-  (dolist (i (window-list))
-	(when (string-prefix-p "*" (buffer-name (window-buffer i))) (quit-window (> n 1) i))))
+  "Para cerrar las ventanas o los buffers que se abren sin llamarlos directamente.
+Con prefijo elimina el buffer en vez de hundirlo en la lista."
+  (interactive "P")
+  (walk-windows
+   (lambda (w)
+	 (when (and (not (window-dedicated-p w))
+				(string-prefix-p "*" (buffer-name (window-buffer w))))
+	   (quit-window n w)))
+   'no nil))
 
 (defun lorem-ipsum-cg (n)
   "Mete tantos párrafos de Lorem Ipsum como diga el argumento; lo máximo son 25."

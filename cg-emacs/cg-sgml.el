@@ -3,11 +3,6 @@
 ;    Utilidades para el modo HTML
 ;------------------------------------------------------------------
 
-(defun con-atributo (n)
-  "Función auxiliar para insertar atributo en etiqueta."
-  (if (> n 1)
-	  (concat " " (read-string " Qué atributo («class» por defecto): " nil nil "class") "=\"" (read-string " Nombre del atributo: ") "\"") ""))
-
 (defun cerrar-etiquetas ()
   "Cerrar la etiqueta donde está el point y dejar éste enmedio."
   (interactive)
@@ -15,14 +10,14 @@
 				(if (eq (char-after) ?/) (or (backward-char 2) t) nil)))
   (let ((pal (current-word t t)))
 	(skip-chars-forward "^<\n")
-    (insert "</" pal ?>)(backward-word)(backward-char 2)))
+    (insert "</" pal ?>) (search-backward "<")))
 
 (defun a-apertura-html ()
   "Pone el cursor a la izquiera de la etiqueta de apertura."
   (skip-chars-backward "^<")
   (if (eq (char-after) ?/) (sgml-skip-tag-backward 1) (backward-char)))
 
-(defun seleccionar-tag (n)
+(defun seleccionar-tag (&optional n)
   "Selecciona la etiqueta donde está el puntero, y su contenido, tanto si es la etiqueta de inicio como la de cierre.
    Con argumento selecciona sólo el contenido."
   (interactive "P")
@@ -31,37 +26,34 @@
   (sgml-skip-tag-forward 1)
   (when n (search-backward "<") (exchange-point-and-mark) (search-forward ">")))
 
-(defun renom-etiqueta ()
+(defun renom-etiqueta (nombre)
   "Cambia el nombre de las etiquetas de apertura y cierre que estén bajo el puntero o la primera a la izquierda de él."
-  (interactive)
+  (interactive "sNuevo nombre: ")
   (a-apertura-html)
-  (let ((aper (point))
-		(nombre (read-string " Nuevo nombre: ")))
+  (let ((aper (point)))
 	(sgml-skip-tag-forward 1) (backward-char) (backward-kill-word 1) (insert nombre)
 	(goto-char aper) (forward-char) (kill-word 1) (insert nombre)))
 
-(defun poner-clase ()
+(defun poner-clase (nombre)
   "Pone una clase en la etiqueta."
-  (interactive)
+  (interactive "sNombre de la clase: ")
   (a-apertura-html)
   (re-search-forward "class\\|>")
   (backward-char)
-  (let ((nombre (read-string " Nombre de la clase: ")))
-	(if (eq (char-after) ?>)
-		(insert " class=\"" nombre "\"")
-	  (re-search-forward "\".*?\"") (backward-char) (unless (eq (char-before) ?\") (insert " ")) (insert nombre)))
+  (if (eq (char-after) ?>)
+	  (insert " class=\"" nombre "\"")
+	(re-search-forward "\".*?\"") (backward-char) (unless (eq (char-before) ?\") (insert " ")) (insert nombre))
   (search-forward ">"))
 
-(defun poner-atributo ()
+(defun poner-atributo (atrib nombre)
   "Pone un atributo a elegir en la etiqueta."
-  (interactive)
+  (interactive (list (read-string " Qué atributo («id» por defecto): " nil nil "id")
+			   (read-string " Nombre del atributo: ")))
   (a-apertura-html)
-  (let ((atrib (read-string " Qué atributo («id» por defecto): " nil nil "id"))
-		(nomb (read-string " Nombre del atributo: ")))
 	  (re-search-forward (concat atrib "\\|>")) (backward-char)
 	(if (eq (char-after) ?>)
-		(insert " " atrib  "=\"" nomb  ?\")
-	  (search-forward "\"") (kill-word 1) (insert nomb)))
+		(insert " " atrib  "=\"" nombre  ?\")
+	  (re-search-forward "\"\\|'") (kill-word 1) (insert nombre))
 	  (search-forward ">"))
 
 (defun lista-dl ()
@@ -73,17 +65,22 @@
   (pop-mark)
   (search-backward "</dt"))
 
-(defun poner-tag (&optional n)
+(defun con-atributo (&optional n)
+  "Función auxiliar para insertar atributo en etiqueta."
+  (when n
+	  (concat " " (read-string " Qué atributo («class» por defecto): " nil nil "class") "=\"" (read-string " Nombre del atributo: ") "\"") ""))
+
+(defun poner-tag (n)
   "Toma la última palabra o la palabra seleccionada, la transforma en etiqueta y la cierra."
-  (interactive "p")
+  (interactive "P")
   (unless (use-region-p) (set-mark (point)) (backward-word))
   (kill-region t t t)
   (insert "<") (yank) (insert (con-atributo n))
   (insert "></") (yank) (insert ">") (backward-word) (backward-char 2)
   (pop kill-ring) (pop-mark) (pop-mark))
 
-(defun poner-entre-tag (&optional n)
-  (interactive "p")
+(defun poner-entre-tag (n)
+  (interactive "P")
   (unless (region-active-p) (set-mark (point)))
   (let ((tag (read-string " Qué etiqueta («span» por defecto): " nil nil "span"))
 		(i (region-beginning))
@@ -109,4 +106,5 @@
   ("C-c j" . poner-entre-tag)
   ("M-k" . (λ (search-backward "<")))
   ("M-l" . (λ (search-forward ">")))
-  ("C-c e" . plantilla-html)))
+  ("C-c e" . plantilla-html)
+  ("C-c s" . cg-servidor)))

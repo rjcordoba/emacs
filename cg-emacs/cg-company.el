@@ -1,7 +1,8 @@
 ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
-;    Utilidades para Ivy
+;    Utilidades para Company
 ;------------------------------------------------------------------
 
 (cg-configs-modo
-  :poner (("C-x C-f" . counsel-git-grep)))
+ :tabla company-active-map
+ :quitar ("C-s" "<f1>"))

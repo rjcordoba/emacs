@@ -3,9 +3,5 @@
 ;    Utilidades para el modo iBuffer
 ;------------------------------------------------------------------
 
-(defun cg-ibuffer ()
-  "Pone los keybinding para las funciones, en la tabla local del modo mayor."
-  (interactive)
-  (poner-keys'(("<f5>" 'ibuffer-update))))
-
-(remove-hook 'ibuffer-mode-hook 'cg-ibuffer)
+(cg-configs-modo
+  :poner (("<f5>" . (λ (ibuffer-update nil)))))

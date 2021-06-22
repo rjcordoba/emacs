@@ -7,7 +7,7 @@
 
 (custom-theme-set-faces
  'cg
- '(default ((t (:foreground "WhiteSmoke" :background  "#242424" :height 106))))
+ '(default ((t (:foreground "WhiteSmoke" :background "#242424" :height 106))))
  '(mode-line ((t (:foreground "#E5D3D3" :background "#010111" :overline "#010111" :font "Courier 15" :box nil))))
  '(mode-line-inactive ((t (:inherit mode-line :foreground "#555" :background "#2E2E2E" :overline nil))))
  '(mode-line-buffer-id ((t (:foreground "#F1C757"))))
