@@ -16,7 +16,7 @@
 (setq cg-var-ignorar-lsp nil)
 
 
-;(load "variables")
+(load "cg-variables")
 (load "funciones")
 (load "inicio")
 (load "keybindings") 

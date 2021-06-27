@@ -1,5 +1,4 @@
 (setq gc-cons-threshold					 100000000
-	  ;; company-idle-delay				 0.2
 	  lsp-completion-provider			 :capf
 	  lsp-ui-doc-enable					 nil
 	  read-process-output-max			 (* 1024 1024)

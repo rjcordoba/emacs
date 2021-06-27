@@ -67,16 +67,6 @@
 	  (tex-buffer)
 	  (tex-compile cg-origen (concat "xetex " cg-tex-principal))))
 
-(defun texcg-partsis (c cc f)
-  "Salta al siguiente paréntesis de apertura o cierre según con qué teclas se llame."
-  (let ((pila (list))
-		(mc (if (eq f 're-search-backward) 'char-after 'preceding-char)))
-	(push cc pila)
-	(setq f (symbol-function f))
-	(while pila
-	  (funcall f "}\\|{")
-	  (if (eq c (funcall mc)) (pop pila) (push cc pila)))))
-
 (cg-configs-modo
  :poner
  (("C-j" . nil)
@@ -96,8 +86,8 @@
   ("M-<down>" . (λ (texcg-mover-documento 'doc-view-last-page)))
   ("C-c k" . (λ (search-backward "$")))
   ("C-c l" . (λ (search-forward "$")))
-  ("M-k" . (λ (texcg-partsis ?{ ?} 're-search-backward)))
-  ("M-l" . (λ (texcg-partsis ?} ?{ 're-search-forward))))
+  ("M-k" . (λ (cg-inicio-nido ?{)))
+  ("M-l" . (λ (cg-fin-nido ?{))))
  :añadir-hook
  (lambda ()
    (setq fill-column 100)

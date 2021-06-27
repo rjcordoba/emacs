@@ -9,15 +9,15 @@
   "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
   (interactive)
   (let ((default-directory (or cg-origen (read-directory-name "Directorio: "))))
-	(async-shell-command cg-servidor))
-  (message "Ejecutado: %s" cg-servidor))
+	(async-shell-command cg-var-servidor))
+  (message "Ejecutado: %s" cg-var-servidor))
 
 (defun cg-vaciar-backups ()
 	"Vacía el directorio donde se guardan los archivos backups."
   (interactive)
-  (dolist (f (directory-files cg-backups t "!.*" t))
+  (dolist (f (directory-files cg-var-backups t "!.*" t))
 	(delete-file f))
-  (message "Vaciado el directorio %s" cg-backups))
+  (message "Vaciado el directorio %s" cg-var-backups))
 
 (defun cg-poner-menor (modo)
   "Activa el modo sin que salga el nombre en la «mode line»."

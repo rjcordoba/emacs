@@ -126,7 +126,7 @@
 ;Seleccionar.
 ("M-H" . sel-en-pareja)			("C-h" . seleccionar-palabra)
 ("C-M-S-h" . sel-pareja)		("C-S-h" . exchange-point-and-mark)
-("C-M-h" . seleccionar-líneas) ;("M-h" . mark-paragraph)
+("C-M-h" . seleccionar-líneas)
 
 ;Registros.
 ("C-9" . point-to-register)		  ("C-x 9" . window-configuration-to-register)
@@ -157,8 +157,8 @@
 ("M-L" . forward-paragraph)		 ("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
 ("M-K" . backward-paragraph)	 ("C-ĸ" . move-to-window-line-top-bottom)
 ("ĸ" . beginning-of-buffer)		 ("C-M-S-l" . borrar-línea)
-("C-ł" . recenter-top-bottom)	 ("C-M-S-k" . ,(λ (recenter-top-bottom 4)))
-("ł" . end-of-buffer)
+("C-ł" . recenter-top-bottom)	 ("C-M-ł" . ,(λ (kill-whole-line 0)))
+("ł" . end-of-buffer)            ("C-M-S-k" . ,(λ (recenter-top-bottom 4)))
 
 ;Avy
 ("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)

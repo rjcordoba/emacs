@@ -8,5 +8,7 @@
 		 ("C-c ñ" . forward-sexp)
 		 ("C-c k" . (λ (search-backward "(")))
 		 ("C-c l" . (λ (search-forward ")")))
+		 ("C-c K" . (λ (cg-inicio-nido ?\()))
+		 ("C-c L" . (λ (cg-fin-nido ?\()))
  		 ("C-c f" . find-function-at-point)
 		 ("C-c v" . find-variable-at-point)))

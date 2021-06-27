@@ -59,7 +59,8 @@ valor en la variable para la sesión actual."
 			(kill-region (point) (line-end-position))
 			(let ((c (read-from-minibuffer (format "Comentario/Documentación para «%s»: " var)  (get v 'variable-documentation))))
 			  (unless (= (length c) 0) (insert " ;" c)))
-			(when (eobp) (open-line 1))
+			(when (eobp)
+			  (open-line 1))
 			(cg-cargar-var)
 			(message "Línea afectada: %s" (buffer-substring (line-beginning-position) (line-end-position)))))))
 
