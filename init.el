@@ -10,12 +10,6 @@
   "Para ser llamada cada vez que se quiera acceder a un archivo; pone el directorio donde están las configuraciones."
   (concat directorio-configs d))
 
-
-
-(setq cg-var-backups "~/proyectos/backups")
-(setq cg-var-ignorar-lsp nil)
-
-
 (load "cg-variables")
 (load "funciones")
 (load "inicio")
