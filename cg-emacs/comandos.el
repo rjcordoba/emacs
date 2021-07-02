@@ -321,7 +321,7 @@ de la selección. Con doble prefijo incluye los símbolos de apertura y cierre e
 				   (goto-char (region-end)))
 			   (point)))
 		  (s (pcase (elt (this-command-keys) 0)
-			   (?\C-\' ?\')		(201326655	?‘)		(167  ?\`)	   (?\M-¡ ?\")
+			   (?\C-\' ?\')		(201326655 ?‘)		(167  ?\`)	   (?\M-¡ ?\")
 			   (?\C-\M-' ?<)	(67108927 ?«)		(?\C-¡ ?¡)	   (?\C-\M-¿ ?\[)
 			   (?\C-¿ ?¿)		(?\C-\M-¡ ?\()		(?¿ ?“)		   (?\M-¿ ?{))))
 	  (insert (cdr (assq s pars)))

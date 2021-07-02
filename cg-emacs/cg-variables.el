@@ -62,7 +62,7 @@ valor en la variable para la sesión actual."
 			(when (eobp)
 			  (open-line 1))
 			(cg-cargar-var)
-			(message "Línea afectada: %s" (buffer-substring (line-beginning-position) (line-end-position)))))))
+			(message "%s %s" (colorear-cab "Línea afectada:") (buffer-substring (line-beginning-position) (line-end-position)))))))
 
   (defun cg--cargar-var (b)
 	"Lee una línea y carga la variable con su valor y la documentación si le hubiere.

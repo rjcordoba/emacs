@@ -1,16 +1,28 @@
-;------------------------------------------------------------------
+ ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
 ;    Funciones generales
 ;------------------------------------------------------------------
 
 (defun cg-lambda () (interactive) (insert ?λ))
 
-(defun cg-servidor ()
-  "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
-  (interactive)
+(defgroup cg-faces nil "Faces para usar en funciones propias."
+  :group 'faces-group)
+
+(defface cg-cabecera
+  '((t :foreground "#e59544"))
+  "Color para presentar mensajes en el minibuffer."
+  :group 'cg-faces)
+
+(defun colorear-cab (s)
+  "Devuelve el string «s» con el estilo «cg-cabecera»."
+  (put-text-property 0 (length s) 'face 'cg-cabecera s)
+  s)
+
+(defun cg-comando-fondo (c)
+  "Ejecuta de fonde el comando que se mete como argumento."
   (let ((default-directory (or cg-origen (read-directory-name "Directorio: "))))
-	(async-shell-command cg-var-servidor))
-  (message "Ejecutado: %s" cg-var-servidor))
+	(async-shell-command c))
+  (message "%s %s" (colorear-cab "Ejecutado:") c))
 
 (defun cg-vaciar-backups ()
 	"Vacía el directorio donde se guardan los archivos backups."
@@ -36,3 +48,10 @@
 (defmacro cg-quitar-nombre-minor-mode (&rest modos)
   `(dolist (n (quote ,modos))
 	 (setf (cdr (assoc (intern (concat n "-mode")) minor-mode-alist)) '(nil))))
+
+;------------------------------------------------------------------------------------------
+
+(defun cg-servidor ()
+  "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
+  (interactive)
+  (cg-comando-fondo cg-var-servidor))

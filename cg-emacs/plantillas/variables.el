@@ -8,3 +8,4 @@
 backups "~/cosas/proyectos/.backups" ;Directorio donde se guardan los archivos backup
 servidor "symfony server:start" ;Para abrir servidor web
 ignorar-lsp ("vendor" "var" "code-symfony") ;Directorios que no vigilará lsp
+ooo 88 ;ñasldfjk

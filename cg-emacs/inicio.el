@@ -30,8 +30,11 @@
 	initial-major-mode 'fundamental-mode
 	delete-by-moving-to-trash t
 	calendar-week-start-day 1
-	ring-bell-function 'ignore ;Para que no haya sonido.
+	ring-bell-function #'ignore ;Para que no haya sonido.
 	treemacs-width 43)
+
+;Para sobreescribir sobre las selecciones de texto.
+(delete-selection-mode t)
 
 ;;-----------------------------------------------------------------------------------------
 (add-hook 'emacs-startup-hook
