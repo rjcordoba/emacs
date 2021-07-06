@@ -269,7 +269,7 @@ anidamientoscon ese símbolo que pueda haber entre medio."
 
   (defun sel-en-pareja (n)
 	"Selecciona el texto alrededor del point que esté entre comillas, interrogaciones...
-   Con prefijo pregunta el símbolo inicial desde el que se seleccionará."
+   Con prefijo descarta los símbolos de apertura y cierre; selecciona sólo el contenido."
 	(interactive "P")
 	(condition-case nil
 		(let ((pos (point))
@@ -283,8 +283,8 @@ anidamientoscon ese símbolo que pueda haber entre medio."
 			  (cg-fin-nido (following-char) pos)
 			(search-failed (error er-c)))
 		  (when n
-			(forward-char)
-			(setq ini (1- ini)))
+			(backward-char)
+			(setq ini (1+ ini)))
 		  (push-mark ini t t))
       (search-failed (error er-a))))
 
