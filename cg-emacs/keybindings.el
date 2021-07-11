@@ -169,6 +169,7 @@
 ("C-M-," . scroll-up-command)	 	("M-;" . ,(λ (scroll-down-command 4)))
 ("C-×" . scroll-right)			 	("C-v" . ,(λ (scroll-other-window 3)))
 ("C-─" . scroll-left)	 		 	("C-S-v" . ,(λ (scroll-other-window-down 3)))
-("C-;" . scroll-down-line)			("C-," . scroll-up-line)))
+("C-;" . scroll-down-line)			("C-“" . ,(λ (otra-ventana '(scroll-down-command 3) (previous-window))))
+("C-," . scroll-up-line)			("C-‘" . ,(λ (otra-ventana '(scroll-up-command 3) (previous-window))))))
 
 (global-set-key (kbd (car e)) (cdr e)))
