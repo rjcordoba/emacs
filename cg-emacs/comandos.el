@@ -6,6 +6,13 @@
 
 (defmacro λ (&rest forms) (append '(lambda () (interactive)) forms))
 
+(defun otra-ventana (f v)
+  "Ejecuta el form f en otra ventana sin dejarla activa."
+  (let ((w (selected-window)))
+	(select-window v)
+	(eval f)
+	(select-window w)))
+
 (defsubst primer-arch (buffers)
   (or (buffer-file-name (car buffers))
 	  (primer-arch (cdr buffers))))
