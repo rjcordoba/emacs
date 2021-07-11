@@ -5,6 +5,11 @@
 
 (add-to-list 'lsp-language-id-configuration '(twig-mode . "html"))
 
+(defun cg-twig-code ()
+  (interactive)
+  (insert "{%  %}")
+  (backward-char 3))
+
 (defun cg-twig-etiqueta (s)
   "Pide nombre e inserta una etiqueta twig con ese nombre."
   (interactive "sNombre de la etiqueta: ")
@@ -21,5 +26,6 @@
 
 (cg-configs-modo
  :quitar ("C-c c")
- :poner  (("C-c t" . cg-twig-etiqueta)
+ :poner  (("C-c d" . cg-twig-code)
+		  ("C-c t" . cg-twig-etiqueta)
 		  ("C-c b" . cg-twig-block)))
