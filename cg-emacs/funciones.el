@@ -38,12 +38,16 @@
 
 (defun otra-ventana (f v)
   "Ejecuta la función en otra ventana sin dejarla activa."
-  (let ((w (selected-window))) (select-window v) (funcall f) (select-window w)))
+  (let ((w (selected-window)))
+	(select-window v)
+	(funcall f)
+	(select-window w)))
 
 (defun cg-esp-nom-buff ()
   "Cambia el nombre del buffer actual añadiendo un espacio al inicio."
   (let ((n (buffer-name)))
-	(when (not (string-prefix-p " " n)) (rename-buffer (concat " " n)))))
+	(when (not (string-prefix-p " " n))
+	  (rename-buffer (concat " " n)))))
 
 (defmacro cg-quitar-nombre-minor-mode (&rest modos)
   `(dolist (n (quote ,modos))

@@ -78,7 +78,8 @@
 (require 'func-modos)
 
 (cg-retocar-modos
- "company"		"counsel"	   "dired"		"doc-view"		"emacs-lisp"
- "ibuffer"		"ielm"		   "js"			"lsp"			"org"
- "php"			"picture"	   "prog"		"sgml"			"tex"
- "treemacs"		"twig")
+ "company"		 "counsel"		  "css"			"dired"
+ "doc-view"		 "emacs-lisp"	  "ibuffer"		"ielm"
+ "js"			 "lsp"			  "org"			"php"
+ "picture"		 "prog"			  "sgml"		"tex"
+ "treemacs"		 "twig")
