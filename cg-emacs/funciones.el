@@ -1,4 +1,4 @@
- ;------------------------------------------------------------------
+;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
 ;    Funciones generales
 ;------------------------------------------------------------------
@@ -13,9 +13,19 @@
   "Color para presentar mensajes en el minibuffer."
   :group 'cg-faces)
 
+(defface cg-consulta
+  '((t :foreground "#0ed6be"))
+  "Color para pedir texto en el minibuffer."
+  :group 'cg-faces)
+
 (defun colorear-cab (s)
   "Devuelve el string «s» con el estilo «cg-cabecera»."
   (put-text-property 0 (length s) 'face 'cg-cabecera s)
+  s)
+
+(defun colorear-consulta (s)
+  "Devuelve el string «s» con el estilo «cg-consulta»."
+  (put-text-property 0 (length s) 'face 'cg-consulta s)
   s)
 
 (defun cg-comando-fondo (c)
@@ -52,3 +62,8 @@
   "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
   (interactive)
   (cg-comando-fondo cg-var-servidor))
+
+(defun cg-comando-proy ()
+  "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
+  (interactive)
+  (cg-comando-fondo (read-from-minibuffer (colorear-consulta "Comando: "))))

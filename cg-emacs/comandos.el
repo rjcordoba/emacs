@@ -10,15 +10,18 @@
   "Ejecuta el form f en otra ventana sin dejarla activa."
   (let ((w (selected-window)))
 	(select-window v)
-	(eval f)
+	(if (symbolp f)
+		(funcall (symbol-function f))
+	  (eval f))
 	(select-window w)))
 
 (defsubst primer-arch (buffers)
-  (or (buffer-file-name (car buffers))
-	  (primer-arch (cdr buffers))))
+  (when buffers
+	(or (buffer-file-name (car buffers))
+		(primer-arch (cdr buffers)))))
 
 (let ((vent-dired nil))
-  (defun abrir-Dired (&optional n)
+  (defun abrir-Dired (n)
 	"Abre una ventana a la izquierda con el buffer correspondiente según el comando; con argumento abre abajo."
 	(interactive "P")
 	(if (window-live-p vent-dired)
@@ -168,7 +171,7 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
    el cursor y deja éste al final de la línea anterior."
   (interactive)
   (if (use-region-p)
-	  (backward-delete-char-untabify 1 t)
+	  (backward-delete-char 2)
 	(kill-whole-line -1)))
 
 (defun seleccionar-líneas (n)

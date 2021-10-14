@@ -3,20 +3,6 @@
 ;    Utilidades para el modo HTML
 ;------------------------------------------------------------------
 
-(defun cerrar-etiquetas ()
-  "Cerrar la etiqueta donde está el point y dejar éste enmedio."
-  (interactive)
-  (while
-	  (progn
-		(skip-chars-backward "^<")
-		(if (eq (char-after) ?/)
-			(or (backward-char 2) t)
-		  nil)))
-  (let ((pal (current-word t t)))
-	(skip-chars-forward "^<\n")
-    (insert "</" pal ?>)
-	(search-backward "<")))
-
 (defun a-apertura-html ()
   "Pone el cursor a la izquiera de la etiqueta de apertura."
   (skip-chars-backward "^<")
@@ -67,7 +53,7 @@
 (defun poner-atributo (atrib nombre)
   "Pone un atributo a elegir en la etiqueta."
   (interactive (list (read-string "Qué atributo («id» por defecto): " nil nil "id")
-					 (read-string "Nombre del atributo: ")))
+					 (read-string "Valor del atributo: ")))
   (a-apertura-html)
   (re-search-forward (concat atrib "\\|>"))
   (backward-char)
@@ -94,7 +80,7 @@
 	(concat " "
 			(read-string " Qué atributo («class» por defecto): " nil nil "class")
 			"=\""
-			(read-string " Nombre del atributo: ")
+			(read-string " Valor del atributo: ")
 			"\"")
 	""))
 
@@ -134,8 +120,7 @@ pregunta el atributo a añadir."
 (cg-configs-modo
  :tabla t
  :poner
- (("C-c m" . cerrar-etiquetas)
-  ("C-c h" . seleccionar-tag)
+ (("C-c h" . seleccionar-tag)
   ("C-c r" . renom-etiqueta)
   ("C-c C-c d" . lista-dl)
   ("C-c l" . poner-atributo)

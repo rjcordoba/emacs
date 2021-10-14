@@ -26,9 +26,9 @@
 ("C-@" . center-line)			 ("C-S-q" . fill-paragraph)	   ("C-Ω" . fill-region-as-paragraph)
 
 ;Macros.
-("C-+" . kmacro-set-counter)		   ("M-]" . kmacro-edit-lossage)		("C-*" . kmacro-add-counter)	
+("C-+" . kmacro-set-counter)		   ("M-]" . kmacro-edit-lossage)		("C-*" . kmacro-add-counter)
 ("C-M-+" . kmacro-step-edit-macro)	   ("<C-S-f4>" . kmacro-bind-to-key)	("<C-f3>" . kmacro-cycle-ring-next)
-("C-M-*" . kmacro-delete-ring-head)	   ("M-+" . kmacro-insert-counter)		("<C-S-f3>" . kmacro-cycle-ring-previous) 
+("C-M-*" . kmacro-delete-ring-head)	   ("M-+" . kmacro-insert-counter)		("<C-S-f3>" . kmacro-cycle-ring-previous)
 ("C-]" . kmacro-edit-macro)			   ("C-M-]" . kbd-macro-query)			("<C-f4>" . apply-macro-to-region-lines)
 ("M-*" . kmacro-set-format)
 
@@ -52,13 +52,11 @@
 ("Æ" . expand-abbrev)	  ("C-S-a" . ispell-complete-word)
 
 ;Insertar/eliminar blancos.
-("C-M-SPC" . insertar-espacios)			  ("C-M-S-SPC" . insertar-espacios-ad)
-("<C-tab>" . indent-relative)			  ("<C-iso-lefttab>" . alinear-tab-a)
-("<M-return>" . open-line)				  ("<C-return>" . insertar-línea-debajo)
-("<M-S-return>" . split-line)			  ("M-S-SPC" . delete-horizontal-space)
-("<S-return>" . insertar-línea-encima)	  ("<C-S-return>" . insertar-línea-encima-debajo)
-("C-x <C-tab>" . tabify)				  ("C-x <C-S-iso-lefttab>" . untabify)
-("<C-M-tab>" . indent-region)			  ("<C-M-return>" . electric-indent-just-newline)
+("C-M-SPC" . insertar-espacios)		("C-M-S-SPC" . insertar-espacios-ad)	   ("<C-S-return>" . insertar-línea-encima-debajo)
+("<C-tab>" . indent-relative)		("<C-iso-lefttab>" . alinear-tab-a)		   ("<C-M-return>" . electric-indent-just-newline)
+("<M-return>" . open-line)			("<C-return>" . insertar-línea-debajo)	   ("<S-return>" . insertar-línea-encima)
+("<M-S-return>" . split-line)		("M-S-SPC" . delete-horizontal-space)	   ("<C-M-tab>" . indent-region)
+("C-x <C-tab>" . tabify)			("C-x <C-S-iso-lefttab>" . untabify)
 
 ;Búsquedas y búsquedas con sustitución.
 ("<C-dead-acute>" . isearch-forward)		 ("<C-S-dead-diaeresis>" . isearch-backward)
@@ -78,19 +76,17 @@
 ("<menu> Z" . delete-frame)	   ("<menu> ª" . suspend-frame);Altgr F
 
 ;Archivos.
-("M-f" . insert-file)	  ("C-d" . dired-jump)				("C-ª" . find-file-other-frame);Altgr F	  
+("M-f" . insert-file)	  ("C-d" . dired-jump)				("C-ª" . find-file-other-frame);Altgr F
 ("C-f" . find-file)		  ("đ" . find-alternate-file)		("C-S-f" . find-file-other-window)
 ("C-s" . save-buffer)	  ("C-S-s" . save-some-buffers)		("C-đ" . find-file-read-only-other-window)
 ("C-ß" . write-file)	  ("ª" . set-visited-file-name)
 
 ;Buffers.
-("C-”" . kill-current-buffer)	 ("C-S-b" . switch-to-buffer-other-window)
-("’" . next-buffer)				 ("C-b" . counsel-switch-buffer)		
-("”" . previous-buffer)			 ("C-’" . kill-buffer-and-window);Altgr B
-("M-b" . buffer-menu)			 ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
-("C-x b" . eval-buffer)			 ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
-("M-B" . bury-buffer)			 ("C-M-b" . ,(λ (otra-ventana 'previous-buffer (next-window))))
-("C-M-”" . rename-buffer)		 ("C-M-S-b" . ,(λ (otra-ventana 'next-buffer (next-window))))
+("M-B" . bury-buffer)		 ("C-M-b" . kill-current-buffer)		   ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
+("’" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
+("”" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
+("M-b" . buffer-menu)		 ("C-b" . counsel-switch-buffer)		   ("C-’" . ,(λ (otra-ventana #'next-buffer (next-window))));Altgr B
+("C-x b" . eval-buffer)		 ("C-S-b" . switch-to-buffer-other-window)
 
 ;Parejas.
 ("M-'" . parejas)	   ("M-¡" . parejas)	  ("C-M-'" . parejas)	 ("M-?" . parejas)
@@ -98,67 +94,51 @@
 ("C-?" . parejas)	   ("C-¡" . parejas)	  ("C-M-?" . parejas)	 ("C-M-¿" . parejas)
 
 ;Ventanas.
-("C-." . other-window)			  ("C-:" . ,(λ (other-window -1)))
-("C-·" . int-buffers)			  ("M-:" . ,(λ (select-window (split-window-below))))
-("·" . ace-window)				  ("<menu> Q" . ,(λ (quit-window nil (previous-window))))
-("C-M-:" . delete-window)		  ("M-." . ,(λ (select-window (split-window-right))))
-("C-x C-." . sel-minibuffer)	  ("C-M-." . delete-other-windows)
-("<menu> q" . cerrar-ventana)
-
-("M--" . enlarge-window)	   ("C-_" . shrink-window-horizontally)
-("M-_" . shrink-window)		   ("C--" . enlarge-window-horizontally)
-("C-M--" . balance-windows)	   ("<C-dead-belowdot>" . toggle-frame-fullscreen)
-("C-M-_" . shrink-window-if-larger-than-buffer)
+("C-." . other-window)		  ("C-:" . ,(λ (other-window -1)))			("M-:" . ,(λ (select-window (split-window-below))))
+("C-·" . int-buffers)		  ("C-M-." . delete-other-windows)			("<menu> Q" . ,(λ (quit-window nil (previous-window))))
+("·" . ace-window)			  ("C-x C-." . sel-minibuffer)				("M-." . ,(λ (select-window (split-window-right))))
+("C-M-:" . delete-window)	  ("<menu> q" . cerrar-ventana)				("C-M--" . balance-windows)
+("M--" . enlarge-window)	  ("C-_" . shrink-window-horizontally)		("C-M-_" . shrink-window-if-larger-than-buffer)
+("M-_" . shrink-window)		  ("C--" . enlarge-window-horizontally)		("<C-dead-belowdot>" . toggle-frame-fullscreen)
 
 ;Rectángulos.
-("C-p" . rectangle-mark-mode)			   ("M-P" . kill-rectangle)
-("C-o" . string-insert-rectangle)		   ("M-O" . clear-rectangle)
-("C-S-p" . delete-whitespace-rectangle)	   ("C-M-p" . rectangle-number-lines)
-("C-S-o" . string-rectangle)			   ("C-M-o" . open-rectangle)
-("M-p" . copy-rectangle-as-kill)		   ("C-M-S-p" . delete-trailing-whitespace)
-("M-o" . yank-rectangle)				   ("C-M-S-o" . delete-rectangle)
+("C-p" . rectangle-mark-mode)	   ("M-P" . kill-rectangle)				("M-p" . copy-rectangle-as-kill)
+("C-M-o" . open-rectangle)		   ("M-O" . clear-rectangle)			("C-M-p" . rectangle-number-lines)
+("M-o" . yank-rectangle)		   ("C-o" . string-insert-rectangle)	("C-M-S-p" . delete-trailing-whitespace)
+("C-S-o" . string-rectangle)	   ("C-M-S-o" . delete-rectangle)		("C-S-p" . delete-whitespace-rectangle)
 
 ;Transposiciones.
-("C-S-t" . transpose-lines)			 ("C-ŧ" . mover-línea)
+("C-S-t" . transpose-lines)			 ("C-ŧ" . mover-línea)				("C-M-S-t" . ,(λ (transpose-paragraphs -1)))
 ("C-M-t" . transpose-paragraphs)	 ("C-Ŧ" . ,(λ (mover-línea -1)))
-("C-M-S-t" . ,(λ (transpose-paragraphs -1)))
 
 ;Seleccionar.
-("M-H" . sel-en-pareja)			("C-h" . seleccionar-palabra)
-("C-M-S-h" . sel-pareja)		("C-S-h" . exchange-point-and-mark)
-("C-M-h" . seleccionar-líneas)
+("M-H" . sel-en-pareja)			("C-h" . seleccionar-palabra)		("C-S-h" . exchange-point-and-mark)
+("C-M-S-h" . sel-pareja)		("C-M-h" . seleccionar-líneas)
 
 ;Registros.
-("C-9" . point-to-register)		  ("C-x 9" . window-configuration-to-register)
-("C-)" . jump-to-register)		  ("C-8" . append-to-register)
-("M-9" . copy-to-register)		  ("C-(" . prepend-to-register)
-("M-)" . insert-register)		  ("M-8" . copy-rectangle-to-register)
-("C-M-9" . number-to-register)	  ("M-(" . window-configuration-to-register)
-("C-M-)" . increment-register)	  ("C-M-8" . kmacro-to-register)
+("C-9" . point-to-register)		  ("C-M-9" . number-to-register)	   ("C-x 9" . window-configuration-to-rlegister)
+("C-)" . jump-to-register)		  ("C-8" . append-to-register)		   ("M-(" . window-configuration-to-register)
+("M-9" . copy-to-register)		  ("C-(" . prepend-to-register)		   ("M-8" . copy-rectangle-to-register)
+("M-)" . insert-register)		  ("C-M-8" . kmacro-to-register)	   ("C-M-)" . increment-register)
 
 ;Bookmarks.
 ("M-Ç" . bookmark-rename)	 ("C-S-ç" . bookmark-jump)		  ("C-ç" . bookmark-set-no-overwrite)
 ("C-M-ç" . bookmark-save)	 ("C-M-S-ç" . bookmark-delete)	  ("M-ç" . bookmark-bmenu-list)
 
 ;Mover el cursor izquierda-derecha / J-Ñ
-("C-ñ" . forward-char)			 ("C-j" . backward-char)
-("C-Ñ" . delete-char)			 ("C-S-j" . backward-delete-char)
-("M-ñ" . forward-word)			 ("M-j" . backward-word)
-("M-Ñ" . kill-word)				 ("M-J" . backward-kill-word)
+("C-ñ" . forward-char)			 ("C-j" . backward-char)			  ("C-M-S-j" . ,(λ (kill-line 0)))
+("C-Ñ" . delete-char)			 ("C-M-Ñ" . kill-line)				  ("C-x j" . ,(λ (forward-whitespace -1)))
+("M-ñ" . forward-word)			 ("M-j" . backward-word)			  ("C-x ñ" . forward-whitespace)
+("M-Ñ" . kill-word)				 ("M-J" . backward-kill-word)		  ("C-S-j" . backward-delete-char)
 ("C-M-ñ" . move-end-of-line)	 ("C-M-j" . back-to-indentation)
-("C-M-Ñ" . kill-line)			 ("C-M-S-j" . ,(λ (kill-line 0)))
-("C-x ñ" . forward-whitespace)	 ("C-x j" . ,(λ (forward-whitespace -1)))
 
 ;Mover el cursor arriba-abajo / K-L
-("C-l" . next-line)				 ("C-S-l" . ,(λ (forward-line 4)))
-("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))
-("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))
-("M-k" . backward-sentence)		 ("C-M-l" . ,(λ (forward-line 8)))
-("M-L" . forward-paragraph)		 ("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
-("M-K" . backward-paragraph)	 ("C-ĸ" . move-to-window-line-top-bottom)
-("ĸ" . beginning-of-buffer)		 ("C-M-S-l" . borrar-línea)
-("C-ł" . recenter-top-bottom)	 ("C-M-ł" . ,(λ (kill-whole-line 0)))
-("ł" . end-of-buffer)            ("C-M-S-k" . ,(λ (recenter-top-bottom 4)))
+("C-l" . next-line)				 ("C-S-l" . ,(λ (forward-line 4)))		 ("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
+("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))	 ("C-ĸ" . move-to-window-line-top-bottom)
+("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))	 ("C-M-S-k" . ,(λ (recenter-top-bottom 4)))
+("M-k" . backward-sentence)		 ("C-M-l" . ,(λ (forward-line 8)))		 ("C-M-ł" . ,(λ (kill-whole-line 0)))
+("M-L" . forward-paragraph)		 ("M-K" . backward-paragraph)			 ("ĸ" . beginning-of-buffer)
+("C-M-S-l" . borrar-línea)		 ("ł" . end-of-buffer)					 ("C-ł" . recenter-top-bottom)
 
 ;Avy
 ("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
