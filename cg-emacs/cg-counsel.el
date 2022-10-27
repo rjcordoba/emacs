@@ -1,6 +1,6 @@
 ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
-;    Utilidades para Ivy
+;    Utilidades para counsel
 ;------------------------------------------------------------------
 
 (cg-configs-modo

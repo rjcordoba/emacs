@@ -3,7 +3,7 @@
 ;    Utilidades para el modo Twig
 ;------------------------------------------------------------------
 
-(add-to-list 'lsp-language-id-configuration '(twig-mode . "html"))
+;; (add-to-list 'lsp-language-id-configuration '(twig-mode . "html"))
 
 (defun cg-twig-code ()
   (interactive)
@@ -25,7 +25,8 @@
   (backward-char 14))
 
 (cg-configs-modo
+ :tabla t
  :quitar ("C-c c")
- :poner  (("C-c d" . cg-twig-code)
+ :poner(("C-c d" . cg-twig-code)
 		  ("C-c t" . cg-twig-etiqueta)
 		  ("C-c b" . cg-twig-block)))

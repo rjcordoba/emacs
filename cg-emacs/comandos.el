@@ -4,7 +4,20 @@
 ;    Funciones para los keybindings
 ;------------------------------------------------------------------
 
+(require 'funciones)
+
 (defmacro λ (&rest forms) (append '(lambda () (interactive)) forms))
+
+(defun cg-comando-proy (n)
+  "Pide un comando y lo ejecuta con el directorio del proyecto como directorio actual. Si
+el argumento es 4 pide directorio en el que se ejecutará el comando. Si es mayor que 4 el 
+directorio actual sera el directorio del archivo actual."
+  (interactive "p")
+  (cg-shell-comando
+   (read-from-minibuffer (colorear-consulta "Comando: "))
+   (if (eq n 4)
+	   (read-directory-name (colorear-consulta "Directorio: "))
+	 (when (> n 4) default-directory))))
 
 (defun otra-ventana (f v)
   "Ejecuta el form f en otra ventana sin dejarla activa."
@@ -26,11 +39,12 @@
 	(interactive "P")
 	(if (window-live-p vent-dired)
 		(set-window-dedicated-p vent-dired nil)
-	  (setq vent-dired (let ((lado (unless n 'left))) (split-window (frame-root-window) (when lado (* (/ (frame-width) 9) 7)) lado))))
+	  (setq vent-dired (let ((lado (unless n 'left)))
+						 (split-window (frame-root-window) (when lado (* (/ (frame-width) 9) 7)) lado))))
 	(select-window vent-dired)
 	(pcase (elt (this-command-keys) 1)
 	  (?d (dired (or (file-name-directory (primer-arch (buffer-list))) "/almacenamiento/proyectos")))
-	  (?D (dired (read-file-name "Directorio: ")))
+	  (?D (dired (read-file-name (colorear-consulta "Directorio: "))))
 	  (?b (ibuffer)))
 	(set-window-dedicated-p vent-dired t)
 	(setq window-size-fixed 'width))
@@ -42,14 +56,24 @@
 		(delete-window vent-dired)
 	  (error "La ventana dired no está abierta"))))
 
-(let ((vent-shell nil))
-  (defun abrir-shell (x)
+(let ((vent-shell nil)
+	  (lateral nil))
+  (defun abrir-shell (x n)
 	"Abre una ventana a la derecha con el buffer correspondiente según el comando."
-	(interactive "c")
+	(interactive "c\nP")
 	(let ((abierta (window-live-p vent-shell))
 		  (default-directory (or cg-origen default-directory)))
+	  (when (and abierta (or (and lateral n) (not (or lateral n))))
+		(cerrar-shell)
+		(setq abierta nil))
 	  (unless abierta
-		(setq vent-shell (display-buffer-in-side-window (current-buffer) '((side . right) (window-width . 0.37)))))
+		(setq vent-shell
+			  (display-buffer-in-side-window
+			   (current-buffer)
+			   (if n 
+				   '((side . bottom) (window-height . 0.37))
+				 '((side . right) (window-width . 0.37))))))
+	  (setq lateral (not n))
 	  (set-window-dedicated-p (select-window vent-shell) nil)
 	  (pcase x
 		(?t (term "/bin/bash"))
@@ -82,7 +106,9 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
 	(interactive "p")
 	(setq n (max n 2))
 	(if (follow-mode 'toggle)
-		(while (< 1 n) (push (split-window-horizontally) v) (setq n (1- n)))
+		(while (< 1 n)
+		  (push (split-window-horizontally) v)
+		  (setq n (1- n)))
       (dolist (i v) (delete-window i))
 	  (setq v nil))
 	(balance-windows)))
@@ -167,12 +193,12 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
   (indent-relative))
 
 (defun borrar-línea ()
-  "Si hay texto seleccionado lo borra; si no borra la línea donde esté
-   el cursor y deja éste al final de la línea anterior."
+  "Borra la línea donde esté el cursor y deja éste al final de
+la línea anterior. Si hay texto seleccionado lo borra antes "
   (interactive)
-  (if (use-region-p)
-	  (backward-delete-char 2)
-	(kill-whole-line -1)))
+  (when (use-region-p)
+	(backward-delete-char 1))
+  (kill-whole-line -1))
 
 (defun seleccionar-líneas (n)
   "Selecciona la línea actual. Con argumento selecciona n líneas empezando desde la actual."
@@ -187,6 +213,22 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
   (backward-word)
   (mark-word)
   (exchange-point-and-mark))
+
+(defun escribir-fin-líneas (ini fin)
+  "Pide texto y lo añade al final de las líneas seleccionadas"
+  (interactive "r")
+  (let ((s (read-string (colorear-cab "Texto: "))))
+	(unless (use-region-p)
+	  (setq ini (point))
+	  (setq fin (point)))
+	(goto-char fin)
+	(end-of-line)
+	(while (>= (point) ini)
+	  (insert s)
+	  (forward-line -1)
+	  (end-of-line))
+	(forward-line)
+	(end-of-line)))
 
 (defun volver-a-backup ()
   "Volver al archivo backup despreciando los cambios.
@@ -203,11 +245,9 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
   (let ((p (point)))
 	(beginning-of-line)
 	(setq p (- p (point)))
-	(kill-line)
-	(backward-delete-char 1)
+	(kill-whole-line -1)
 	(forward-line n)
 	(end-of-line)
-	(insert "\n")
 	(yank)
 	(move-beginning-of-line 1)
 	(forward-char p)))
@@ -236,12 +276,8 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
 	  (pars '((?' . ?')   (?` . ?`)    (?< . ?>)    (?« . ?»)   (?“ . ?”)   (?‘ . ?’)
 			  (?¡ . ?!)   (?\" . ?\")  (?\( . ?\))  (?¿ . ??)   (?{ . ?})   (?\[ . ?\])))
 	  (simbs "")
-	  (er-a)
-	  (er-c))
-
-  (let ((e "No se ha encontrado símbolo de "))
-	(setq er-a (concat e "apertura")
-		  er-c (concat e "cierre")))
+	  (er-a "No se ha encontrado símbolo de apertura.")
+	  (er-c "No se ha encontrado símbolo de cierre."))
 
   (dolist (e pars)
 	(setq simbs
@@ -278,7 +314,7 @@ anidamientoscon ese símbolo que pueda haber entre medio."
 		  (push t pila)))))
 
   (defun sel-en-pareja (n)
-	"Selecciona el texto alrededor del point que esté entre comillas, interrogaciones...
+	"Selecciona el texto alrededor del «point» que esté entre comillas, interrogaciones...
    Con prefijo descarta los símbolos de apertura y cierre; selecciona sólo el contenido."
 	(interactive "P")
 	(condition-case nil
@@ -304,7 +340,7 @@ y cierre será el mismo. Con prefijo pide segundo símbolo para usarlo como cier
 de la selección. Con doble prefijo incluye los símbolos de apertura y cierre en la selección."
 	(interactive "p\ns Símbolo: ")
 	(let ((c2 (if (> n 1)
-				  (read-string "Segundo símbolo: ")
+				  (read-string (colorear-cab "Segundo símbolo: "))
 				c1)))
 	  (condition-case nil
   		  (search-backward c1)
@@ -318,8 +354,8 @@ de la selección. Con doble prefijo incluye los símbolos de apertura y cierre e
 		(exchange-point-and-mark))
 	  (backward-char)))
 
-  (defun parejas (n)
-	"Para poner paréntesis, llaves, interrogaciones..."
+    (defun parejas (n)
+	  "Para poner paréntesis, llaves, interrogaciones..."
 	(interactive "P")
 	(when n
 	  (insert "=")
@@ -335,7 +371,9 @@ de la selección. Con doble prefijo incluye los símbolos de apertura y cierre e
 			   (?\C-\M-' ?<)	(67108927 ?«)		(?\C-¡ ?¡)	   (?\C-\M-¿ ?\[)
 			   (?\C-¿ ?¿)		(?\C-\M-¡ ?\()		(?¿ ?“)		   (?\M-¿ ?{))))
 	  (insert (cdr (assq s pars)))
-	  (goto-char p)
-	  (insert s))))
+	  (let ((f (point)))
+		(goto-char p)
+		(insert s)
+		(goto-char f)))))
 
 (provide 'comandos)

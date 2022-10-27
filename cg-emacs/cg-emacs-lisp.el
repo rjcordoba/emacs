@@ -3,6 +3,7 @@
 ;    Configuraciones para el modo elisp.
 ;------------------------------------------------------------------
 (cg-configs-modo
+ :tabla t
  :poner (("C-c p" . show-paren-mode)
 		 ("C-c j" . backward-sexp)
 		 ("C-c ñ" . forward-sexp)

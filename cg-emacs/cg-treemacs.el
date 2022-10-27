@@ -3,6 +3,7 @@
 (treemacs-create-icon :file "twig.png" :fallback "html.png" :extensions ("twig"))
 
 (cg-configs-modo
+ :tabla t
  :quitar ("C-k")
  :poner (("C-f" . treemacs-find-file)
  		 ("C-t" . treemacs-find-tag)

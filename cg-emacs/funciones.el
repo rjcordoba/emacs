@@ -28,10 +28,20 @@
   (put-text-property 0 (length s) 'face 'cg-consulta s)
   s)
 
-(defun cg-comando-fondo (c)
-  "Ejecuta de fonde el comando que se mete como argumento."
-  (let ((default-directory (or cg-origen (read-directory-name "Directorio: "))))
-	(async-shell-command c))
+(defun cg-comando-fondo (c &optional d)
+  "Ejecuta comando shell asíncrono. Llama a la función cg-comando."
+  (cg-comando c t d))
+
+(defun cg-shell-comando (c &optional d)
+  "Ejecuta comando shell síncrono. Llama a la función cg-comando."
+  (cg-comando c nil d))
+
+(defun cg-comando (c async &optional d)
+  "Ejecuta de fonde el comando que se mete como argumento. Si se mete argumento d lo toma
+como directorio actual. Si no toma como directorio el del proyecto. En caso de que éste no
+existiera, y como último recurso, pregunta el directorio en el que se ejecutará el comando."
+  (let ((default-directory (or d cg-origen (read-directory-name "Directorio: "))))
+	(if async (async-shell-command c) (shell-command c)))
   (message "%s %s" (colorear-cab "Ejecutado:") c))
 
 (defun cg-vaciar-backups ()
@@ -59,11 +69,8 @@
 ;------------------------------------------------------------------------------------------
 
 (defun cg-servidor ()
-  "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
+  "Abre un subproceso de fondo con un servidor web; el comando está en «variables»."
   (interactive)
   (cg-comando-fondo cg-var-servidor))
 
-(defun cg-comando-proy ()
-  "Abre un subproceso en fondo con un servidor web; el comando está en «variables»."
-  (interactive)
-  (cg-comando-fondo (read-from-minibuffer (colorear-consulta "Comando: "))))
+(provide 'funciones)

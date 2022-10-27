@@ -1,3 +1,8 @@
+;------------------------------------------------------------------
+;    Archivo de configuración de Emacs - R. Córdoba García
+;    Utilidades para lsp
+;------------------------------------------------------------------
+
 (setq gc-cons-threshold					 100000000
 	  lsp-completion-provider			 :capf
 	  lsp-ui-doc-enable					 nil

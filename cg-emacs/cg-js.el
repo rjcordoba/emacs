@@ -4,4 +4,6 @@
 ;------------------------------------------------------------------
 
 (cg-configs-modo
- :quitar ("M-."))
+ :quitar ("M-.")
+ :hook #'tree-sitter-hl-mode
+ :poner (("C-c s" . cg-servidor)))
