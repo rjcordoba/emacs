@@ -1,9 +1,8 @@
-;--------------------------------------------------------------------
+;-----------------------------------------------------------------------------------------------
 ;  Archivo de configuración de Emacs - R. Córdoba García
-;  Funciones para configuraciones personales de modos.
-;  Archivo para que esté en el mismo sitio toda la lógica de
-;  cómo se cargan las configuraciones personales de los modos.
-;--------------------------------------------------------------------
+;  Funciones para configuraciones personales de modos. Archivo para que esté en el
+;  mismo sitio toda la lógica de cómo se cargan las configuraciones personales de los modos.
+;-----------------------------------------------------------------------------------------------
 
 (defun cg--poner-keys (keys map)
   (let ((mapa (or map (current-local-map)))

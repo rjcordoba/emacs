@@ -114,8 +114,8 @@
 ("M-p" . copy-rectangle-as-kill)
 
 ;Transposiciones.
-("C-S-t" . transpose-lines)			 ("C-ŧ" . mover-línea)				("C-M-S-t" . ,(λ (transpose-paragraphs -1)))
-("C-M-t" . transpose-paragraphs)	 ("C-Ŧ" . ,(λ (mover-línea -1)))	("M-S-t" . ,(λ (transpose-words -1)))
+("C-S-t" . transpose-lines)			("C-ŧ" . mover-línea-abajo)		("C-M-S-t" . ,(λ (transpose-paragraphs -1)))
+("C-M-t" . transpose-paragraphs)	("C-Ŧ" . mover-línea-arriba)	("M-S-t" . ,(λ (transpose-words -1)))
 
 ;Seleccionar.
 ("M-H" . sel-en-pareja)			("C-h" . seleccionar-palabra)		("C-S-h" . exchange-point-and-mark)

@@ -10,7 +10,7 @@
 
 (defun cg-comando-proy (n)
   "Pide un comando y lo ejecuta con el directorio del proyecto como directorio actual. Si
-el argumento es 4 pide directorio en el que se ejecutará el comando. Si es mayor que 4 el 
+el argumento es 4 pide directorio en el que se ejecutará el comando. Si es mayor que 4 el
 directorio actual sera el directorio del archivo actual."
   (interactive "p")
   (cg-shell-comando
@@ -70,7 +70,7 @@ directorio actual sera el directorio del archivo actual."
 		(setq vent-shell
 			  (display-buffer-in-side-window
 			   (current-buffer)
-			   (if n 
+			   (if n
 				   '((side . bottom) (window-height . 0.37))
 				 '((side . right) (window-width . 0.37))))))
 	  (setq lateral (not n))
@@ -239,17 +239,38 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
 		(insert-file-contents-literally a nil nil nil t)
 	  (error " No hay backup de este archivo."))))
 
-(defun mover-línea (n)
-  "Mueve la línea donde está el cursor hacia abajo si n es positivo y hacia arriba si es negativo."
-  (interactive "p")
+(defun mover-línea-arriba ()
+  "Mueve la línea donde está el cursor hacia arriba."  
+  (interactive)
   (let ((p (point)))
 	(beginning-of-line)
 	(setq p (- p (point)))
-	(kill-whole-line -1)
-	(forward-line n)
-	(end-of-line)
+	(kill-whole-line 1)
+	(if (eq (point) (point-min))
+		(insert "\n"))
+	(forward-line -1)
 	(yank)
-	(move-beginning-of-line 1)
+	(forward-line -1)
+	(forward-char p)))
+
+(defun mover-línea-abajo ()
+  "Mueve la línea donde está el cursor hacia abajo."
+  (interactive)
+  (let ((p (point)))
+	(beginning-of-line)
+	(setq p (- p (point)))
+	(if (eq (point) (point-min))
+		(progn
+		  (kill-whole-line 0)
+		  (kill-append "\n" t)
+		  (delete-char 1))
+	  (kill-whole-line -1)
+	  (forward-line 1))
+	(end-of-line)
+	(when (eq (point) (point-max))
+	  (insert "\n"))
+	(yank)
+	(beginning-of-line)
 	(forward-char p)))
 
 (defun cerrar-ventana (n)

@@ -89,4 +89,4 @@
  "ielm"			 "js"		 	  "lsp"			"nxml"
  "org"			 "php"			  "picture"		"prog"
  "sgml"			 "tex"			  "treemacs"	"typescript"
- "twig"			 "yaml")
+ "twig"			 "yaml"			  "web")
