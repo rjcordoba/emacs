@@ -196,9 +196,9 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
   "Borra la línea donde esté el cursor y deja éste al final de
 la línea anterior. Si hay texto seleccionado lo borra antes "
   (interactive)
-  (when (use-region-p)
-	(backward-delete-char 1))
-  (kill-whole-line -1))
+  (if (use-region-p)
+	  (backward-delete-char 1)
+	(kill-whole-line -1)))
 
 (defun seleccionar-líneas (n)
   "Selecciona la línea actual. Con argumento selecciona n líneas empezando desde la actual."
