@@ -59,7 +59,7 @@
 				ivy-minibuffer-map))
 	  (define-key (symbol-value mapa) (kbd "C-j") nil))))
 ;;-----------------------------------------------------------------------------------------
- 
+
 ;Para que no salte la ventana cuando se ejecuta un comando shell de fondo.
 (add-to-list 'display-buffer-alist '("\\*Async Shell Command\\*" . (display-buffer-no-window)))
 
@@ -84,9 +84,9 @@
 (require 'func-modos)
 
 (cg-retocar-modos
- "company"		 "counsel"		  "css"			"dired"
- "doc-view"		 "emacs-lisp"	  "emmet"		"ibuffer"
- "ielm"			 "js"		 	  "lsp"			"nxml"
- "org"			 "php"			  "picture"		"prog"
- "sgml"			 "tex"			  "treemacs"	"typescript"
- "twig"			 "yaml"			  "web")
+ "c				 ""company"		"counsel"		"css"
+ "dired"		 "doc-view"		"emacs-lisp"	"emmet"
+ "ibuffer"		 "ielm"			"js"			"lsp"
+ "nxml"			 "org"			"php"			"picture"
+ "prog"			 "sgml"			"tex"			"treemacs"
+ "typescript"	 "twig"			"yaml"			"web")

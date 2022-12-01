@@ -32,7 +32,7 @@
 ("C-]" . kmacro-edit-macro)		  ("C-M-+" . kmacro-step-edit-macro)	("<C-f4>" . apply-macro-to-region-lines)
 ("M-+" . kmacro-insert-counter)
 
-;copiar/pegar
+;Copiar/Pegar
 ("C-z" . kill-ring-save)	("C-S-z" . kill-region)	   ("M-z" . yank)
 
 ;Deshacer.
@@ -42,6 +42,7 @@
 ;Comandos.
 ("M-<" . eval-expression)	 ("M->" . repeat-complex-command)	 ("C-M-<" . async-shell-command)
 ("C->" . shell-command)		 ("C-<" . shell-command-on-region)	 ("C-|" . cg-comando-proy)
+("C-x g" . grep-buscar-string)
 
 ;Edición recursiva.
 ("C-r" . recursive-edit)	("C-S-r" . exit-recursive-edit)
@@ -110,8 +111,8 @@
 ("C-M-o" . open-rectangle)		   ("M-O" . clear-rectangle)			("C-M-p" . rectangle-number-lines)
 ("M-o" . yank-rectangle)		   ("C-o" . string-insert-rectangle)	("C-M-S-p" . delete-trailing-whitespace)
 ("C-S-o" . string-rectangle)	   ("C-M-S-o" . delete-rectangle)		("C-x M-p" . mc/mark-next-like-this)
-("C-x o" . escribir-fin-líneas)	   ("C-x p" . mc/mark-pop)				("C-x M-S-p" . mc/mark-previous-like-this)
-("M-p" . copy-rectangle-as-kill)
+("C-x o" . escribir-fin-líneas)	   ("C-x p" . copy-rectangle-as-kill)	("C-x M-S-p" . mc/mark-previous-like-this)
+("M-p" . mc/mark-pop)
 
 ;Transposiciones.
 ("C-S-t" . transpose-lines)		("C-ŧ" . mover-línea-abajo)		("Ŧ" . ,(λ (transpose-paragraphs -1)))

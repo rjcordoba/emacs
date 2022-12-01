@@ -5,6 +5,7 @@
 
 (setq gc-cons-threshold					 100000000
 	  lsp-completion-provider			 :capf
+	  lsp-ui-doc-position				 'at-point
 	  read-process-output-max			 (* 1024 1024)
 	  company-format-margin-function	 #'company-vscode-light-icons-margin)
 
@@ -23,4 +24,5 @@
 		 ("c" . lsp-find-definition)
 		 ("v" . lsp-ui-doc-mode)
 		 ("f" . lsp-ivy-workspace-symbol)
+		 ("d" . (λ (setq lsp-ui-doc-show-with-cursor (not lsp-ui-doc-show-with-cursor))))
 		 ("." . lsp-ui-doc-focus-frame)))

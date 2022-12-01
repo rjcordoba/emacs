@@ -19,8 +19,18 @@ directorio actual sera el directorio del archivo actual."
 	   (read-directory-name (colorear-consulta "Directorio: "))
 	 (when (> n 4) default-directory))))
 
+(defun grep-buscar-string (n)
+  "Pide un string y un directorio y busca el string con «grep».
+Con argumento lo busca en el directorio actual."
+  (interactive "P")
+  (cg-comando-fondo
+   (concat "grep -R " (read-from-minibuffer (colorear-consulta "String a buscar: ")))
+   (if n
+	   default-directory
+	 (read-directory-name (colorear-consulta "Directorio: ")))))
+
 (defun otra-ventana (f v)
-  "Ejecuta el form f en otra ventana sin dejarla activa."
+  "Ejecuta el form «f» en otra ventana sin dejarla activa."
   (let ((w (selected-window)))
 	(select-window v)
 	(if (symbolp f)
@@ -127,7 +137,7 @@ Sin argumento abre una nueva ventana; con él abre el número que se indique."
 		(set-window-next-buffers vent-2 next))
 	(error " No son dos ventanas visibles.")))
 
-(defun int-buffers (&optional n)
+(defun int-buffers (n)
   "Intercambia los buffers de la ventana actual y la siguiente; con argumento, con la anterior."
   (interactive "P")
   (intercambiar-buffers (selected-window) (if n (next-window) (previous-window))))
@@ -240,7 +250,7 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
 	  (error " No hay backup de este archivo."))))
 
 (defun mover-línea-arriba ()
-  "Mueve la línea donde está el cursor hacia arriba."  
+  "Mueve la línea donde está el cursor hacia arriba."
   (interactive)
   (let ((p (point)))
 	(beginning-of-line)
@@ -273,8 +283,34 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
 	(beginning-of-line)
 	(forward-char p)))
 
+(defun comentar/descomentar-bloque (inicial final &optional línea)
+  "Si el cursor se encuentra en un comentario lo elimina, tanto si es de bloque
+como si es de línea. Si no está en un comentario pone comentario de bloque entre
+principio y fin de la selección; si no existe selección comenta el párrafo."
+  (let ((syntax (syntax-ppss))
+		(p (point))
+		(salto (length inicial)))
+	(if (nth 4 syntax)
+		(progn
+		  (goto-char (nth 8 syntax))
+		  (if (looking-at (string-trim inicial))
+			  (progn
+				(delete-char salto)
+				(search-forward final)
+				(delete-char (- (length final))))
+			(setq salto (length línea))
+			(delete-char salto))
+		  (goto-char (- p salto)))
+	  (when (not (use-region-p))
+		(mark-paragraph))
+	  (let ((end (region-end)))
+		(goto-char (region-beginning))
+		(insert inicial)
+		(goto-char (+ end salto))
+		(insert final)))))
+
 (defun cerrar-ventana (n)
-  "Para cerrar las ventanas o los buffers que se abren sin llamarlos directamente.
+  "Para cerrar las ventanas o los buffers cuyo nombre empieza por asterisco.
 Con prefijo elimina el buffer en vez de hundirlo en la lista."
   (interactive "P")
   (walk-windows
@@ -284,13 +320,13 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
    'no nil))
 
 (defun lorem-ipsum-cg (n)
-  "Mete tantos párrafos de Lorem Ipsum como diga el argumento; lo máximo son 25."
+  "Mete tantos párrafos de Lorem Ipsum como diga el argumento; lo máximo son 50."
   (interactive "p")
   (insert
    (with-temp-buffer
 	 (insert-file-contents (directorio-cg "plantillas/lorem_ipsum.txt"))
 	 (goto-char 1)
-	 (forward-paragraph (min n 25))
+	 (forward-paragraph (min n 50))
 	 (buffer-substring 1 (point)))))
 
 (let (
@@ -310,7 +346,7 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
 
   (defun cg-inicio-nido (s)
 	"Deja el point a la izquierda del símbolo «s» saltándose los
-anidamientoscon ese símbolo que pueda haber entre medio."
+anidamientos con ese símbolo que pueda haber entre medio."
 	(let ((pila nil)
 		  (ss (reg--letras s)))
 	  (push t pila)
