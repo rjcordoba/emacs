@@ -8,10 +8,10 @@
 
 (defmacro λ (&rest forms) (append '(lambda () (interactive)) forms))
 
-(defun cg-comando-proy (n)
+(defun cg-comando-proyecto (n)
   "Pide un comando y lo ejecuta con el directorio del proyecto como directorio actual. Si
 el argumento es 4 pide directorio en el que se ejecutará el comando. Si es mayor que 4 el
-directorio actual sera el directorio del archivo actual."
+directorio actual será el directorio del archivo actual."
   (interactive "p")
   (cg-shell-comando
    (read-from-minibuffer (colorear-consulta "Comando: "))
@@ -24,10 +24,10 @@ directorio actual sera el directorio del archivo actual."
 Con argumento lo busca en el directorio actual."
   (interactive "P")
   (cg-comando-fondo
-   (concat "grep -R " (read-from-minibuffer (colorear-consulta "String a buscar: ")))
+   (concat "grep -R \"" (read-from-minibuffer (colorear-consulta "String a buscar: ")) "\"")
    (if n
 	   default-directory
-	 (read-directory-name (colorear-consulta "Directorio: ")))))
+	 (counsel-read-directory-name (colorear-consulta "Directorio: ")))))
 
 (defun otra-ventana (f v)
   "Ejecuta el form «f» en otra ventana sin dejarla activa."
@@ -86,7 +86,7 @@ Con argumento lo busca en el directorio actual."
 	  (setq lateral (not n))
 	  (set-window-dedicated-p (select-window vent-shell) nil)
 	  (pcase x
-		(?t (term "/bin/bash"))
+		(?t (term "/bin/bash")) 
 		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
 		(?s (eshell))
 		(?a (ielm))
@@ -108,11 +108,17 @@ Con argumento lo busca en el directorio actual."
 		(delete-window vent-shell)
 	  (error "La ventana shell no está abierta"))))
 
+(defun abrir-shell-abajo (c)
+  "Llama a la función «vent-shell» con argumento para que
+abra la ventana abajo; como llamar a «vent-shell» con C-u."
+  (interactive "c")
+  (abrir-shell c t))
+
 (let ((v nil))
   (defun poner-follow (n)
-	"Abre otras ventanas y pone follow mode o lo quita.
-Cierra las ventanas que se habían abierto anteriormente con este comando.
-Sin argumento abre una nueva ventana; con él abre el número que se indique."
+	"Abre otras ventanas y pone follow mode o lo quita. Cierra las ventanas
+que se habían abierto anteriormente con este comando.Sin argumento abre una
+nueva ventana; con él abre el número que se indique."
 	(interactive "p")
 	(setq n (max n 2))
 	(if (follow-mode 'toggle)
@@ -284,30 +290,42 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
 	(forward-char p)))
 
 (defun comentar/descomentar-bloque (inicial final &optional línea)
-  "Si el cursor se encuentra en un comentario lo elimina, tanto si es de bloque
-como si es de línea. Si no está en un comentario pone comentario de bloque entre
-principio y fin de la selección; si no existe selección comenta el párrafo."
+  "Si el cursor se encuentra en un comentario lo elimina, tanto si es de bloque como si
+es de línea. Si no está en un comentario pone comentario de bloque entre principio y fin
+de la selección; si no existe selección comenta el párrafo donde está el cursor."
   (let ((syntax (syntax-ppss))
 		(p (point))
 		(salto (length inicial)))
 	(if (nth 4 syntax)
 		(progn
 		  (goto-char (nth 8 syntax))
-		  (if (looking-at (string-trim inicial))
+		  (if (looking-at inicial)
 			  (progn
 				(delete-char salto)
+				(when (eq (char-after) ?\s)
+				  (delete-char 1)
+				  (setq salto (1+ salto)))
 				(search-forward final)
-				(delete-char (- (length final))))
+				(delete-char (- (length final)))
+				(when (eq (char-before) ?\s)
+				  (delete-char -1)))
 			(setq salto (length línea))
 			(delete-char salto))
+		  (when (eq (char-after) ?\s)
+			(delete-char 1))
 		  (goto-char (- p salto)))
-	  (when (not (use-region-p))
-		(mark-paragraph))
-	  (let ((end (region-end)))
-		(goto-char (region-beginning))
-		(insert inicial)
-		(goto-char (+ end salto))
-		(insert final)))))
+	(when (not (use-region-p))
+	  (mark-paragraph))
+	(let ((end (region-end)))
+	  (goto-char (region-beginning))
+	  (unless (eolp)
+		(setq inicial (concat inicial " "))
+		(setq salto (1+ salto)))
+	  (insert inicial)
+	  (goto-char (+ end salto))
+	  (unless (bolp)
+		(setq final (concat " " final)))
+	  (insert final)))))
 
 (defun cerrar-ventana (n)
   "Para cerrar las ventanas o los buffers cuyo nombre empieza por asterisco.

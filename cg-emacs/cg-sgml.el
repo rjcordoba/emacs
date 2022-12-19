@@ -21,4 +21,5 @@
   ("M-l" . (λ (search-forward ">")))
   ("C-c e" . plantilla-html)
   ("C-c s" . cg-servidor)
+  ("C-c C-c" . (λ (comentar/descomentar-bloque "<!-- " " -->")))
   ("C-c C-w" . (lookup-key web-mode-map (kbd "C-c")))))

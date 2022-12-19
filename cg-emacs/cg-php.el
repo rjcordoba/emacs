@@ -20,6 +20,6 @@
  :poner
  (("C-c -" . (λ (insert "->")))
   ("C-c _" . (λ (insert "=>")))
-  ("C-c C-c" . (λ (comentar/descomentar-bloque "/\* " " \*/" "// ")))
+  ("C-c C-c" . (λ (comentar/descomentar-bloque "/\*" "\*/" "//")))
   ("C-c s" . cg-servidor)
   ("C-c e" . empezar-php)))

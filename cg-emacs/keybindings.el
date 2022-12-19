@@ -41,7 +41,7 @@
 
 ;Comandos.
 ("M-<" . eval-expression)	 ("M->" . repeat-complex-command)	 ("C-M-<" . async-shell-command)
-("C->" . shell-command)		 ("C-<" . shell-command-on-region)	 ("C-|" . cg-comando-proy)
+("C->" . shell-command)		 ("C-<" . shell-command-on-region)	 ("C-|" . cg-comando-proyecto)
 ("C-x g" . grep-buscar-string)
 
 ;Edición recursiva.
@@ -74,7 +74,8 @@
 ("<menu> d" . abrir-Dired)		   ("<menu> G" . cerrar-dired)		("<menu> n" . display-line-numbers-mode)
 ("<menu> D" . abrir-Dired)		   ("<menu> f" . poner-follow)		("<menu> t" . treemacs-select-window)
 ("<menu> b" . abrir-Dired)		   ("<menu> w" . speedbar)			("<menu> l" . global-tab-line-mode)
-("<menu> <menu>" . abrir-shell)	   ("<menu> T" . treemacs)			("<menu> g" . cerrar-shell)
+("<C-menu>" . abrir-shell)		   ("<menu> T" . treemacs)			("<menu> g" . cerrar-shell)
+("<C-S-menu>" . abrir-shell-abajo)
 
 ;Frames.
 ("<menu> z" . make-frame)	   ("<menu> đ" . other-frame);Altgr f
