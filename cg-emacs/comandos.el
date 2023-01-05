@@ -27,7 +27,7 @@ Con argumento lo busca en el directorio actual."
    (concat "grep -R \"" (read-from-minibuffer (colorear-consulta "String a buscar: ")) "\"")
    (if n
 	   default-directory
-	 (counsel-read-directory-name (colorear-consulta "Directorio: ")))))
+	 (read-directory-name (colorear-consulta "Directorio: ")))))
 
 (defun otra-ventana (f v)
   "Ejecuta el form «f» en otra ventana sin dejarla activa."
@@ -68,6 +68,23 @@ Con argumento lo busca en el directorio actual."
 
 (let ((vent-shell nil)
 	  (lateral nil))
+
+  (defun ayuda-abrir-shell ()
+	(let ((nombre-buffer "*Opciones abrir-shell*"))
+	  (when (not (buffer-live-p nombre-buffer))
+		(set-buffer (generate-new-buffer nombre-buffer))
+		(insert "
+   " (colorear-texto "Ctrl-Menu (Ctrl-Shift-Menu abre ventana abajo)
+-----------------------------------------------------" 'cg-gris-azul) "
+ " (cg-cl "t") ": terminal			   " (cg-cl "A") ": scratch
+ " (cg-cl "S") ": shell				   " (cg-cl "<") ": Shell output
+ " (cg-cl "s") ": emacs-shell			   " (cg-cl ">") ": Async shell output
+ " (cg-cl "a") ": intérprete elisp	   " (cg-cl "m") ": Messages
+")
+		(setq buffer-read-only t
+			  cursor-type nil))
+	  (get-buffer nombre-buffer)))
+
   (defun abrir-shell (x n)
 	"Abre una ventana a la derecha con el buffer correspondiente según el comando."
 	(interactive "c\nP")
@@ -94,9 +111,10 @@ Con argumento lo busca en el directorio actual."
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
 		(?m (switch-to-buffer (messages-buffer)))
+		(?h (switch-to-buffer (ayuda-abrir-shell)))
 		(_ (unless abierta (delete-window vent-shell))
 		   (setq abierta 'err)
-		   (error "«%c» no abre ningún buffer en la ventana." (elt (this-command-keys) 2))))
+		   (error "«%c» no abre ningún buffer en la ventana." (elt (this-command-keys) 1))))
 	  (unless (eq abierta 'err)
 		(set-window-dedicated-p vent-shell t)
 		(setq window-size-fixed 'width))))
@@ -143,7 +161,7 @@ nueva ventana; con él abre el número que se indique."
 		(set-window-next-buffers vent-2 next))
 	(error " No son dos ventanas visibles.")))
 
-(defun int-buffers (n)
+(defun cg-swap-buffers (n)
   "Intercambia los buffers de la ventana actual y la siguiente; con argumento, con la anterior."
   (interactive "P")
   (intercambiar-buffers (selected-window) (if n (next-window) (previous-window))))

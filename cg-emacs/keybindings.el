@@ -30,7 +30,7 @@
 ("C-M-]" . kbd-macro-query)		  ("<C-S-f4>" . kmacro-bind-to-key)		("<C-f3>" . kmacro-cycle-ring-next)
 ("M-*" . kmacro-set-format)		  ("C-*" . kmacro-add-counter)			("<C-S-f3>" . kmacro-cycle-ring-previous)
 ("C-]" . kmacro-edit-macro)		  ("C-M-+" . kmacro-step-edit-macro)	("<C-f4>" . apply-macro-to-region-lines)
-("M-+" . kmacro-insert-counter)
+("M-+" . kmacro-insert-counter)	  ;;F4->kmacro-end-or-call-macro		F3->kmacro-start-macro-or-insert-counter	 
 
 ;Copiar/Pegar
 ("C-z" . kill-ring-save)	("C-S-z" . kill-region)	   ("M-z" . yank)
@@ -48,9 +48,9 @@
 ("C-r" . recursive-edit)	("C-S-r" . exit-recursive-edit)
 ("C-®" . top-level)			("C-¶" . abort-recursive-edit)
 
-;Ispell.
+;Ispell y dabbrev.
 ("æ" . dabbrev-expand)	  ("C-Æ" . ispell-buffer)	 ("C-S-a" . ispell-complete-word)
-("Æ" . expand-abbrev)	  ("C-æ" . ispell-word)
+("Æ" . expand-abbrev)	  ("C-æ" . ispell-word)		 ("C-S-æ" . dabbrev-completion)	 
 
 ;Insertar/eliminar blancos.
 ("C-M-SPC" . insertar-espacios)		("C-M-S-SPC" . insertar-espacios-ad)	   ("<C-S-return>" . insertar-línea-encima-debajo)
@@ -101,7 +101,7 @@
 
 ;Ventanas.
 ("C-." . other-window)		  ("C-:" . ,(λ (other-window -1)))			("M-:" . ,(λ (select-window (split-window-below))))
-("C-·" . int-buffers)		  ("C-M-." . delete-other-windows)			("<menu> Q" . ,(λ (quit-window nil (previous-window))))
+("C-·" . cg-swap-buffers)	  ("C-M-." . delete-other-windows)			("<menu> Q" . ,(λ (quit-window nil (previous-window))))
 ("·" . ace-window)			  ("C-x C-." . sel-minibuffer)				("M-." . ,(λ (select-window (split-window-right))))
 ("C-M-:" . delete-window)	  ("<menu> q" . cerrar-ventana)				("C-M--" . balance-windows)
 ("M--" . enlarge-window)	  ("C-_" . shrink-window-horizontally)		("C-M-_" . shrink-window-if-larger-than-buffer)
@@ -112,7 +112,7 @@
 ("C-M-o" . open-rectangle)		   ("M-O" . clear-rectangle)			("C-M-p" . rectangle-number-lines)
 ("M-o" . yank-rectangle)		   ("C-o" . string-insert-rectangle)	("C-M-S-p" . delete-trailing-whitespace)
 ("C-S-o" . string-rectangle)	   ("C-M-S-o" . delete-rectangle)		("C-x M-p" . mc/mark-next-like-this)
-("C-x o" . escribir-fin-líneas)	   ("C-x p" . copy-rectangle-as-kill)	("C-x M-S-p" . mc/mark-previous-like-this)
+("C-x p" . escribir-fin-líneas)	   ("C-x o" . copy-rectangle-as-kill)	("C-x M-S-p" . mc/mark-previous-like-this)
 ("M-p" . mc/mark-pop)
 
 ;Transposiciones.
@@ -124,13 +124,13 @@
 ("C-M-S-h" . sel-pareja)		("C-M-h" . seleccionar-líneas)
 
 ;Registros.
-("C-9" . point-to-register)		  ("C-M-9" . number-to-register)	   ;("C-x 9" . window-configuration-to-rlegister)
+("C-9" . point-to-register)		  ("C-M-9" . number-to-register)	   ;("C-x 9" . window-configuration-to-register)
 ("C-)" . jump-to-register)		  ("C-8" . append-to-register)		   ("M-(" . window-configuration-to-register)
 ("M-9" . copy-to-register)		  ("C-(" . prepend-to-register)		   ("M-8" . copy-rectangle-to-register)
 ("M-)" . insert-register)		  ("C-M-8" . kmacro-to-register)	   ("C-M-)" . increment-register)
 
 ;Bookmarks.
-("M-Ç" . bookmark-rename)	 ("C-S-ç" . bookmark-jump)		  ("C-ç" . bookmark-set-no-overwrite)
+("M-Ç" . bookmark-rename)	 ("C-S-ç" . bookmark-jump)		  ("C-ç" . bookmark-set);-no-overwrite)
 ("C-M-ç" . bookmark-save)	 ("C-M-S-ç" . bookmark-delete)	  ("M-ç" . bookmark-bmenu-list)
 
 ;Mover el cursor izquierda-derecha / J-Ñ

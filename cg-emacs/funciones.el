@@ -8,6 +8,11 @@
 (defgroup cg-faces nil "Faces para usar en funciones propias."
   :group 'faces-group)
 
+(defface cg-ayuda-keys
+  '((t :foreground "#9ad813"))
+  "Color para las letras en la ayuda para keybindings."
+  :group 'cg-faces)
+
 (defface cg-cabecera
   '((t :foreground "#e59544"))
   "Color para presentar mensajes en el minibuffer."
@@ -17,6 +22,25 @@
   '((t :foreground "#0ed6be"))
   "Color para pedir texto en el minibuffer."
   :group 'cg-faces)
+
+(defface cg-amarillo-naranja
+  '((t :foreground "#ead57e"))
+  "Color amarillo/naranja (#ead57e)."
+  :group 'cg-faces)
+
+(defface cg-gris-azul
+  '((t :foreground "#c7e2e0"))
+  "Color verde azulado (#c7e2e0)."
+  :group 'cg-faces)
+
+(defun cg-cl (l)
+  "Para colorear letras o keys con la face amarillo/naranja."
+  (colorear-texto l 'cg-amarillo-naranja))
+
+(defun colorear-texto (s face)
+  "Devuelve el string «s» con la face «face» aplicada."
+  (put-text-property 0 (length s) 'face face s)
+  s)
 
 (defun colorear-cab (s)
   "Devuelve el string «s» con el estilo «cg-cabecera»."
@@ -40,7 +64,7 @@
   "Ejecuta de fonde el comando que se mete como argumento. Si se mete argumento «d» lo toma
 como directorio actual. Si no toma como directorio el del proyecto. En caso de que éste no
 existiera, y como último recurso, pregunta el directorio en el que se ejecutará el comando."
-  (let ((default-directory (or d cg-origen (counsel-read-directory-name "Directorio: "))))
+  (let ((default-directory (or d cg-origen (read-directory-name "Directorio: "))))
 	(if async
 		(async-shell-command c)
 	  (shell-command c))

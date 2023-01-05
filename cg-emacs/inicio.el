@@ -84,7 +84,7 @@
 (require 'func-modos)
 
 (cg-retocar-modos
- "c"             "company"		"counsel"		"css"
+ "c"			 "company"		"counsel"		"css"
  "dired"		 "doc-view"		"emacs-lisp"	"emmet"
  "ibuffer"		 "ielm"			"js"			"lsp"
  "nxml"			 "org"			"php"			"picture"
