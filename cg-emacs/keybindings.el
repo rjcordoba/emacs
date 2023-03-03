@@ -55,8 +55,8 @@
 ;Insertar/eliminar blancos.
 ("C-M-SPC" . insertar-espacios)		("C-M-S-SPC" . insertar-espacios-ad)	   ("<C-S-return>" . insertar-línea-encima-debajo)
 ("<C-tab>" . indent-relative)		("<C-iso-lefttab>" . alinear-tab-a)		   ("<C-M-return>" . electric-indent-just-newline)
-("<M-return>" . open-line)			("<C-return>" . insertar-línea-debajo)	   ("<S-return>" . insertar-línea-encima)
-("<M-S-return>" . split-line)		("S-SPC" . delete-horizontal-space)		   ("<C-M-tab>" . indent-region)
+("<M-return>" . abrir-línea)		("<C-return>" . insertar-línea-debajo)	   ("<S-return>" . insertar-línea-encima)
+("<C-M-tab>" . indent-region)		("S-SPC" . delete-horizontal-space)		   ("<M-S-return>" . abrir-línea-encima)
 ("C-x <C-tab>" . tabify)			("C-x <C-S-iso-lefttab>" . untabify)
 
 ;Búsquedas y búsquedas con sustitución.

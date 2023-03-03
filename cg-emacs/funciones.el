@@ -52,14 +52,6 @@
   (put-text-property 0 (length s) 'face 'cg-consulta s)
   s)
 
-(defun cg-comando-fondo (c &optional d)
-  "Ejecuta comando shell asíncrono. Llama a la función cg-comando."
-  (cg-comando c t d))
-
-(defun cg-shell-comando (c &optional d)
-  "Ejecuta comando shell síncrono. Llama a la función cg-comando."
-  (cg-comando c nil d))
-
 (defun cg-comando (c async &optional d)
   "Ejecuta de fonde el comando que se mete como argumento. Si se mete argumento «d» lo toma
 como directorio actual. Si no toma como directorio el del proyecto. En caso de que éste no
@@ -69,6 +61,14 @@ existiera, y como último recurso, pregunta el directorio en el que se ejecutar�
 		(async-shell-command c)
 	  (shell-command c))
 	(message "%s %s %s %s" (colorear-cab "Ejecutando:") c (colorear-cab "en") default-directory)))
+
+(defun cg-comando-fondo (c &optional d)
+  "Ejecuta comando shell asíncrono. Llama a la función cg-comando."
+  (cg-comando c t d))
+
+(defun cg-shell-comando (c &optional d)
+  "Ejecuta comando shell síncrono. Llama a la función cg-comando."
+  (cg-comando c nil d))
 
 (defun cg-vaciar-backups ()
 	"Vacía el directorio donde se guardan los archivos backups."

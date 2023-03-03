@@ -75,11 +75,12 @@ Con argumento lo busca en el directorio actual."
 		(set-buffer (generate-new-buffer nombre-buffer))
 		(insert "
    " (colorear-texto "Ctrl-Menu (Ctrl-Shift-Menu abre ventana abajo)
------------------------------------------------------" 'cg-gris-azul) "
+----------------------------------------------------" 'cg-gris-azul) "
  " (cg-cl "t") ": terminal			   " (cg-cl "A") ": scratch
  " (cg-cl "S") ": shell				   " (cg-cl "<") ": Shell output
  " (cg-cl "s") ": emacs-shell			   " (cg-cl ">") ": Async shell output
  " (cg-cl "a") ": intérprete elisp	   " (cg-cl "m") ": Messages
+ " (cg-cl "h") ": este panel
 ")
 		(setq buffer-read-only t
 			  cursor-type nil))
@@ -172,6 +173,24 @@ nueva ventana; con él abre el número que se indique."
   (if (active-minibuffer-window)
 	  (select-window (active-minibuffer-window))
 	(error "El minibuffer no está activo")))
+
+(defun abrir-línea-encima (n)
+  "Con argumento hace «split-line»; sin él inserta línea
+ arriba y pone el cursor allí con la indentación adecuada."
+  (interactive "P")
+  (if n
+	  (split-line)
+	(move-beginning-of-line nil)
+	(newline-and-indent)
+	(forward-line -1)
+	(indent-according-to-mode)))
+
+(defun abrir-línea ()
+  "Inserta líneas y dejar el cursor donde está. Como «open-line» con indentación."
+  (interactive)
+  (newline-and-indent)
+  (forward-line -1)
+  (end-of-line))
 
 (defun insertar-línea-encima (n)
   "Inserta líneas encima de en la que está el cursor."
