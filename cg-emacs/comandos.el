@@ -68,7 +68,7 @@ Con argumento lo busca en el directorio actual."
 
 (let ((vent-shell nil)
 	  (lateral nil))
-
+  
   (defun ayuda-abrir-shell ()
 	(let ((nombre-buffer "*Opciones abrir-shell*"))
 	  (when (not (buffer-live-p nombre-buffer))
@@ -84,7 +84,8 @@ Con argumento lo busca en el directorio actual."
 ")
 		(setq buffer-read-only t
 			  cursor-type nil))
-	  (get-buffer nombre-buffer)))
+	  (switch-to-buffer nombre-buffer))
+	(read-char "Seleccionar opción: "))
 
   (defun abrir-shell (x n)
 	"Abre una ventana a la derecha con el buffer correspondiente según el comando."
@@ -103,6 +104,8 @@ Con argumento lo busca en el directorio actual."
 				 '((side . right) (window-width . 0.37))))))
 	  (setq lateral (not n))
 	  (set-window-dedicated-p (select-window vent-shell) nil)
+	  (while (eq x ?h)
+		(setq x (ayuda-abrir-shell)))
 	  (pcase x
 		(?t (term "/bin/bash")) 
 		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
@@ -112,7 +115,6 @@ Con argumento lo busca en el directorio actual."
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
 		(?m (switch-to-buffer (messages-buffer)))
-		(?h (switch-to-buffer (ayuda-abrir-shell)))
 		(_ (unless abierta (delete-window vent-shell))
 		   (setq abierta 'err)
 		   (error "«%c» no abre ningún buffer en la ventana." (elt (this-command-keys) 1))))
