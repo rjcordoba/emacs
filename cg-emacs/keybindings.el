@@ -30,7 +30,7 @@
 ("C-M-]" . kbd-macro-query)		  ("<C-S-f4>" . kmacro-bind-to-key)		("<C-f3>" . kmacro-cycle-ring-next)
 ("M-*" . kmacro-set-format)		  ("C-*" . kmacro-add-counter)			("<C-S-f3>" . kmacro-cycle-ring-previous)
 ("C-]" . kmacro-edit-macro)		  ("C-M-+" . kmacro-step-edit-macro)	("<C-f4>" . apply-macro-to-region-lines)
-("M-+" . kmacro-insert-counter)	  ;;F4->kmacro-end-or-call-macro		F3->kmacro-start-macro-or-insert-counter	 
+("M-+" . kmacro-insert-counter)	  ;;F4->kmacro-end-or-call-macro		F3->kmacro-start-macro-or-insert-counter
 
 ;Copiar/Pegar
 ("C-z" . kill-ring-save)	("C-S-z" . kill-region)	   ("M-z" . yank)
@@ -50,7 +50,7 @@
 
 ;Ispell y dabbrev.
 ("æ" . dabbrev-expand)	  ("C-Æ" . ispell-buffer)	 ("C-S-a" . ispell-complete-word)
-("Æ" . expand-abbrev)	  ("C-æ" . ispell-word)		 ("C-S-æ" . dabbrev-completion)	 
+("Æ" . expand-abbrev)	  ("C-æ" . ispell-word)		 ("C-S-æ" . dabbrev-completion)
 
 ;Insertar/eliminar blancos.
 ("C-M-SPC" . insertar-espacios)		("C-M-S-SPC" . insertar-espacios-ad)	   ("<C-S-return>" . insertar-línea-encima-debajo)

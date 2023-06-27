@@ -3,16 +3,7 @@
 ;    Utilidades para el modo PHP
 ;------------------------------------------------------------------
 
-(defun empezar-php (n)
-  "Mete etiqueta PHP."
-  (interactive "p")
-  (insert "<?php")
-  (when (> n 1)
-	(insert "?>")
-	(backward-char 2))
-  (when (> n 4)
-	(backward-kill-word 1)
-	(insert "=")))
+(require 'func-php)
 
 (cg-configs-modo
  :tabla t
@@ -22,4 +13,4 @@
   ("C-c _" . (λ (insert "=>")))
   ("C-c C-c" . (λ (comentar/descomentar-bloque "/\*" "\*/" "//")))
   ("C-c s" . cg-servidor)
-  ("C-c e" . empezar-php)))
+  ("C-c e" . poner-php)))

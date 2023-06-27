@@ -2,6 +2,7 @@
 ;    Archivo de configuración de Emacs - R. Córdoba García
 ;    Utilidades para el modo Dired
 ;------------------------------------------------------------------
+(setq dired-dwin-target t)
 
 (defun cg-abrir-archivo (&optional n)
    "Abre en la ventana que se seleccione con el argumento el archivo

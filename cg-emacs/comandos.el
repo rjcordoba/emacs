@@ -188,11 +188,12 @@ nueva ventana; con él abre el número que se indique."
 	(indent-according-to-mode)))
 
 (defun abrir-línea ()
-  "Inserta líneas y dejar el cursor donde está. Como «open-line» con indentación."
+  "Inserta salto de línea y deja el cursor donde está. Como «open-line» pero con indentación."
   (interactive)
   (newline-and-indent)
   (forward-line -1)
-  (end-of-line))
+  (end-of-line)
+  (indent-according-to-mode))
 
 (defun insertar-línea-encima (n)
   "Inserta líneas encima de en la que está el cursor."
@@ -335,11 +336,11 @@ de la selección; si no existe selección comenta el párrafo donde está el cur
   (let ((syntax (syntax-ppss))
 		(p (point))
 		(salto (length inicial)))
-	(if (nth 4 syntax)
-		(progn
+	(if (nth 4 syntax);;1
+		(progn ;;1
 		  (goto-char (nth 8 syntax))
-		  (if (looking-at inicial)
-			  (progn
+		  (if (looking-at inicial) ;;2
+			  (progn ;;2
 				(delete-char salto)
 				(when (eq (char-after) ?\s)
 				  (delete-char 1)
@@ -347,12 +348,12 @@ de la selección; si no existe selección comenta el párrafo donde está el cur
 				(search-forward final)
 				(delete-char (- (length final)))
 				(when (eq (char-before) ?\s)
-				  (delete-char -1)))
+				  (delete-char -1))) ;;fin del progn 2
 			(setq salto (length línea))
-			(delete-char salto))
+			(delete-char salto)) ;;fin del if 2
 		  (when (eq (char-after) ?\s)
 			(delete-char 1))
-		  (goto-char (- p salto)))
+		  (goto-char (- p salto))) ;;fin del progn 1
 	(when (not (use-region-p))
 	  (mark-paragraph))
 	(let ((end (region-end)))

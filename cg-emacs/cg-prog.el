@@ -10,11 +10,7 @@
 (cg-configs-modo
  :tabla t
  :poner
- (("C-c +" . hs-toggle-hiding)
-  ("C-c C-+" . hs-show-all)
-  ("C-c C-*" . hs-hide-all)
-  ("C-c M-+" . hs-hide-level)
-  ("M-l" . forward-list)
+ (("M-l" . forward-list)
   ("M-k" . backward-list))
  :hook
  (lambda ()

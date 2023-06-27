@@ -10,6 +10,5 @@
  		 ("C-t" . treemacs-find-tag)
  		 ("C-b" . treemacs-bookmark)
 		 ("C-c k" . treemacs-previous-project)
-		 ("C-c f" . treemacs-follow-mode)
 		 ("C-c C-<" . treemacs-run-shell-command-for-current-node)
  		 ("C-c M-<" . treemacs-run-shell-command-in-project-root)))

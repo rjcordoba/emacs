@@ -6,6 +6,14 @@
 (require 'func-etiquetas)
 (require 'web-mode)
 
+(add-to-list 'hs-special-modes-alist
+             '(sgml-mode
+               "<[^/>]*>"
+               "</[^/>]*>"
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+
 (cg-configs-modo
  :tabla t
  :hook (λ (setq tab-width 2) (emmet-mode))

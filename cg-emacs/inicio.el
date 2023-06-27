@@ -86,7 +86,8 @@
 (cg-retocar-modos
  "c"			 "company"		"counsel"		"css"
  "dired"		 "doc-view"		"emacs-lisp"	"emmet"
- "ibuffer"		 "ielm"			"js"			"lsp"
- "nxml"			 "org"			"php"			"picture"
- "prog"			 "sgml"			"tex"			"treemacs"
- "typescript"	 "twig"			"yaml"			"web")
+ "hs-minor"		 "ibuffer"		"ielm"			"js"
+ "lsp"			 "nxml"			"org"			"php"
+ "picture"		 "prog"			"sgml"			"tex"
+ "treemacs"		 "typescript"	"twig"			"yaml"
+ "web")
