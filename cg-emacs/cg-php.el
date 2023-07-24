@@ -11,6 +11,7 @@
  :poner
  (("C-c -" . (λ (insert "->")))
   ("C-c _" . (λ (insert "=>")))
+  ("C-c =" . php-echo)
   ("C-c C-c" . (λ (comentar/descomentar-bloque "/\*" "\*/" "//")))
   ("C-c s" . cg-servidor)
   ("C-c e" . poner-php)))

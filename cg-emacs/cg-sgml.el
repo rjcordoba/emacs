@@ -16,7 +16,9 @@
 
 (cg-configs-modo
  :tabla t
- :hook (λ (setq tab-width 2) (emmet-mode))
+ :hook (λ
+		(setq tab-width 2)
+		(emmet-mode))
  :poner
  (("C-c h" . seleccionar-tag)
   ("C-c r" . renom-etiqueta)
