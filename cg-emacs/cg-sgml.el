@@ -22,7 +22,7 @@
  :poner
  (("C-c h" . seleccionar-tag)
   ("C-c r" . renom-etiqueta)
-  ("C-c C-c d" . lista-dl)
+  ("C-c C-d" . lista-dl)
   ("C-c l" . poner-atributo)
   ("C-c ñ" . poner-clase)
   ("C-c i" . poner-tag)

@@ -400,7 +400,11 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
 
   (setq simbs (concat "[" simbs "]"))
 
-  (defun reg--letras (s) (concat (char-to-string (cdr (assq s pars))) "\\|" (char-to-string s)))
+  (defun reg--letras (s)
+	(concat (char-to-string (cdr (assq s pars))) "\\|"
+			(if (eq ?\[ s)
+				"\\["
+			  (char-to-string s))))
 
   (defun cg-inicio-nido (s)
 	"Deja el point a la izquierda del símbolo «s» saltándose los

@@ -5,4 +5,4 @@
 
 (cg-configs-modo
  :quitar ("C-j" "C-M-l" "C-a")
- :poner (("C-M-j" . eshell-bol)))
+ :poner (("C-M-j" . move-beginning-of-line)))
