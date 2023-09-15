@@ -68,7 +68,7 @@ Con argumento lo busca en el directorio actual."
 
 (let ((vent-shell nil)
 	  (lateral nil))
-  
+
   (defun ayuda-abrir-shell ()
 	(let ((nombre-buffer "*Opciones abrir-shell*"))
 	  (when (not (buffer-live-p nombre-buffer))
@@ -107,7 +107,7 @@ Con argumento lo busca en el directorio actual."
 	  (while (eq x ?h)
 		(setq x (ayuda-abrir-shell)))
 	  (pcase x
-		(?t (term "/bin/bash")) 
+		(?t (term "/bin/bash"))
 		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
 		(?s (eshell))
 		(?a (ielm))
@@ -473,8 +473,8 @@ de la selección. Con doble prefijo incluye los símbolos de apertura y cierre e
 		(exchange-point-and-mark))
 	  (backward-char)))
 
-    (defun parejas (n)
-	  "Para poner paréntesis, llaves, interrogaciones..."
+  (defun parejas (n)
+	"Para poner paréntesis, llaves, interrogaciones..."
 	(interactive "P")
 	(when n
 	  (insert "=")
