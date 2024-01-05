@@ -2,6 +2,7 @@
 ;    Archivo de configuración de Emacs - R. Córdoba García
 ;    Configuraciones para el modo elisp.
 ;------------------------------------------------------------------
+
 (cg-configs-modo
  :tabla t
  :poner (("C-c p" . show-paren-mode)

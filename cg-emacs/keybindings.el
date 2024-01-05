@@ -89,8 +89,8 @@
 
 ;Buffers.
 ("M-B" . bury-buffer)		 ("C-M-b" . kill-current-buffer)		   ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
-("’" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
-("”" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
+("‘" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
+("“" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
 ("M-b" . buffer-menu)		 ("C-b" . counsel-switch-buffer)		   ("C-’" . ,(λ (otra-ventana #'next-buffer (next-window))));Altgr B
 ("C-x b" . eval-buffer)		 ("C-S-b" . switch-to-buffer-other-window)
 

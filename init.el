@@ -3,19 +3,19 @@
 ;    Archivo de inicio
 ;------------------------------------------------------------------
 
-(defconst directorio-configs (concat (file-name-directory load-file-name) "cg-emacs/") "Directorio donde están los archivos de configuración")
+(defconst directorio-configs (concat (file-name-directory load-file-name) "cg-emacs/")
+  "Directorio donde están los archivos de configuración")
 (add-to-list 'load-path directorio-configs)
 
 (defun directorio-cg (d)
-  "Para ser llamada cada vez que se quiera acceder a un archivo; pone el directorio donde están las configuraciones."
+  "Para ser llamada cada vez que se quiera acceder a un archivo;
+ pone el directorio donde están las configuraciones."
   (concat directorio-configs d))
 
 (load "cg-variables")
 (load "funciones")
 (load "inicio")
 (load "keybindings") 
-
-;(setenv "PATH" (concat "/home/rjcordoba/.nvm/versions/node/v18.4.0/bin:" (getenv "PATH")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
