@@ -9,8 +9,6 @@
 
 (dolist (e `(
 
-("C-→" . lorem-ipsum-cg) ;C-AltGr-i
-
 ;Comentarios.
 ("C-c c" . comment-line)	("C-c x" . comment-dwim)    ("C-c C" . comment-kill)
 
@@ -42,7 +40,6 @@
 ;Comandos.
 ("M-<" . eval-expression)	 ("M->" . repeat-complex-command)	 ("C-M-<" . async-shell-command)
 ("C->" . shell-command)		 ("C-<" . shell-command-on-region)	 ("C-|" . cg-comando-proyecto)
-("C-x g" . grep-buscar-string)
 
 ;Edición recursiva.
 ("C-r" . recursive-edit)	("C-S-r" . exit-recursive-edit)
@@ -62,7 +59,7 @@
 ;Búsquedas y búsquedas con sustitución.
 ("<C-dead-acute>" . isearch-forward)		 ("<M-dead-diaeresis>" . word-search-backward)	  ("<C-dead-grave>" . query-replace)
 ("<C-S-dead-diaeresis>" . isearch-backward)	 ("<M-dead-circumflex>" . replace-regexp)		  ("<C-M-dead-diaeresis>" . isearch-backward-regexp)
-("<C-dead-circumflex>" . replace-string)	 ("<M-dead-acute>" . isearch-forward-word)
+("<C-dead-circumflex>" . replace-string)	 ("<M-dead-acute>" . isearch-forward-word)		  ("C-x ´" . grep-buscar-string)
 ("<M-dead-grave>" . query-replace-regexp)	 ("<C-M-dead-acute>" . isearch-forward-regexp)
 
 ("C-´" . isearch-forward)		 ("M-¨" . word-search-backward)		 ("C-`" . query-replace)
@@ -89,8 +86,8 @@
 
 ;Buffers.
 ("M-B" . bury-buffer)		 ("C-M-b" . kill-current-buffer)		   ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
-("‘" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
-("“" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
+("’" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
+("”" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
 ("M-b" . buffer-menu)		 ("C-b" . counsel-switch-buffer)		   ("C-’" . ,(λ (otra-ventana #'next-buffer (next-window))));Altgr B
 ("C-x b" . eval-buffer)		 ("C-S-b" . switch-to-buffer-other-window)
 
@@ -152,12 +149,15 @@
 ("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
 ("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
 
+;Miscelania
+("<menu> C-g" . magit-status) ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
+
 ;Hacer scroll.
 ("C-M-;" . scroll-down-command)		("M-," . ,(λ (scroll-up-command 4)))
 ("C-M-," . scroll-up-command)	 	("M-;" . ,(λ (scroll-down-command 4)))
 ("C-×" . scroll-right)			 	("C-v" . ,(λ (scroll-other-window 3)))
 ("C-─" . scroll-left)	 		 	("C-S-v" . ,(λ (scroll-other-window-down 3)))
 ("C-;" . scroll-down-line)			("C-“" . ,(λ (otra-ventana '(scroll-down-command 3) (previous-window))))
-("C-," . scroll-up-line)			("C-‘" . ,(λ (otra-ventana '(scroll-up-command 3) (previous-window))))))
-
+("C-," . scroll-up-line)			("C-‘" . ,(λ (otra-ventana '(scroll-up-command 3) (previous-window))))
+))
 (global-set-key (kbd (car e)) (cdr e)))

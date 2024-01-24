@@ -11,7 +11,8 @@
 
 (set-language-environment "UTF-8")
 (desktop-save-mode 1)
-(set-frame-font "Inconsolata 11")
+;(set-frame-font "Inconsolata 11")
+(set-frame-font "IBM Plex Mono 11")
 (set-fontset-font "fontset-default" '(#x0370 . #x03FF) "Liberation Mono")
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
