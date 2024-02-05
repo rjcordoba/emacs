@@ -145,13 +145,6 @@
 ("M-L" . forward-paragraph)		 ("C-M-S-l" . borrar-línea)				 ("ĸ" . beginning-of-buffer)
 ("M-K" . backward-paragraph)	 ("ł" . end-of-buffer)					 ("C-ł" . recenter-top-bottom)
 
-;Avy
-("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
-("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
-
-;Miscelania
-("<menu> C-g" . magit-status) ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
-
 ;Hacer scroll.
 ("C-M-;" . scroll-down-command)		("M-," . ,(λ (scroll-up-command 4)))
 ("C-M-," . scroll-up-command)	 	("M-;" . ,(λ (scroll-down-command 4)))
@@ -159,5 +152,15 @@
 ("C-─" . scroll-left)	 		 	("C-S-v" . ,(λ (scroll-other-window-down 3)))
 ("C-;" . scroll-down-line)			("C-“" . ,(λ (otra-ventana '(scroll-down-command 3) (previous-window))))
 ("C-," . scroll-up-line)			("C-‘" . ,(λ (otra-ventana '(scroll-up-command 3) (previous-window))))
+
+;Avy
+("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
+("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
+
+;Miscelánea
+("<menu> C-g" . magit-status)	 ("C-x ¨" . counsel-git-grep)
+("C-x {" . electric-pair-mode)   ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
+("<menu> k" . ,(λ (find-file (directorio-cg "keybindings.el"))))
+
 ))
 (global-set-key (kbd (car e)) (cdr e)))

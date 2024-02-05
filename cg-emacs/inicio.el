@@ -11,8 +11,9 @@
 
 (set-language-environment "UTF-8")
 (desktop-save-mode 1)
-;(set-frame-font "Inconsolata 11")
-(set-frame-font "IBM Plex Mono 11")
+(setq desktop-dirname "~/.emacs.d/")
+;(set-frame-font "Inconsolata 12" nil t t)
+(set-frame-font "IBM Plex Mono 10" nil t t)
 (set-fontset-font "fontset-default" '(#x0370 . #x03FF) "Liberation Mono")
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -41,8 +42,9 @@
 ;Para sobreescribir sobre las selecciones de texto.
 (delete-selection-mode t)
 ;;-----------------------------------------------------------------------------------------
-(add-hook 'emacs-startup-hook
+(add-hook 'after-init-hook
   (lambda ()
+	(desktop-read)
 	(global-tree-sitter-mode)
 	;Guarda la configuración de ventanas del frame que hay al abrir Emacs.
 	(window-configuration-to-register ?1)

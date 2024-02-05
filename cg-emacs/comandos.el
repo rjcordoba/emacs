@@ -117,7 +117,7 @@ Con argumento lo busca en el directorio actual."
 		(?m (switch-to-buffer (messages-buffer)))
 		(_ (unless abierta (delete-window vent-shell))
 		   (setq abierta 'err)
-		   (error "«%c» no abre ningún buffer en la ventana." (elt (this-command-keys) 1))))
+		   (error "«%c» no abre ningún buffer en la ventana." x)))
 	  (unless (eq abierta 'err)
 		(set-window-dedicated-p vent-shell t)
 		(setq window-size-fixed 'width))))

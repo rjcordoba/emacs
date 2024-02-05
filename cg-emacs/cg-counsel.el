@@ -1,9 +1,8 @@
 ;------------------------------------------------------------------
 ;    Archivo de configuración de Emacs - R. Córdoba García
-;    Utilidades para counsel
+;    Utilidades para Counsel
 ;------------------------------------------------------------------
 
 (define-key ivy-minibuffer-map (kbd "C-j") nil)
+(define-key ivy-minibuffer-map (kbd "C-k") nil)
 
-(cg-configs-modo
-  :poner (("C-x C-f" . counsel-git-grep)))

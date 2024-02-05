@@ -7,6 +7,7 @@
 
 (cg-configs-modo
  :tabla t
+ :hook (λ (show-paren-mode -1))
  :quitar ("C-." "C-M-h" "C-d")
  :poner
  (("C-c -" . (λ (insert "->")))
