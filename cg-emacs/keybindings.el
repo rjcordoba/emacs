@@ -147,9 +147,9 @@
 
 ;Hacer scroll.
 ("C-M-;" . scroll-down-command)		("M-," . ,(λ (scroll-up-command 4)))
-("C-M-," . scroll-up-command)	 	("M-;" . ,(λ (scroll-down-command 4)))
-("C-×" . scroll-right)			 	("C-v" . ,(λ (scroll-other-window 3)))
-("C-─" . scroll-left)	 		 	("C-S-v" . ,(λ (scroll-other-window-down 3)))
+("C-M-," . scroll-up-command)		("M-;" . ,(λ (scroll-down-command 4)))
+("C-×" . ,(λ (scroll-right 2)))		("C-v" . ,(λ (scroll-other-window 3)))
+("C-─" . ,(λ (scroll-left 2)))		("C-V" . ,(λ (scroll-other-window-down 3)))
 ("C-;" . scroll-down-line)			("C-“" . ,(λ (otra-ventana '(scroll-down-command 3) (previous-window))))
 ("C-," . scroll-up-line)			("C-‘" . ,(λ (otra-ventana '(scroll-up-command 3) (previous-window))))
 
@@ -158,8 +158,8 @@
 ("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
 
 ;Case conversion
-("M-U" . downcase-word)           ("C-M-U" . capitalize-word)
-("C-x M-U" . downcase-region)     ("C-x C-M-U" . upcase-region)
+("M-U" . downcase-word)			  ("C-M-U" . capitalize-word)
+("C-x M-U" . downcase-region)	  ("C-x C-M-U" . upcase-region)
 
 ;Miscelánea
 ("<menu> C-g" . magit-status)	 ("C-x ¨" . counsel-git-grep)
