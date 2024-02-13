@@ -157,6 +157,10 @@
 ("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
 ("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
 
+;Case conversion
+("M-U" . downcase-word)           ("C-M-U" . capitalize-word)
+("C-x M-U" . downcase-region)     ("C-x C-M-U" . upcase-region)
+
 ;Miscelánea
 ("<menu> C-g" . magit-status)	 ("C-x ¨" . counsel-git-grep)
 ("C-x {" . electric-pair-mode)   ("C-→" . lorem-ipsum-cg) ;C-AltGr-i

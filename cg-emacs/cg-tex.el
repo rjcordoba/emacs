@@ -14,7 +14,7 @@
 (setq tex-dvi-view-command "xdg-open")
 (defconst cg-tex-principal "documento.tex" "Archivo TeX principal, por el que empezará la compilación.")
 
-(defun texcg-insertar-macro ()
+(defun cg-tex-insertar-macro ()
   "Pregunta por nombre y número e inserta secuencia de control con parámetros según el número seleccionado."
   (interactive)
   (let ((nombre (read-string " Nombre de secuencia: "))
@@ -24,24 +24,24 @@
 	  (insert "#" (number-to-string (1+ i))))
 	(insert "{}") (backward-char)))
 
-(defun texcg-math ()
+(defun cg-tex-math ()
   "Pone símbolos de dólar para entrar en math mode."
   (interactive)
   (insert "$  $")
   (backward-char 2))
 
-(defun texcg-math-display ()
+(defun cg-tex-math-display ()
   "Pone símbolos de dólar para entrar en display math mode."
   (interactive)
   (insert "$$  $$")
   (backward-char 3))
 
 (let ((ventanta-pdf)) ;;Ventana que muestra el pdf.
-  (defun texcg-mover-documento (f)
+  (defun cg-tex-mover-documento (f)
 	"Auxiliar para mover el documento pdf sin estar en la ventana que lo muestra."
 	(if (window-live-p ventana-pdf) (otra-ventana f ventanta-pdf) (error "No está establecido el escritorio TeX.")))
 
-  (defun texcg-conf-escritorio ()
+  (defun cg-tex-conf-escritorio ()
 	"Pone las ventanas para establecer un escritorio de trabajo para TeX."
 	(interactive)
 	(let ((d (or tex-main-file (setq tex-main-file (concat cg-origen "/" cg-tex-principal)))))
@@ -71,19 +71,19 @@
  :poner
  (("C-j" . nil)
   ("<C-return>" . nil)
-  ("C-c m" . texcg-insertar-macro)
-  ("C-0" . texcg-math)
-  ("C-=" . texcg-math-display)
+  ("C-c m" . cg-tex-insertar-macro)
+  ("C-0" . cg-tex-math)
+  ("C-=" . cg-tex-math-display)
   ("C-c j" . tex-terminate-paragraph)
   ("C-c v" . tex-validate-region)
   ("<f5>" . cg-tex-compilar)
   ("S-<f5>" . tex-file)
-  ("C-<f5>" . texcg-conf-escritorio)
+  ("C-<f5>" . cg-tex-conf-escritorio)
   ("C-c f" . tex-feed-input)
-  ("<up>" . (λ (texcg-mover-documento 'doc-view-previous-page)))
-  ("<down>" . (λ (texcg-mover-documento 'doc-view-next-page)))
-  ("M-<up>" . (λ (texcg-mover-documento 'doc-view-first-page)))
-  ("M-<down>" . (λ (texcg-mover-documento 'doc-view-last-page)))
+  ("<up>" . (λ (cg-tex-mover-documento 'doc-view-previous-page)))
+  ("<down>" . (λ (cg-tex-mover-documento 'doc-view-next-page)))
+  ("M-<up>" . (λ (cg-tex-mover-documento 'doc-view-first-page)))
+  ("M-<down>" . (λ (cg-tex-mover-documento 'doc-view-last-page)))
   ("C-c k" . (λ (search-backward "$")))
   ("C-c l" . (λ (search-forward "$")))
   ("M-k" . (λ (cg-inicio-nido ?{)))
