@@ -15,7 +15,8 @@
 (defconst cg-tex-principal "documento.tex" "Archivo TeX principal, por el que empezará la compilación.")
 
 (defun cg-tex-insertar-macro ()
-  "Pregunta por nombre y número e inserta secuencia de control con parámetros según el número seleccionado."
+  "Pregunta por nombre y número e inserta secuencia de
+ control con parámetros según el número seleccionado."
   (interactive)
   (let ((nombre (read-string " Nombre de secuencia: "))
 		(num (string-to-number (read-string " Número de argumentos: "))))
@@ -36,29 +37,31 @@
   (insert "$$  $$")
   (backward-char 3))
 
-(let ((ventanta-pdf)) ;;Ventana que muestra el pdf.
+(let ((ventana-pdf)) ;;Ventana que muestra el pdf.
   (defun cg-tex-mover-documento (f)
 	"Auxiliar para mover el documento pdf sin estar en la ventana que lo muestra."
-	(if (window-live-p ventana-pdf) (otra-ventana f ventanta-pdf) (error "No está establecido el escritorio TeX.")))
+	(if (window-live-p ventana-pdf)
+		(otra-ventana f ventana-pdf)
+	  (error "No está establecido el escritorio TeX.")))
 
   (defun cg-tex-conf-escritorio ()
 	"Pone las ventanas para establecer un escritorio de trabajo para TeX."
 	(interactive)
-	(let ((d (or tex-main-file (setq tex-main-file (concat cg-origen "/" cg-tex-principal)))))
-	  (delete-other-windows)
-	  (setq ventanta-pdf (select-window (split-window nil -126 t)))
-	  (switch-to-buffer "*tex-shell*")
-	  (set-window-dedicated-p (split-window nil -18 'below) 'dedicada)
-	  (find-file (concat tex-main-file tex-print-file-extension))
-	  (set-window-dedicated-p (selected-window) 'dedicada)
-	  (auto-revert-mode)
-	  (if (> (buffer-size) 0) (doc-view-fit-height-to-window))
-	  (other-window -1)
-	  (select-window (split-window-below))
-	  (find-file d)
-	  (find-file (concat cg-origen "/formato.tex"))
-	  (auto-fill-mode -1)
-	  (other-window -1))))
+	(setq tex-main-file (concat cg-origen "/" cg-tex-principal))
+	(delete-other-windows)
+	(setq ventana-pdf (select-window (split-window nil -126 t)))
+	(switch-to-buffer "*tex-shell*")
+	(set-window-dedicated-p (split-window nil -18 'below) 'dedicada)
+	(find-file (concat tex-main-file tex-print-file-extension))
+	(set-window-dedicated-p (selected-window) 'dedicada)
+	(auto-revert-mode)
+	(when (> (buffer-size) 0) (doc-view-fit-height-to-window))
+	(other-window -1)
+	(select-window (split-window-below))
+	(find-file tex-main-file)
+	(find-file (concat cg-origen "/formato.tex"))
+	(auto-fill-mode -1)
+	(other-window -1)))
 
 (defun cg-tex-compilar ()
   "Compila el archivo con XeTeX."

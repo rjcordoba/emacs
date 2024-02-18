@@ -68,11 +68,11 @@
 ("M-^" . query-replace-regexp)	 ("C-M-´" . isearch-forward-regexp)
 
 ;Abrir ventanas con distintos buffers y modos. Otras funciones con menú.
-("<menu> d" . abrir-Dired)		   ("<menu> G" . cerrar-dired)		("<menu> n" . display-line-numbers-mode)
-("<menu> D" . abrir-Dired)		   ("<menu> f" . poner-follow)		("<menu> t" . treemacs-select-window)
-("<menu> b" . abrir-Dired)		   ("<menu> w" . speedbar)			("<menu> l" . global-tab-line-mode)
-("<C-menu>" . abrir-shell)		   ("<menu> T" . treemacs)			("<menu> g" . cerrar-shell)
-("<C-S-menu>" . abrir-shell-abajo)
+("<menu> d" . abrir-Dired)		("<menu> G" . cerrar-dired)			  ("<menu> n" . display-line-numbers-mode)
+("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			  ("<menu> t" . treemacs-select-window)
+("<menu> b" . abrir-Dired)		("<menu> w" . speedbar)				  ("<menu> l" . global-tab-line-mode)
+("<menu> T" . treemacs)			("<menu> <C-menu>" . abrir-shell)					
+("<menu> g" . cerrar-shell)		("<menu> <menu>" . abrir-shell-abajo)
 
 ;Frames.
 ("<menu> z" . make-frame)	   ("<menu> đ" . other-frame);Altgr f
@@ -86,8 +86,8 @@
 
 ;Buffers.
 ("M-B" . bury-buffer)		 ("C-M-b" . kill-current-buffer)		   ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
-("’" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
-("”" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
+("‘" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
+("“" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
 ("M-b" . buffer-menu)		 ("C-b" . counsel-switch-buffer)		   ("C-’" . ,(λ (otra-ventana #'next-buffer (next-window))));Altgr B
 ("C-x b" . eval-buffer)		 ("C-S-b" . switch-to-buffer-other-window)
 
@@ -113,12 +113,13 @@
 ("M-p" . mc/mark-pop)
 
 ;Transposiciones.
-("C-S-t" . transpose-lines)		("C-ŧ" . mover-línea-abajo)		("Ŧ" . ,(λ (transpose-paragraphs -1)))
-("ŧ" . transpose-paragraphs)	("C-Ŧ" . mover-línea-arriba)	("M-S-t" . ,(λ (transpose-words -1)))
+("ŧ" . mover-párrafo-abajo)		("C-Ŧ" . mover-línea-arriba)	 ("C-t" . transpose-chars)
+("Ŧ" . mover-párrafo-arriba)	("C-ŧ" . mover-línea-abajo)	 ("C-S-T" . ,(λ (transpose-chars -1)))
+("M-T" . mover-palabra-atrás)	("M-t" . mover-palabra-adlt)
 
 ;Seleccionar.
 ("M-H" . sel-en-pareja)			("C-h" . seleccionar-palabra)		("C-S-h" . exchange-point-and-mark)
-("C-M-S-h" . sel-pareja)		("C-M-h" . seleccionar-líneas)
+("C-M-S-h" . sel-pareja)		("C-M-h" . seleccionar-línea)
 
 ;Registros.
 ("C-9" . point-to-register)		  ("C-M-9" . number-to-register)	   ;("C-x 9" . window-configuration-to-register)
@@ -139,8 +140,8 @@
 
 ;Mover el cursor arriba-abajo / K-L
 ("C-l" . next-line)				 ("C-S-l" . ,(λ (forward-line 4)))		 ("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
-("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))	     ("C-ĸ" . move-to-window-line-top-bottom)
-("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))	     ("C-x k" . ,(λ (recenter-top-bottom 4)))
+("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))	 ("C-ĸ" . move-to-window-line-top-bottom)
+("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))	 ("C-x k" . ,(λ (recenter-top-bottom 4)))
 ("M-k" . backward-sentence)		 ("C-M-l" . ,(λ (forward-line 8)))		 ("C-M-ł" . ,(λ (kill-whole-line 0)))
 ("M-L" . forward-paragraph)		 ("C-M-S-l" . borrar-línea)				 ("ĸ" . beginning-of-buffer)
 ("M-K" . backward-paragraph)	 ("ł" . end-of-buffer)					 ("C-ł" . recenter-top-bottom)

@@ -9,9 +9,10 @@
 (defmacro λ (&rest forms) (append '(lambda () (interactive)) forms))
 
 (defun cg-comando-proyecto (n)
-  "Pide un comando y lo ejecuta con el directorio del proyecto como directorio actual. Si
-el argumento es 4 pide directorio en el que se ejecutará el comando. Si es mayor que 4 el
-directorio actual será el directorio del archivo actual."
+  "Pide un comando y lo ejecuta con el directorio del proyecto como
+ directorio actual. Si el argumento es 4 pide directorio en el que
+ se ejecutará el comando. Si es mayor que 4 el directorio actual será
+ el directorio del archivo actual."
   (interactive "p")
   (cg-shell-comando
    (read-from-minibuffer (colorear-consulta "Comando: "))
@@ -45,7 +46,8 @@ Con argumento lo busca en el directorio actual."
 
 (let ((vent-dired nil))
   (defun abrir-Dired (n)
-	"Abre una ventana a la izquierda con el buffer correspondiente según el comando; con argumento abre abajo."
+	"Abre una ventana a la izquierda con el buffer correspondiente
+ según el comando; con argumento abre abajo."
 	(interactive "P")
 	(if (window-live-p vent-dired)
 		(set-window-dedicated-p vent-dired nil)
@@ -165,7 +167,8 @@ nueva ventana; con él abre el número que se indique."
 	(error " No son dos ventanas visibles.")))
 
 (defun cg-swap-buffers (n)
-  "Intercambia los buffers de la ventana actual y la siguiente; con argumento, con la anterior."
+  "Intercambia los buffers de la ventana actual y la
+siguiente; con argumento, con la anterior."
   (interactive "P")
   (intercambiar-buffers (selected-window) (if n (next-window) (previous-window))))
 
@@ -188,7 +191,8 @@ nueva ventana; con él abre el número que se indique."
 	(indent-according-to-mode)))
 
 (defun abrir-línea ()
-  "Inserta salto de línea y deja el cursor donde está. Como «open-line» pero con indentación."
+  "Inserta salto de línea y deja el cursor donde está.
+ Como «open-line» pero con indentación."
   (interactive)
   (newline-and-indent)
   (forward-line -1)
@@ -205,7 +209,8 @@ nueva ventana; con él abre el número que se indique."
 	(forward-char pos)))
 
 (defun insertar-línea-debajo (n)
-  "Inserta líneas debajo de en la que está el cursor. Si está enmedio de una línea no la corta."
+  "Inserta líneas debajo de en la que está el cursor.
+Si está enmedio de una línea no la corta."
   (interactive "p")
   (let ((pos (point)))
 	(end-of-line)
@@ -242,7 +247,8 @@ nueva ventana; con él abre el número que se indique."
 	(insert s)))
 
 (defun alinear-tab-a ()
-  "Tabula respecto a la línea de arriba a partir de los espacios anteriores a la posición del cursor."
+  "Tabula respecto a la línea de arriba a partir de los
+ espacios anteriores a la posición del cursor."
   (interactive)
   (skip-chars-backward "^[\s\t\n]")
   (delete-horizontal-space)
@@ -256,8 +262,9 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
 	  (backward-delete-char 1)
 	(kill-whole-line -1)))
 
-(defun seleccionar-líneas (n)
-  "Selecciona la línea actual. Con argumento selecciona n líneas empezando desde la actual."
+(defun seleccionar-línea (n)
+  "Selecciona la línea actual. Con argumento selecciona n
+ líneas empezando desde la actual."
   (interactive "p")
   (set-mark (line-beginning-position))
   (move-end-of-line n))
@@ -295,18 +302,41 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
 		(insert-file-contents-literally a nil nil nil t)
 	  (error " No hay backup de este archivo."))))
 
+(defun mover-palabra-adlt ()
+  "Mueve la palabra donde está el cursor delante
+de la palabra siguiente.."
+  (interactive)
+  (let ((p (point)))
+	(forward-word)
+	(setq p (- p (point)))
+	(if (eq (point) (point-max))
+		(message "No hay palabra tras la que mover.")
+	(transpose-words 1))
+	(forward-char p)))
+
+(defun mover-palabra-atrás ()
+  "Mueve la palabra donde está el cursor detrás
+de la palabra anterior.."
+  (interactive)
+  (let ((p (point)))
+	(backward-word)
+	(setq p (- p (point)))
+	(if (eq (point) (point-min))
+		(message "No hay palabra ante la que mover.")
+	  (transpose-words 1))
+	(backward-word 2)
+	(forward-char p)))
+
 (defun mover-línea-arriba ()
   "Mueve la línea donde está el cursor hacia arriba."
   (interactive)
   (let ((p (point)))
 	(beginning-of-line)
 	(setq p (- p (point)))
-	(kill-whole-line 1)
-	(if (eq (point) (point-min))
+	(when (eq (point) (point-min))
 		(insert "\n"))
-	(forward-line -1)
-	(yank)
-	(forward-line -1)
+	(transpose-lines 1)
+	(forward-line -2)
 	(forward-char p)))
 
 (defun mover-línea-abajo ()
@@ -315,24 +345,44 @@ la línea anterior. Si hay texto seleccionado lo borra antes "
   (let ((p (point)))
 	(beginning-of-line)
 	(setq p (- p (point)))
-	(if (eq (point) (point-min))
-		(progn
-		  (kill-whole-line 0)
-		  (kill-append "\n" t)
-		  (delete-char 1))
-	  (kill-whole-line -1)
-	  (forward-line 1))
-	(end-of-line)
-	(when (eq (point) (point-max))
+	(forward-line 1)
+	(when (and (eq (point) (point-max))
+			   (not (eq (char-before) ?\n)))
 	  (insert "\n"))
-	(yank)
-	(beginning-of-line)
+	(transpose-lines 1)
+	(forward-line -1)
+	(forward-char p)))
+
+(defun mover-párrafo-arriba ()
+  "Mueve el párrafo donde está el cursor
+ encima del párrafo anterior."
+(interactive)
+  (let ((p (point)))
+	(forward-paragraph -1)
+	(setq p (- p (point)))
+	(if (eq (point) (point-min))
+		(message "No hay párrafo sobre el que mover.")
+	(transpose-paragraphs 1)
+	(forward-paragraph -2))
+	(forward-char p)))
+
+(defun mover-párrafo-abajo ()
+  "Mueve el párrafo donde está el cursor
+debajo del párrafo siguiente."
+  (interactive)
+  (let ((p (point)))
+	(forward-paragraph 1)
+	(setq p (- p (point)))
+	(if (eq (point) (point-max))
+		(message "No hay párrafo bajo el que mover.")
+	  (transpose-paragraphs 1))
 	(forward-char p)))
 
 (defun comentar/descomentar-bloque (inicial final &optional línea)
-  "Si el cursor se encuentra en un comentario lo elimina, tanto si es de bloque como si
-es de línea. Si no está en un comentario pone comentario de bloque entre principio y fin
-de la selección; si no existe selección comenta el párrafo donde está el cursor."
+  "Si el cursor se encuentra en un comentario lo elimina, tanto si
+ es de bloque como si es de línea. Si no está en un comentario pone
+ comentario de bloque entre principio y finde la selección; si no
+ existe selección comenta el párrafo donde está el cursor."
   (let ((syntax (syntax-ppss))
 		(p (point))
 		(salto (length inicial)))
@@ -433,8 +483,9 @@ anidamientos con ese símbolo que pueda haber entre medio."
 		  (push t pila)))))
 
   (defun sel-en-pareja (n)
-	"Selecciona el texto alrededor del «point» que esté entre comillas, interrogaciones...
-   Con prefijo descarta los símbolos de apertura y cierre; selecciona sólo el contenido."
+	"Selecciona el texto alrededor del «point» que esté entre
+ comillas, interrogaciones... Con prefijo descarta los símbolos
+ de apertura y cierre; selecciona sólo el contenido."
 	(interactive "P")
 	(condition-case nil
 		(let ((pos (point))
@@ -454,9 +505,10 @@ anidamientos con ese símbolo que pueda haber entre medio."
       (search-failed (error er-a))))
 
   (defun sel-pareja (n c1)
-	"Selecciona el texto entre dos símbolos. Sin prefijo el símbolo de apertura
-y cierre será el mismo. Con prefijo pide segundo símbolo para usarlo como cierre
-de la selección. Con doble prefijo incluye los símbolos de apertura y cierre en la selección."
+	"Selecciona el texto entre dos símbolos. Sin prefijo el símbolo
+ de apertura y cierre será el mismo. Con prefijo pide segundo símbolo
+ para usarlo como cierre de la selección. Con doble prefijo incluye
+ los símbolos de apertura y cierre en la selección."
 	(interactive "p\ns Símbolo: ")
 	(let ((c2 (if (> n 1)
 				  (read-string (colorear-cab "Segundo símbolo: "))
