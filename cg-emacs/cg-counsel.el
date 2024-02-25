@@ -3,6 +3,6 @@
 ;    Utilidades para Counsel
 ;------------------------------------------------------------------
 
-(define-key ivy-minibuffer-map (kbd "C-j") nil)
-(define-key ivy-minibuffer-map (kbd "C-k") nil)
-
+(cg-configs-modo
+ :table ivy-minibuffer-map
+ :quitar ("C-j" "C-k"))

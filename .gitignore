@@ -1,0 +1,15 @@
+# Ignore everything
+*
+
+# But do not ignore the directory 'cg-emacs' and its contents
+!cg-emacs/
+!cg-emacs/**
+
+# Ignore all '.elc' files in the 'cg-emacs' directory
+cg-emacs/**/*.elc
+
+# And do not ignore these specific files
+!init.el
+!cg-theme.el
+!twig.png
+!.gitignore

@@ -54,25 +54,26 @@
 ("<C-tab>" . indent-relative)		("<C-iso-lefttab>" . alinear-tab-a)		   ("<C-M-return>" . electric-indent-just-newline)
 ("<M-return>" . open-line)			("<C-return>" . insertar-línea-debajo)	   ("<S-return>" . insertar-línea-encima)
 ("<C-M-tab>" . indent-region)		("S-SPC" . delete-horizontal-space)		   ("<M-S-return>" . abrir-línea-encima)
-("C-x <C-tab>" . tabify)			("C-x <C-S-iso-lefttab>" . untabify)
+("C-x <C-tab>" . tabify)			("C-x C-S-<iso-lefttab>" . untabify)
 
-;Búsquedas y búsquedas con sustitución.
-("<C-dead-acute>" . isearch-forward)		 ("<M-dead-diaeresis>" . word-search-backward)	  ("<C-dead-grave>" . query-replace)
-("<C-S-dead-diaeresis>" . isearch-backward)	 ("<M-dead-circumflex>" . replace-regexp)		  ("<C-M-dead-diaeresis>" . isearch-backward-regexp)
-("<C-dead-circumflex>" . replace-string)	 ("<M-dead-acute>" . isearch-forward-word)		  ("C-x ´" . grep-buscar-string)
-("<M-dead-grave>" . query-replace-regexp)	 ("<C-M-dead-acute>" . isearch-forward-regexp)
+;Búsquedas
+("C-<dead-acute>" . isearch-forward)			 ("C-M-<dead-acute>" . isearch-forward-regexp)
+("C-S-<dead-diaeresis>" . isearch-backward)		 ("C-M-<dead-diaeresis>" . isearch-backward-regexp)
+("M-<dead-acute>" . isearch-forward-word)		 ("C-x C-<dead-acute>" . find-grep-dired)
+("M-<dead-diaeresis>" . word-search-backward)	 ("C-x M-<dead-acute>" . find-name-dired)
+("C-x C-M-<dead-acute>" . find-dired)			 ("C-x C-M-S-<dead-diaeresis>" . counsel-git-grep)
+("C-x ´" . grep-buscar-string)					 ("C-x C-<dead-grave>" . rgrep)
 
-("C-´" . isearch-forward)		 ("M-¨" . word-search-backward)		 ("C-`" . query-replace)
-("C-¨" . isearch-backward)		 ("M-`" . replace-regexp)			 ("C-M-¨" . isearch-backward-regexp)
-("C-^" . replace-string)		 ("M-´" . isearch-forward-word)
-("M-^" . query-replace-regexp)	 ("C-M-´" . isearch-forward-regexp)
+;Búsquedas con sustitución.
+("C-<dead-grave>" . query-replace)				 ("M-<dead-circumflex>" . replace-regexp)
+("C-<dead-circumflex>" . replace-string)		 ("M-<dead-grave>" . query-replace-regexp)
+
 
 ;Abrir ventanas con distintos buffers y modos. Otras funciones con menú.
 ("<menu> d" . abrir-Dired)		("<menu> G" . cerrar-dired)			  ("<menu> n" . display-line-numbers-mode)
 ("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			  ("<menu> t" . treemacs-select-window)
 ("<menu> b" . abrir-Dired)		("<menu> w" . speedbar)				  ("<menu> l" . global-tab-line-mode)
-("<menu> T" . treemacs)			("<menu> <C-menu>" . abrir-shell)					
-("<menu> g" . cerrar-shell)		("<menu> <menu>" . abrir-shell-abajo)
+("<menu> T" . treemacs)			("<menu> <menu>" . abrir-shell)		  ("<menu> g" . cerrar-shell)
 
 ;Frames.
 ("<menu> z" . make-frame)	   ("<menu> đ" . other-frame);Altgr f
@@ -80,9 +81,9 @@
 
 ;Archivos.
 ("M-f" . insert-file)		 ("C-d" . dired-jump)				("C-ª" . find-file-other-frame);Altgr F
-("C-f" . counsel-find-file)	 ("đ" . find-alternate-file)		("C-S-f" . find-file-other-window)
+("C-f" . counsel-find-file)	 ("M-d" . counsel-dired)			("C-S-f" . find-file-other-window)
 ("C-s" . save-buffer)		 ("C-S-s" . save-some-buffers)		("C-đ" . find-file-read-only-other-window)
-("C-ß" . write-file)		 ("ª" . set-visited-file-name)
+("C-ß" . write-file)		 ("ª" . set-visited-file-name)		("đ" . find-alternate-file)
 
 ;Buffers.
 ("M-B" . bury-buffer)		 ("C-M-b" . kill-current-buffer)		   ("M-”" . ,(λ (switch-to-prev-buffer nil t)))

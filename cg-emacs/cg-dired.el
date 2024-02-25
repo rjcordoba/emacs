@@ -12,9 +12,15 @@
 		 (v (or n 1)))
     	(other-window v)
     	(find-file f)))
-			   
+
 (cg-configs-modo
  :poner
- (("C-c C-<dead-acute>" . dired-isearch-filenames)
+ (("C-l" . dired-next-line)
+  ("C-k" . dired-previous-line)
+  ("C-S-l" . (λ (dired-next-line 4)))
+  ("C-M-l" . (λ (dired-next-line 8)))
+  ("C-S-k" . (λ (dired-previous-line 4)))
+  ("C-M-k" . (λ (dired-previous-line 8)))
+  ("C-c C-<dead-acute>" . dired-isearch-filenames)
   ("M-o" . cg-abrir-archivo)
   ("M-O" . (λ (cg-abrir-archivo -1)))))
