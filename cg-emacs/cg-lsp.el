@@ -23,6 +23,7 @@
 		 ("x" . lsp-find-reference)
 		 ("c" . lsp-find-definition)
 		 ("C" . lsp-ui-peek-find-definitions)
+		 ("t" . lsp-treemacs-error-list-current-project-only)
 		 ("d" . lsp-ui-doc-mode)
 		 ("f" . lsp-ui-doc-focus-frame)
 		 ("F" . lsp-ui-doc-unfocus-frame)

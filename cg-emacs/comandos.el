@@ -115,6 +115,8 @@ Con argumento lo busca en el directorio actual."
 		(?A (switch-to-buffer "*scratch*"))
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
+		(?f (switch-to-buffer "*Find*"))
+		(?g (switch-to-buffer "*grep*"))
 		(?m (switch-to-buffer (messages-buffer)))
 		(_ (unless abierta (delete-window vent-shell))
 		   (setq abierta 'err)
@@ -422,9 +424,9 @@ debajo del párrafo siguiente."
 				(when (eq (char-before) ?\s)
 				  (delete-char -1))) ;;fin del progn 2
 			(setq salto (length línea))
-			(delete-char salto)) ;;fin del if 2
+			(delete-char salto)
 		  (when (eq (char-after) ?\s)
-			(delete-char 1))
+			(delete-char 1))) ;;fin del if 2
 		  (goto-char (- p salto))) ;;fin del progn 1
 	(when (not (use-region-p))
 	  (mark-paragraph))
@@ -507,7 +509,7 @@ anidamientos con ese símbolo que pueda haber entre medio."
   (defun sel-en-pareja (n)
 	"Selecciona el texto alrededor del «point» que esté entre
  comillas, interrogaciones... Con prefijo descarta los símbolos
- de apertura y cierre; selecciona sólo el contenido."
+ de apertura y cierre, selecciona sólo el contenido."
 	(interactive "P")
 	(condition-case nil
 		(let ((pos (point))

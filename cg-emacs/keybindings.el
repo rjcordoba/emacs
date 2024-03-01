@@ -68,7 +68,6 @@
 ("C-<dead-grave>" . query-replace)				 ("M-<dead-circumflex>" . replace-regexp)
 ("C-<dead-circumflex>" . replace-string)		 ("M-<dead-grave>" . query-replace-regexp)
 
-
 ;Abrir ventanas con distintos buffers y modos. Otras funciones con menú.
 ("<menu> d" . abrir-Dired)		("<menu> G" . cerrar-dired)			  ("<menu> n" . display-line-numbers-mode)
 ("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			  ("<menu> t" . treemacs-select-window)
@@ -87,8 +86,8 @@
 
 ;Buffers.
 ("M-B" . bury-buffer)		 ("C-M-b" . kill-current-buffer)		   ("M-”" . ,(λ (switch-to-prev-buffer nil t)))
-("‘" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
-("“" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
+("’" . next-buffer)			 ("C-M-S-b" . kill-buffer-and-window)	   ("C-x C-b" . ,(λ (byte-compile-file (buffer-file-name))))
+("”" . previous-buffer)		 ("C-M-”" . rename-buffer)				   ("C-”" . ,(λ (otra-ventana #'previous-buffer (next-window))))
 ("M-b" . buffer-menu)		 ("C-b" . counsel-switch-buffer)		   ("C-’" . ,(λ (otra-ventana #'next-buffer (next-window))));Altgr B
 ("C-x b" . eval-buffer)		 ("C-S-b" . switch-to-buffer-other-window)
 
@@ -164,7 +163,7 @@
 ("C-x M-U" . downcase-region)	  ("C-x C-M-U" . upcase-region)
 
 ;Miscelánea
-("<menu> C-g" . magit-status)	 ("C-x ¨" . counsel-git-grep)
+("<menu> m" . magit-status)	 ("C-x ¨" . counsel-git-grep)
 ("C-x {" . electric-pair-mode)   ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
 ("<menu> k" . ,(λ (find-file (directorio-cg "keybindings.el"))))
 

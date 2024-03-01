@@ -28,5 +28,6 @@
  :tabla t
  :quitar ("C-c c")
  :poner(("C-c d" . cg-twig-code)
-		  ("C-c t" . cg-twig-etiqueta)
-		  ("C-c b" . cg-twig-block)))
+		("C-c t" . cg-twig-etiqueta)
+		("C-c b" . cg-twig-block)
+	    ("C-c C-c" . (λ (comentar/descomentar-bloque "{#" "#}")))))
