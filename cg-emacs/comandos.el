@@ -250,8 +250,8 @@ Si está enmedio de una línea no la corta."
   (indent-relative))
 
 (defun borrar-línea ()
-  "Borra la línea donde esté el cursor y deja éste al final de
-la línea anterior. Si hay texto seleccionado lo borra antes "
+  "Si hay texto seleccionado lo borra; si no, borra la línea
+donde está el cursor y deja éste al final dela línea anterior."
   (interactive)
   (if (use-region-p)
 	  (backward-delete-char 1)

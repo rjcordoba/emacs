@@ -5,4 +5,4 @@
 
 (cg-configs-modo
  :poner (("C-c s" . cg-servidor)
-		 ("C-c C-c" . (λ (comentar/descomentar-bloque "/\* " " \*/" "// ")))))
+		 ("C-c C-c" . (λ (comentar/descomentar-bloque "/\*" "\*/" "// ")))))
