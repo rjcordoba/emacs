@@ -38,8 +38,8 @@
 ("<C-M-backspace>" . normal-mode)	("<M-S-backspace>" . volver-a-backup)	 ("<C-S-backspace>" . ,(λ (undo 4)))
 
 ;Comandos.
-("M-<" . eval-expression)	 ("M->" . repeat-complex-command)	 ("C-M-<" . async-shell-command)
-("C->" . shell-command)		 ("C-<" . shell-command-on-region)	 ("C-|" . cg-comando-proyecto)
+("M-<" . eval-expression)	 ("M->" . repeat-complex-command)	 ("C-M-<" . async-shell-command);project-async-shell-command
+("C->" . shell-command)		 ("C-<" . shell-command-on-region)	 ("C-|" . cg-comando-proyecto);project-shell-command
 
 ;Edición recursiva.
 ("C-r" . recursive-edit)	("C-S-r" . exit-recursive-edit)
@@ -57,22 +57,26 @@
 ("C-x <C-tab>" . tabify)			("C-x C-S-<iso-lefttab>" . untabify)
 
 ;Búsquedas
-("C-<dead-acute>" . isearch-forward)			 ("C-M-<dead-acute>" . isearch-forward-regexp)
-("C-S-<dead-diaeresis>" . isearch-backward)		 ("C-M-<dead-diaeresis>" . isearch-backward-regexp)
-("M-<dead-acute>" . isearch-forward-word)		 ("C-x C-<dead-acute>" . find-grep-dired)
-("M-<dead-diaeresis>" . word-search-backward)	 ("C-x M-<dead-acute>" . find-name-dired)
-("C-x C-M-<dead-acute>" . find-dired)			 ("C-x C-M-S-<dead-diaeresis>" . counsel-git-grep)
-("C-x ´" . grep-buscar-string)					 ("C-x C-<dead-grave>" . rgrep)
+("C-<dead-acute>" . isearch-forward)			("C-M-<dead-diaeresis>" . isearch-backward-regexp)
+("C-S-<dead-diaeresis>" . isearch-backward)		("C-M-<dead-acute>" . isearch-forward-regexp)
+("M-<dead-acute>" . isearch-forward-word)		("C-{" . isearch-backward-symbol-at-point)
+("M-<dead-diaeresis>" . word-search-backward)	("C-}" . isearch-forward-symbol-at-point)
+
+;Find y grep con Dired
+("C-x C-M-<dead-acute>" . find-dired)		 ("C-x C-M-S-<dead-diaeresis>" . counsel-git-grep)
+("C-x ´" . grep-buscar-string)				 ("C-x C-<dead-grave>" . rgrep)
+("C-x M-<dead-acute>" . find-name-dired)	 ("C-x C-<dead-acute>" . find-grep-dired)
+("C-x M-<dead-acute>" . find-name-dired)
 
 ;Búsquedas con sustitución.
-("C-<dead-grave>" . query-replace)				 ("M-<dead-circumflex>" . replace-regexp)
-("C-<dead-circumflex>" . replace-string)		 ("M-<dead-grave>" . query-replace-regexp)
+("C-<dead-grave>" . query-replace)			 ("M-<dead-circumflex>" . replace-regexp)
+("C-<dead-circumflex>" . replace-string)	 ("M-<dead-grave>" . query-replace-regexp)
 
 ;Abrir ventanas con distintos buffers y modos. Otras funciones con menú.
-("<menu> d" . abrir-Dired)		("<menu> G" . cerrar-dired)			  ("<menu> n" . display-line-numbers-mode)
-("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			  ("<menu> t" . treemacs-select-window)
-("<menu> b" . abrir-Dired)		("<menu> w" . speedbar)				  ("<menu> l" . global-tab-line-mode)
-("<menu> T" . treemacs)			("<menu> <menu>" . abrir-shell)		  ("<menu> g" . cerrar-shell)
+("<menu> d" . abrir-Dired)		("<menu> G" . cerrar-dired)			("<menu> n" . display-line-numbers-mode)
+("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			("<menu> t" . treemacs-select-window)
+("<menu> b" . abrir-Dired)		("<menu> w" . speedbar)				("<menu> l" . global-tab-line-mode)
+("<menu> T" . treemacs)			("<menu> <menu>" . abrir-shell)		("<menu> g" . cerrar-shell)
 
 ;Frames.
 ("<menu> z" . make-frame)	   ("<menu> đ" . other-frame);Altgr f
@@ -105,16 +109,16 @@
 ("M-_" . shrink-window)		  ("C--" . enlarge-window-horizontally)		("<C-dead-belowdot>" . toggle-frame-fullscreen)
 
 ;Rectángulos.
-("C-p" . rectangle-mark-mode)	   ("M-P" . kill-rectangle)				("C-S-p" . delete-whitespace-rectangle)
-("C-M-o" . open-rectangle)		   ("M-O" . clear-rectangle)			("C-M-p" . rectangle-number-lines)
-("M-o" . yank-rectangle)		   ("C-o" . string-insert-rectangle)	("C-M-S-p" . delete-trailing-whitespace)
-("C-S-o" . string-rectangle)	   ("C-M-S-o" . delete-rectangle)		("C-x M-p" . mc/mark-next-like-this)
-("C-x p" . escribir-fin-líneas)	   ("C-x o" . copy-rectangle-as-kill)	("C-x M-S-p" . mc/mark-previous-like-this)
+("C-p" . rectangle-mark-mode)		   ("M-P" . kill-rectangle)				("C-S-p" . delete-whitespace-rectangle)
+("C-M-o" . open-rectangle)			   ("M-O" . clear-rectangle)			("C-M-p" . rectangle-number-lines)
+("M-o" . yank-rectangle)			   ("C-o" . string-insert-rectangle)	("C-M-S-p" . delete-trailing-whitespace)
+("C-S-o" . string-rectangle)		   ("C-M-S-o" . delete-rectangle)		("C-x M-p" . mc/mark-next-like-this)
+("C-x C-M-p" . escribir-fin-líneas)	   ("C-x o" . copy-rectangle-as-kill)	("C-x M-S-p" . mc/mark-previous-like-this)
 ("M-p" . mc/mark-pop)
 
 ;Transposiciones.
 ("ŧ" . mover-párrafo-abajo)		("C-Ŧ" . mover-línea-arriba)	 ("C-t" . transpose-chars)
-("Ŧ" . mover-párrafo-arriba)	("C-ŧ" . mover-línea-abajo)	 ("C-S-T" . ,(λ (transpose-chars -1)))
+("Ŧ" . mover-párrafo-arriba)	("C-ŧ" . mover-línea-abajo)		 ("C-S-T" . ,(λ (transpose-chars -1)))
 ("M-T" . mover-palabra-atrás)	("M-t" . mover-palabra-adlt)
 
 ;Seleccionar.
@@ -140,8 +144,8 @@
 
 ;Mover el cursor arriba-abajo / K-L
 ("C-l" . next-line)				 ("C-S-l" . ,(λ (forward-line 4)))		 ("C-&" . ,(λ (move-to-window-line-top-bottom -1)))
-("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))	 ("C-ĸ" . move-to-window-line-top-bottom)
-("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))	 ("C-x k" . ,(λ (recenter-top-bottom 4)))
+("C-k" . previous-line)			 ("C-S-k" . ,(λ (forward-line -4)))		 ("C-ĸ" . move-to-window-line-top-bottom)
+("M-l" . forward-sentence)		 ("C-M-k" . ,(λ (forward-line -8)))		 ("C-x k" . ,(λ (recenter-top-bottom 4)))
 ("M-k" . backward-sentence)		 ("C-M-l" . ,(λ (forward-line 8)))		 ("C-M-ł" . ,(λ (kill-whole-line 0)))
 ("M-L" . forward-paragraph)		 ("C-M-S-l" . borrar-línea)				 ("ĸ" . beginning-of-buffer)
 ("M-K" . backward-paragraph)	 ("ł" . end-of-buffer)					 ("C-ł" . recenter-top-bottom)
@@ -167,7 +171,5 @@
 ("<menu> m" . magit-status)		 ("C-x ¨" . counsel-git-grep)
 ("C-x {" . electric-pair-mode)	 ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
 ("<menu> k" . ,(λ (find-file (directorio-cg "keybindings.el"))))
-
 ))
 (global-set-key (kbd (car e)) (cdr e)))
-

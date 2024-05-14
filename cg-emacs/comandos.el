@@ -168,7 +168,8 @@ siguiente; con argumento, con la anterior."
   (intercambiar-buffers (selected-window) (if n (next-window) (previous-window))))
 
 (defun sel-minibuffer ()
-  "Selecciona el minibuffer si está activo (si he salido por error)."
+  "Selecciona el minibuffer si está activo (si he salido por error
+o por cualquier otra razón)."
   (interactive)
   (if (active-minibuffer-window)
 	  (select-window (active-minibuffer-window))
