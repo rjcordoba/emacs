@@ -14,6 +14,7 @@
     	(find-file f)))
 
 (cg-configs-modo
+ :tabla t
  :poner
  (("C-l" . dired-next-line)
   ("C-k" . dired-previous-line)
@@ -23,4 +24,6 @@
   ("C-M-k" . (λ (dired-previous-line 8)))
   ("C-c C-<dead-acute>" . dired-isearch-filenames)
   ("M-o" . cg-abrir-archivo)
-  ("M-O" . (λ (cg-abrir-archivo -1)))))
+  ("M-O" . (λ (cg-abrir-archivo -1)))
+  ("C-c +" . dired-subtree-toggle))
+ :hook (λ (diredfl-mode 1)))

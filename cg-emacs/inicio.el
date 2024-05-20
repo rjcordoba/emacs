@@ -91,6 +91,6 @@
  "dired"		 "doc-view"		"emacs-lisp"	"emmet"
  "hs-minor"		 "ibuffer"		"ielm"			"js"
  "lsp"			 "nxml"			"org"			"php"
- "picture"		 "prog"			"sgml"			"tex"
- "treemacs"		 "typescript"	"twig"			"yaml"
- "web")
+ "picture"		 "prog"			"python"		"sgml"
+ "tex"			 "treemacs"		"typescript"	"twig"
+ "yaml"			  "web")

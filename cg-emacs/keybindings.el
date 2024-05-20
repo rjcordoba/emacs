@@ -160,16 +160,17 @@
 
 ;Avy
 ("M-m" . avy-goto-char-timer)		("M-M" . avy-goto-line)
-("M-µ" . avy-goto-char-2)			("M-º" . avy-goto-word-1)
+("C-µ" . avy-goto-char-2)			("C-º" . avy-goto-word-1)
 
 ;Case conversion
-("M-U" . downcase-word)			  ("C-x M-u" . upcase-region)
-("C-M-u" . capitalize-word)		  ("C-x M-U" . downcase-region)
-("C-x C-M-u" . capitalize-region)
+("M-u" . cg-to-upper)		  ("M-U" . ,(λ (cg-to-upper -1)))
+("↓" . cg-to-lower)			  ("↑" . ,(λ (cg-to-lower -1)))
+("C-M-u" . cg-capitalize)	  ("C-x C-M-u" . ,(λ (cg-capitalize -1)))
 
 ;Miscelánea
 ("<menu> m" . magit-status)		 ("C-x ¨" . counsel-git-grep)
 ("C-x {" . electric-pair-mode)	 ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
 ("<menu> k" . ,(λ (find-file (directorio-cg "keybindings.el"))))
+("C-c p" . show-paren-mode)
 ))
 (global-set-key (kbd (car e)) (cdr e)))

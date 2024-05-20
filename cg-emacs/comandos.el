@@ -112,6 +112,8 @@ Con argumento lo busca en el directorio actual."
 		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
 		(?s (eshell))
 		(?a (ielm))
+		(?o (chatgpt-shell))
+		(?P (run-prolog 1))
 		(?A (switch-to-buffer "*scratch*"))
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
@@ -461,6 +463,41 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
 	 (goto-char 1)
 	 (forward-paragraph (min n 50))
 	 (buffer-substring 1 (point)))))
+
+
+;;--- Case --------------------------------------------------------
+
+(defun cg-to-upper (n)
+  "Si hay selección pone en mayúsculas el texto seleccionado;
+si no, la palabra siguiente/anterior."
+  (interactive "P")
+  (when (called-interactively-p 'any)
+	(setq n (prefix-numeric-value n)))
+  (if (use-region-p)
+	  (upcase-region (point) (mark))
+	(upcase-word n)))
+
+(defun cg-to-lower (n)
+  "Si hay selección pone en minúsculas el texto seleccionado;
+si no, la palabra siguiente/anterior."
+  (interactive "P")
+  (when (called-interactively-p 'any)
+	(setq n (prefix-numeric-value n)))
+  (if (use-region-p)
+	  (downcase-region (point) (mark))
+	(downcase-word n)))
+
+(defun cg-capitalize (n)
+  "Si hay selección inicia con mayúscula cada palabra del texto
+ seleccionado; si no, l:a palabra siguiente/anterior."
+  (interactive "P")
+  (when (called-interactively-p 'any)
+	(setq n (prefix-numeric-value n)))
+  (if (use-region-p)
+	  (capitalize-region (point) (mark))
+	(capitalize-word n)))
+
+;;-----------------------------------------------------------------
 
 (let (
 	  (pars '((?' . ?')   (?` . ?`)    (?< . ?>)    (?« . ?»)   (?“ . ?”)   (?‘ . ?’)

@@ -4,7 +4,7 @@
 ;------------------------------------------------------------------
 
 (defvar modos-sin-lsp
-  '(emacs-lisp-mode web-mode)
+  '(emacs-lisp-mode web-mode python-mode)
   "Modos donde no se pondrá servidor de lenguaje.")
 
 (cg-configs-modo
@@ -13,6 +13,6 @@
  (("M-l" . forward-list)
   ("M-k" . backward-list))
  :hook
- (lambda ()
-   (unless (member major-mode modos-sin-lsp) (lsp))
-   (cg-poner-menor 'hs-minor-mode)))
+ (λ
+  (unless (member major-mode modos-sin-lsp) (lsp))
+  (cg-poner-menor 'hs-minor-mode)))

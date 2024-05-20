@@ -15,4 +15,4 @@
   ("C-c =" . php-echo)
   ("C-c C-c" . (λ (comentar/descomentar-bloque "/\*" "\*/" "//")))
   ("C-c s" . cg-servidor)
-  ("C-c p" . poner-php)))
+  ("C-c C-p" . poner-php)))
