@@ -53,9 +53,10 @@
   s)
 
 (defun cg-comando (c async &optional d)
-  "Ejecuta de fonde el comando que se mete como argumento. Si se mete argumento «d» lo toma
-como directorio actual. Si no toma como directorio el del proyecto. En caso de que éste no
-existiera, y como último recurso, pregunta el directorio en el que se ejecutará el comando."
+  "Ejecuta de fonde el comando que se mete como argumento. Si se mete argumento
+ «d» lo toma como directorio actual. Si no toma como directorio el del proyecto.
+ En caso de que éste no existiera, y como último recurso, pregunta el directorio
+ en el que se ejecutará el comando."
   (let ((default-directory (or d cg-origen (read-directory-name "Directorio: "))))
 	(if async
 		(async-shell-command c)
@@ -92,6 +93,10 @@ existiera, y como último recurso, pregunta el directorio en el que se ejecutar�
   `(dolist (n (quote ,modos))
 	 (setf (cdr (assoc (intern (concat n "-mode")) minor-mode-alist)) '(nil))))
 
+(defun cg-project-root ()
+  (or (locate-dominating-file buffer-file-name ".origen")
+	  (locate-dominating-file buffer-file-name ".git")
+	  (read-directory-name "Directorio: ")))
 ;------------------------------------------------------------------------------------------
 
 (defun cg-servidor ()

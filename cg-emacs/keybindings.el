@@ -74,9 +74,9 @@
 
 ;Abrir ventanas con distintos buffers y modos. Otras funciones con menú.
 ("<menu> d" . abrir-Dired)		("<menu> G" . cerrar-dired)			("<menu> n" . display-line-numbers-mode)
-("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			("<menu> t" . treemacs-select-window)
+("<menu> D" . abrir-Dired)		("<menu> f" . poner-follow)			("<menu> T" . treemacs-select-window)
 ("<menu> b" . abrir-Dired)		("<menu> w" . speedbar)				("<menu> l" . global-tab-line-mode)
-("<menu> T" . treemacs)			("<menu> <menu>" . abrir-shell)		("<menu> g" . cerrar-shell)
+("<menu> t" . treemacs)			("<menu> <menu>" . abrir-shell)		("<menu> g" . cerrar-shell)
 
 ;Frames.
 ("<menu> z" . make-frame)	   ("<menu> đ" . other-frame);Altgr f
@@ -119,7 +119,7 @@
 ;Transposiciones.
 ("ŧ" . mover-párrafo-abajo)		("C-Ŧ" . mover-línea-arriba)	 ("C-t" . transpose-chars)
 ("Ŧ" . mover-párrafo-arriba)	("C-ŧ" . mover-línea-abajo)		 ("C-S-T" . ,(λ (transpose-chars -1)))
-("M-T" . mover-palabra-atrás)	("M-t" . mover-palabra-adlt)
+("M-T" . mover-palabra-atrás)	("M-t" . mover-palabra-adlt)     ;C-M-t runs the command transpose-sexps
 
 ;Seleccionar.
 ("M-H" . sel-en-pareja)			("C-h" . seleccionar-palabra)		("C-S-h" . exchange-point-and-mark)
@@ -170,7 +170,7 @@
 ;Miscelánea
 ("<menu> m" . magit-status)		 ("C-x ¨" . counsel-git-grep)
 ("C-x {" . electric-pair-mode)	 ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
+("C-c p" . show-paren-mode)      ("C-x C-t" . treemacs-find-file)
 ("<menu> k" . ,(λ (find-file (directorio-cg "keybindings.el"))))
-("C-c p" . show-paren-mode)
 ))
 (global-set-key (kbd (car e)) (cdr e)))

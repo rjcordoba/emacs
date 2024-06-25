@@ -72,14 +72,6 @@
 ;Para que funcione el asterisco del portátil como <menu>.
 (define-key local-function-key-map (kbd "<kp-multiply>") (kbd "<menu>"))
 
-;Para añadir a cada buffer el proyecto al que pertenece.
-(defvar-local cg-origen nil "Directorio raíz del proyecto o subproyecto.")
-(add-hook 'find-file-hook
-		  (lambda ()
-			(setq cg-origen (or (locate-dominating-file buffer-file-name ".git")
-								(locate-dominating-file buffer-file-name ".origen")))
-			(unless cg-origen (setq cg-origen "~/"))))
-
 ;Utilidades propias para añadir a los distintos modos. Por cada nombre «n» debe haber
 ;un archivo «cg-"n"» que llame al final a la función «cg-configs-modo», definida en
 ;«func-modos».

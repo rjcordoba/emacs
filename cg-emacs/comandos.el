@@ -44,6 +44,8 @@ Con argumento lo busca en el directorio actual."
 	(or (buffer-file-name (car buffers))
 		(primer-arch (cdr buffers)))))
 
+; >>> Ventana dired ------------------------------------------------------------------------------------------
+
 (let ((vent-dired nil))
   (defun abrir-Dired (n)
 	"Abre una ventana a la izquierda con el buffer correspondiente
@@ -68,6 +70,10 @@ Con argumento lo busca en el directorio actual."
 		(delete-window vent-dired)
 	  (error "La ventana dired no está abierta"))))
 
+; <<< Ventana dired ------------------------------------------------------------------------------------------
+
+; >>> Ventana shell ------------------------------------------------------------------------------------------
+
 (let ((vent-shell nil)
 	  (lateral nil))
 
@@ -81,6 +87,7 @@ Con argumento lo busca en el directorio actual."
  " (cg-cl "t") ": terminal			   " (cg-cl "A") ": scratch
  " (cg-cl "S") ": shell				   " (cg-cl "<") ": Shell output
  " (cg-cl "s") ": emacs-shell			   " (cg-cl ">") ": Async shell output
+ " (cg-cl "f") ": find				   " (cg-cl "g") ": grep
  " (cg-cl "a") ": intérprete elisp	   " (cg-cl "m") ": Messages
  " (cg-cl "h") ": este panel
 ")
@@ -88,6 +95,9 @@ Con argumento lo busca en el directorio actual."
 			  cursor-type nil))
 	  (switch-to-buffer nombre-buffer))
 	(read-char "Seleccionar opción: "))
+
+  ;; (defun abrir-ventana-shell (n)
+  ;; 	)
 
   (defun abrir-shell (x n)
 	"Abre una ventana a la derecha con el buffer correspondiente según el comando."
@@ -99,7 +109,7 @@ Con argumento lo busca en el directorio actual."
 	  (unless abierta
 		(setq vent-shell
 			  (display-buffer-in-side-window
-			   (current-buffer)
+			   "*scratch*"
 			   (if n
 				   '((side . right) (window-width . 0.37))
 				 '((side . bottom) (window-height . 0.37))))))
@@ -112,8 +122,8 @@ Con argumento lo busca en el directorio actual."
 		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
 		(?s (eshell))
 		(?a (ielm))
-		(?o (chatgpt-shell))
 		(?P (run-prolog 1))
+		(?p (unless (get-buffer "*Python*") (run-python)) (switch-to-buffer "*Python*"))
 		(?A (switch-to-buffer "*scratch*"))
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
@@ -134,10 +144,12 @@ Con argumento lo busca en el directorio actual."
 		(delete-window vent-shell)
 	  (error "La ventana shell no está abierta"))))
 
+; <<< Ventana shell ------------------------------------------------------------------------------------------
+
 (let ((v nil))
   (defun poner-follow (n)
 	"Abre otras ventanas y pone follow mode o lo quita. Cierra las ventanas
-que se habían abierto anteriormente con este comando.Sin argumento abre una
+que se habían abierto anteriormente con este comando. Sin argumento abre una
 nueva ventana; con él abre el número que se indique."
 	(interactive "p")
 	(setq n (max n 2))
@@ -465,14 +477,12 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
 	 (buffer-substring 1 (point)))))
 
 
-;;--- Case --------------------------------------------------------
+; >>> Case --------------------------------------------------------
 
 (defun cg-to-upper (n)
   "Si hay selección pone en mayúsculas el texto seleccionado;
 si no, la palabra siguiente/anterior."
-  (interactive "P")
-  (when (called-interactively-p 'any)
-	(setq n (prefix-numeric-value n)))
+  (interactive "p")
   (if (use-region-p)
 	  (upcase-region (point) (mark))
 	(upcase-word n)))
@@ -480,9 +490,7 @@ si no, la palabra siguiente/anterior."
 (defun cg-to-lower (n)
   "Si hay selección pone en minúsculas el texto seleccionado;
 si no, la palabra siguiente/anterior."
-  (interactive "P")
-  (when (called-interactively-p 'any)
-	(setq n (prefix-numeric-value n)))
+  (interactive "p")
   (if (use-region-p)
 	  (downcase-region (point) (mark))
 	(downcase-word n)))
@@ -490,14 +498,14 @@ si no, la palabra siguiente/anterior."
 (defun cg-capitalize (n)
   "Si hay selección inicia con mayúscula cada palabra del texto
  seleccionado; si no, l:a palabra siguiente/anterior."
-  (interactive "P")
-  (when (called-interactively-p 'any)
-	(setq n (prefix-numeric-value n)))
+  (interactive "p")
   (if (use-region-p)
 	  (capitalize-region (point) (mark))
 	(capitalize-word n)))
 
-;;-----------------------------------------------------------------
+; <<< Case ------------------------------------------------------------- 
+
+; >>> Parejas -----------------------------------------------------------------------------------------------
 
 (let (
 	  (pars '((?' . ?')   (?` . ?`)    (?< . ?>)    (?« . ?»)   (?“ . ?”)   (?‘ . ?’)
@@ -608,5 +616,7 @@ anidamientos con ese símbolo que pueda haber entre medio."
 		(goto-char p)
 		(insert s)
 		(goto-char f)))))
+
+; <<< Parejas -----------------------------------------------------------------------------------------------
 
 (provide 'comandos)
