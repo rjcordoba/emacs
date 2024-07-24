@@ -109,7 +109,7 @@ Con argumento lo busca en el directorio actual."
 	  (unless abierta
 		(setq vent-shell
 			  (display-buffer-in-side-window
-			   "*scratch*"
+			   (current-buffer)
 			   (if n
 				   '((side . right) (window-width . 0.37))
 				 '((side . bottom) (window-height . 0.37))))))
@@ -119,11 +119,12 @@ Con argumento lo busca en el directorio actual."
 		(setq x (ayuda-abrir-shell)))
 	  (pcase x
 		(?t (term shell-file-name))
-		(?S (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
-		(?s (eshell))
+		(?s (let ((display-buffer-overriding-action '(display-buffer-same-window . nil))) (shell)))
+		(?S (eshell))
 		(?a (ielm))
 		(?P (run-prolog 1))
 		(?p (unless (get-buffer "*Python*") (run-python)) (switch-to-buffer "*Python*"))
+		(?c (switch-to-buffer "*compilation*"))
 		(?A (switch-to-buffer "*scratch*"))
 		(?> (switch-to-buffer "*Async Shell Command*"))
  		(?< (switch-to-buffer "*Shell Command Output*"))
@@ -476,7 +477,6 @@ Con prefijo elimina el buffer en vez de hundirlo en la lista."
 	 (forward-paragraph (min n 50))
 	 (buffer-substring 1 (point)))))
 
-
 ; >>> Case --------------------------------------------------------
 
 (defun cg-to-upper (n)
@@ -508,8 +508,8 @@ si no, la palabra siguiente/anterior."
 ; >>> Parejas -----------------------------------------------------------------------------------------------
 
 (let (
-	  (pars '((?' . ?')   (?` . ?`)    (?< . ?>)    (?« . ?»)   (?“ . ?”)   (?‘ . ?’)
-			  (?¡ . ?!)   (?\" . ?\")  (?\( . ?\))  (?¿ . ??)   (?{ . ?})   (?\[ . ?\])))
+	  (pars '((?' . ?')	  (?` . ?`)	   (?< . ?>)	(?« . ?»)	(?\“ . ?\”)	  (?\‘ . ?\’)
+			  (?¡ . ?!)	  (?\" . ?\")  (?\( . ?\))	(?¿ . ??)	(?{ . ?})	  (?\[ . ?\])))
 	  (simbs "")
 	  (er-a "No se ha encontrado símbolo de apertura.")
 	  (er-c "No se ha encontrado símbolo de cierre."))

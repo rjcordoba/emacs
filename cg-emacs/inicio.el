@@ -41,33 +41,34 @@
 
 ;Para sobreescribir sobre las selecciones de texto.
 (delete-selection-mode t)
+
+;Para que funcione el keybinding global de C-j.
+(dolist
+	(mapa '(minibuffer-local-map
+			minibuffer-local-completion-map
+			minibuffer-local-must-match-map
+			minibuffer-local-filename-completion-map
+			read--expression-map))
+  (define-key (symbol-value mapa) (kbd "C-j") nil))
+
 ;;-----------------------------------------------------------------------------------------
-(add-hook 'after-init-hook
+(add-hook 'after-startup-hook
   (lambda ()
 	(desktop-read)
 	(global-tree-sitter-mode)
 	;Guarda la configuración de ventanas del frame que hay al abrir Emacs.
 	(window-configuration-to-register ?1)
 	(when (fboundp 'global-company-mode) (global-company-mode))
-    ;Para que no salgan los nombres de los modos en la mode line.
-	(cg-quitar-nombre-minor-mode "company" "counsel")
-
-  ;Para que funcione el keybinding global de Ctrl-j.
-	(dolist
-		(mapa '(minibuffer-local-map
-				minibuffer-local-completion-map
-				minibuffer-local-must-match-map
-				minibuffer-local-filename-completion-map
-				minibuffer-local-filename-must-match-map
-				ivy-minibuffer-map))
-	  (define-key (symbol-value mapa) (kbd "C-j") nil))))
+	;Para que no salgan los nombres de los modos en la mode line.
+	(cg-quitar-nombre-minor-mode "company" "counsel")))
 ;;-----------------------------------------------------------------------------------------
 
 ;Para que no salte la ventana cuando se ejecuta un comando shell de fondo.
 (add-to-list 'display-buffer-alist '("\\*Async Shell Command\\*" . (display-buffer-no-window)))
 
 ;Para que al navegar adelante y atrás por los buffers no salgan los que no tengan archivo asociado.
-(set-frame-parameter nil 'buffer-predicate (lambda (b) (buffer-file-name b)))
+(set-frame-parameter nil 'buffer-predicate (lambda (b)
+											  (not (string-prefix-p "*" (buffer-name b)))))
 
 ;Para que funcione el asterisco del portátil como <menu>.
 (define-key local-function-key-map (kbd "<kp-multiply>") (kbd "<menu>"))
@@ -79,10 +80,10 @@
 (require 'func-modos)
 
 (cg-retocar-modos
- "c"			 "company"		"counsel"		"css"
- "dired"		 "doc-view"		"emacs-lisp"	"emmet"
- "hs-minor"		 "ibuffer"		"ielm"			"js"
- "lsp"			 "nxml"			"org"			"php"
- "picture"		 "prog"			"python"		"sgml"
- "tex"			 "treemacs"		"typescript"	"twig"
- "yaml"			  "web")
+ "c"			 "comint"		"company"		"counsel"
+ "css"			 "dired"		"doc-view"		"emacs-lisp"
+ "emmet"		 "hs-minor"		"ibuffer"		"ielm"
+ "js"			 "lsp"			"nxml"			"org"
+ "php"			 "picture"		"prog"			"python"
+ "sgml"			 "tex"			"treemacs"		"typescript"
+ "twig"			 "yaml"			"web")

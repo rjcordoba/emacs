@@ -165,12 +165,13 @@
 ;Case conversion
 ("M-u" . cg-to-upper)		  ("M-U" . ,(λ (cg-to-upper -1)))
 ("↓" . cg-to-lower)			  ("↑" . ,(λ (cg-to-lower -1)))
-("C-M-u" . cg-capitalize)	  ("C-x C-M-u" . ,(λ (cg-capitalize -1)))
+("C-M-u" . cg-capitalize)	  ("C-M-S-u" . ,(λ (cg-capitalize -1)))
 
 ;Miscelánea
 ("<menu> m" . magit-status)		 ("C-x ¨" . counsel-git-grep)
 ("C-x {" . electric-pair-mode)	 ("C-→" . lorem-ipsum-cg) ;C-AltGr-i
 ("C-c p" . show-paren-mode)      ("C-x C-t" . treemacs-find-file)
 ("<menu> k" . ,(λ (find-file (directorio-cg "keybindings.el"))))
+("<menu> K" . ,(λ (find-file (directorio-cg (concat "modes/cg-" (car (split-string (symbol-name major-mode) "-")) ".el")))))
 ))
 (global-set-key (kbd (car e)) (cdr e)))

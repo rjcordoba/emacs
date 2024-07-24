@@ -5,17 +5,19 @@
 
 (defconst directorio-configs (concat (file-name-directory load-file-name) "cg-emacs/")
   "Directorio donde están los archivos de configuración")
-(add-to-list 'load-path directorio-configs)
 
 (defun directorio-cg (d)
   "Para ser llamada cada vez que se quiera acceder a un archivo;
  pone el directorio donde están las configuraciones."
   (concat directorio-configs d))
 
+(add-to-list 'load-path directorio-configs)
+(add-to-list 'load-path (directorio-cg "modes"))
+
 (load "cg-variables")
 (load "funciones")
 (load "inicio")
-(load "keybindings") 
+(load "keybindings")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
